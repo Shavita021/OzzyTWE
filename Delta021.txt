@@ -1,3 +1,7 @@
-001 test confirmed
+Git tutorial
 
-This is a test.
+1) git status
+2) git pull
+3) git add -A
+4) git commit -m "Message"
+5) git push
