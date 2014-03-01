@@ -1,0 +1,7 @@
+<?php
+header("Content-type: image/png");
+$image=createimage(100,100);
+imagepng($image);
+imagedestroy($image);
+?>
+

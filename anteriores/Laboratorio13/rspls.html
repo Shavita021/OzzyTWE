@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>RPSLS</title>
+<style>
+img {
+	vertical-align: middle
+}
+
+#user,#computer {
+	position: absolute;
+	width: 100px;
+	height: 100px;
+	border: 2px solid black;
+	top: 150px
+}
+
+#user {
+	left: 200px
+}
+
+#computer {
+	left: 330px
+}
+
+#userImg {
+	position: absolute;
+	left: 215px;
+	top: 240px
+}
+
+#computerImg {
+	position: absolute;
+	left: 315px;
+	top: 240px
+}
+
+#result {
+	position: absolute;
+	left: 190px;
+	top: 280px
+}
+</style>
+<script>
+	var req;
+	function desplegar(val, imagen, cuadro) {
+		var div = document.getElementById(cuadro);
+		div.innerHTML = "<img src='"+imagen+".png' style='width:100px'>";
+		req = new XMLHttpRequest();
+		req.onreadystatechange = final;
+		req.open("GET", "RPSLS.php?user=" + val, true);
+		req.send(null);
+	}
+
+	function final() {
+		if (req.readyState == 4) {
+			resp = req.responseText;
+			result = resp.split("-");
+			var div = document.getElementById("computer");
+			div.innerHTML = "<img src='"+result[0]+".png' style='width:100px'>";
+			var divRes = document.getElementById("result");
+			if (result[1] == 0)
+				divRes.innerHTML = "<h2>Its a tie!</h2>";
+			else if (result[1] == 1)
+				divRes.innerHTML = "<h2>User wins! " + result[2] + "</h2>";
+			else
+				divRes.innerHTML = "<h2>Computer wins! " + result[2] + "</h2>";
+		}
+	}
+</script>
+</head>
+<body>
+	<h2>Rock, Scissors, Paper, Lizard, Spock</h2>
+	<h2>Play</h2>
+	<form action="rspls">
+		<label for="user1"><img src="rock.png" width="40px" /></label><input
+			type="radio" id="user1" name="user" value="1"
+			onclick="desplegar(this.value,'rock', 'user')">Rock<br /> <label
+			for="user2"><img src="paper.png" width="40px" /></label> <input
+			type="radio" id="user2" name="user" value="2"
+			onclick="desplegar(this.value, 'paper', 'user')">Paper<br />
+
+		<label for="user3"><img src="scissors.png" width="40px" /></label><input
+			type="radio" id="user3" name="user" value="3"
+			onclick="desplegar(this.value, 'scissors', 'user')">Scissors<br />
+
+		<label for="user4"><img src="lizard.png" width="40px" /></label><input
+			type="radio" id="user4" name="user" value="4"
+			onclick="desplegar(this.value, 'lizard', 'user')">Lizard<br />
+
+		<label for="user5"><img src="spock.png" width="40px" /></label><input
+			type="radio" id="user5" name="user" value="5"
+			onclick="desplegar(this.value, 'spock', 'user')">Spock<br />
+		<br />
+
+	</form>
+	<div id="user"></div>
+	<div id="computer"></div>
+	<div id="userImg">
+		<h2>USER</h2>
+	</div>
+	<div id="computerImg">
+		<h2>COMPUTER</h2>
+	</div>
+	<div id="result"></div>
+
+</body>
+</html>
