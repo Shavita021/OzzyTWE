@@ -43,7 +43,14 @@ class adminMaestroController extends \BaseController {
 			'phone_number' => 'required|numeric',
 			'tipo' => 'required'
 		);
-		$validator = Validator::make(Input::all(), $rules);
+		
+		$messages = array(
+    'required' => 'El campo es requerido',
+    'email' => 'El campo debe ser un correo electornico.',
+    'phone_number' => 'Debe contener numeros',
+    );
+    
+		$validator = Validator::make(Input::all(), $rules, $messages);
 
 		// process the login
 		if ($validator->fails()) {
@@ -63,14 +70,14 @@ class adminMaestroController extends \BaseController {
 			  DB::table('adminSecundarios')->insert(
         array('name' => $name,'email' => $email, 'phone_number' => $phone_number));
 			  Session::flash('message', 'Administrador Secundario Creado');
-			  return Redirect::to('adminMaestro');
+			  return Redirect::to('/inicio');
 			break;
 			
 			case "usuarioNormal":
 			  DB::table('usuarioNormales')->insert(
         array('name' => $name,'email' => $email, 'phone_number' => $phone_number));
 			  Session::flash('message', 'Usuario Normal Creado');
-			  return Redirect::to('adminMaestro');
+			  return Redirect::to('/inicio');
 			break;
 			
 			}
@@ -148,7 +155,7 @@ class adminMaestroController extends \BaseController {
 
 			// redirect
 			Session::flash('message', 'Editado Correctamente');
-			return Redirect::to('adminMaestro');
+			return Redirect::to('inicio');
 		}
 	}
 
@@ -165,7 +172,7 @@ class adminMaestroController extends \BaseController {
 
 		// redirect
 		Session::flash('message', 'Successfully deleted the nerd!');
-		return Redirect::to('adminMaestro');
+		return Redirect::to('inicio');
 	}
 
 

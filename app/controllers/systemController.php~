@@ -109,6 +109,7 @@ class systemController extends \BaseController {
 
     if(($usuario->password) == $password){	
         Session::put('autorizacion', 'si');
+        Session::put('tipo', 'adminMaestro');
         return View::make('adminMaestros.inicio')->with('adminMaestro', $usuario);;
     }else{
         $usuario = DB::table('adminSecundarios')->where('email', $email)->first();
@@ -126,7 +127,7 @@ class systemController extends \BaseController {
           Session::flash('message', 'Datos incorrectos');
 		      return View::make('index');
     }
-    }
+    }http://127.0.0.1/logout
     else{
         	Session::flash('message', 'Datos incorrectos');
 		      return View::make('index');

@@ -127,7 +127,7 @@ class systemController extends \BaseController {
           Session::flash('message', 'Datos incorrectos');
 		      return View::make('index');
     }
-    }http://127.0.0.1/logout
+    }
     else{
         	Session::flash('message', 'Datos incorrectos');
 		      return View::make('index');
