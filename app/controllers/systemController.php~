@@ -98,44 +98,54 @@ class systemController extends \BaseController {
 				->withInput(Input::except('password'));
 		}else{
 		
-		// get all the adminMaestros
+		          // get all the adminMaestros
 
-			$email = Input::get('email');
-			$password = Input::get('password');
+			          $email = Input::get('email');
+			          $password = Input::get('password');
 		
-    $usuario = DB::table('adminMaestros')->where('email', $email)->first();
+              $usuario = DB::table('adminMaestros')->where('email', $email)->first();
+              
+              if(isset($usuario)){
+                   if(($usuario->password) == $password){	
+                       Session::put('autorizacion', 'si');
+                       Session::put('tipo', 'adminMaestro');
+                       return View::make('adminMaestros.inicio')->with('adminMaestro', $usuario);;
+                   }else{
+                       Session::flash('message', 'Contraseña incorrecta');
+		             return View::make('index');
+                   }
+               }
+               
+              $usuario = DB::table('adminSecundarios')->where('email', $email)->first();
+              
+              if(isset($usuario)){
+                  if(($usuario->password) == $password){	
+                       Session::put('autorizacion', 'si');
+                       Session::put('tipo', 'adminSecundario');
+                       return View::make('adminMaestros.inicio')->with('adminSecundario', $usuario);
+                  }else{
+                     Session::flash('message', 'Datos incorrectos');
+		           return View::make('index');
+                  }
+              }
+              
+              $usuario = DB::table('usuarioNormales')->where('email', $email)->first();
+              
+              if(isset($usuario)){
+                  if(($usuario->password) == $password){	
+                       Session::put('autorizacion', 'si');
+                       Session::put('tipo', 'usuarioNormal');
+                       return View::make('adminMaestros.inicio')->with('usuarioNormal', $usuario);
+                  }else{
+                     Session::flash('message', 'Datos incorrectos');
+		           return View::make('index');
+                  }
+              }else{
+                     Session::flash('message', 'Datos incorrectos');
+		           return View::make('index');
+              }
     
-    if(isset($usuario)){
-
-    if(($usuario->password) == $password){	
-        Session::put('autorizacion', 'si');
-        Session::put('tipo', 'adminMaestro');
-        return View::make('adminMaestros.inicio')->with('adminMaestro', $usuario);;
-    }else{
-        $usuario = DB::table('adminSecundarios')->where('email', $email)->first();
-    }
-
-    if(($usuario->password) == $password){	
-        return View::make('adminSecundarios.show')->with('adminSecundario', $usuario);;
-    }else{
-        $usuario = DB::table('usuarioNormales')->where('email', $email)->first();
-    }
- 
-    if(($usuario->password) == $password){	
-        return View::make('usuarioNormales.show')->with('usuarioNormal', $usuario);;
-    }else{
-          Session::flash('message', 'Datos incorrectos');
-		      return View::make('index');
-    }
-    }http://127.0.0.1/logout
-    else{
-        	Session::flash('message', 'Datos incorrectos');
-		      return View::make('index');
-		}
-
-		// load the view and pass the admins
-
-	}
+	     }
 	}
 	
 	
@@ -148,6 +158,19 @@ class systemController extends \BaseController {
 	      return View::make('index');
 	}
 	
+	
+	
+			public function mostrarUsuarios()
+	{
+		  $usuariosNormales = DB::table('usuarioNormales');
+	   $adminSecundarios = DB::table('adminSecundarios')->unionAll($usuariosNormales)->get();
+		 // load the view and pass the admins
+		// load the view and pass the admins
+		 			   // Session::flash('adminSecundarios', $adminSecundarios);
+		 			  //  Session::flash('usuariosNormales', $usuariosNormales);
+		return View::make('adminMaestros.buscar')->with("usuarios",$adminSecundarios);
+
+	}
 	
 	
 	
@@ -167,29 +190,42 @@ class systemController extends \BaseController {
 
 		// process the login
 		if ($validator->fails()) {
-			return Redirect::to('/buscar')
-				->withErrors($validator)
-				->withInput(Input::except('password'));
+		  Session::flash('message', 'Campo de busqueda incorrecto');
+		  return $this->mostrarUsuarios();
 		}else{
 	
  			$email = Input::get('email');
  			
- 			$adminMaestro = DB::table('adminMaestros')->where('email', $email)->first();
+ 			$usuario = DB::table('adminSecundarios')->where('email', $email)->first();
  			
- 			if(isset($adminMaestro)){
- 			  $nombre = $adminMaestro->name;
- 			  $telefono = $adminMaestro->phone_number;
- 			  $id = $adminMaestro->id;
+ 			if(isset($usuario)){
+ 			  $nombre = $usuario->name;
+ 			  $telefono = $usuario->phone_number;
+ 			  $id = $usuario->id;
  			  
  			    Session::flash('nombre', $nombre);
  			    Session::flash('email', $email);
  			    Session::flash('telefono', $telefono);
  			    Session::flash('id', $id);
-		      return View::make('adminMaestros.index');
+		      return View::make('adminMaestros.busqueda');
+ 			}else{
+ 			 		$usuario = DB::table('usuarioNormales')->where('email', $email)->first();
+ 			}
+ 			
+ 			if(isset($usuario)){
+ 			  $nombre = $usuario->name;
+ 			  $telefono = $usuario->phone_number;
+ 			  $id = $usuario->id;
+ 			  
+ 			    Session::flash('nombre', $nombre);
+ 			    Session::flash('email', $email);
+ 			    Session::flash('telefono', $telefono);
+ 			    Session::flash('id', $id);
+		      return View::make('adminMaestros.busqueda');
  			}else{
         	Session::flash('message', 'Datos incorrectos');
-		      return View::make('adminMaestros.buscar');
-		}
+		      return View::make('adminMaestros.busqueda');
+		  }
 	}
 	}
 

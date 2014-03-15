@@ -7,8 +7,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Maestro</title>
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+  <title>Tec WorkFlow Engine</title>
+	<link rel="stylesheet" href="/css/bootstrap.css">
 </head>
 <body>
 <div class="container">
@@ -18,7 +18,7 @@
 		<a class="navbar-brand" href="{{ URL::to('inicio') }}">INICIO</a>
 	</div>
 		<ul class="nav navbar-nav">
-		<li><a href="{{ URL::to('buscar') }}">Administrar usuarios</a></li>
+		<li><a href="{{ URL::to('mostrarUsuarios') }}">Administrar usuarios</a></li>
 	</ul>
 	<div align="right">
 	  <a class="btn btn-default btn-lg" href="{{ URL::action('systemController@logout') }}" >
@@ -30,13 +30,15 @@
 
 	
 	
-<h1>Showing {{ $adminMaestro->name }}</h1>
+<h1>Showing {{ $usuario->name }}</h1>
 
 	<div class="jumbotron text-center">
-		<h2>{{ $adminMaestro->name }}</h2>
+		<h2>{{ $usuario->name." ", $usuario->plast_name." ", $usuario->mlast_name }}</h2>
 		<p>
-			<strong>Email:</strong> {{ $adminMaestro->email }}<br>
-			<strong>Telefono:</strong> {{ $adminMaestro->phone_number }}
+			<strong>Tipo de Usuario:</strong> {{ Session::get('tipo')}}<br>
+			<strong>Email:</strong> {{ $usuario->email }}<br>
+			<strong>Telefono:</strong> {{ $usuario->phone_number }}<br>
+		  <strong>Ubicacion:</strong> {{ $usuario->location }}
 		</p>
 	</div>
 

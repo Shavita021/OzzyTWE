@@ -734,8 +734,8 @@ pre code {
   overflow-y: scroll;
 }
 .container {
-  padding-right: 450px;
-  padding-left: 450px;
+  padding-right: 15px;
+  padding-left: 15px;
   margin-right: auto;
   margin-left: auto;
 }
@@ -5781,8 +5781,5 @@ button.close {
   .hidden-print {
     display: none !important;
   }
-}
-body {
-   background:red !important;
 }
 /*# sourceMappingURL=bootstrap.css.map */

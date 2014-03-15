@@ -1,10 +1,14 @@
 <!-- app/views/nerds/create.blade.php -->
-
+@if((Session::get('autorizacion')) != 'si') 
+{{	header("Location: /");
+	exit();
+	}}
+@else
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Crear Usuario</title>
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+  <title>Tec WorkFlow Engine</title>
+	<link rel="stylesheet" href="/css/bootstrap.css">
 </head>
 <body>
 <div class="container">
@@ -14,7 +18,7 @@
 		<a class="navbar-brand" href="{{ URL::to('inicio') }}">INICIO</a>
 	</div>
 		<ul class="nav navbar-nav">
-		<li><a href="{{ URL::to('buscar') }}">Administrar usuarios</a></li>
+		<li><a href="{{ URL::to('mostrarUsuarios') }}">Administrar usuarios</a></li>
 	</ul>
 		<div align="right">
 	  <a class="btn btn-default btn-lg" href="{{ URL::action('systemController@logout') }}" >
@@ -25,6 +29,10 @@
 
 <h1>Crear Usuario</h1>
 
+  @if (Session::has('errorRegistro'))
+	<div class="alert alert-danger">{{ Session::get('errorRegistro') }}</div>
+  @endif
+
 <!-- if there are creation errors, they will show here -->
 {{ HTML::ul($errors->all()) }}
 
@@ -34,15 +42,45 @@
 		{{ Form::label('name', 'Nombre') }}
 		{{ Form::text('name', Input::old('name'), array('class' => 'form-control')) }}
 	</div>
+	
+	<div class="form-group">
+		{{ Form::label('middleName', 'Segundo Nombre') }}
+		{{ Form::text('middleName', Input::old('middleName'), array('class' => 'form-control')) }}
+	</div>
 
+	<div class="form-group">
+		{{ Form::label('plast_name', 'Apellido Paterno') }}
+		{{ Form::text('plast_name', Input::old('plast_name'), array('class' => 'form-control')) }}
+	</div>
+	
+	<div class="form-group">
+		{{ Form::label('mlast_name', 'Apellido Materno') }}
+		{{ Form::text('mlast_name', Input::old('mlast_name'), array('class' => 'form-control')) }}
+	</div>
+	
 	<div class="form-group">
 		{{ Form::label('email', 'Email') }}
 		{{ Form::email('email', Input::old('email'), array('class' => 'form-control')) }}
 	</div>
 
 	<div class="form-group">
+	  {{ Form::label('password', 'Contraseña') }}
+	  {{ Form::password('password1', array('class' => 'form-control', 'placeholder' => 'Password')) }}
+	</div>
+	
+	<div class="form-group">
+	  {{ Form::label('password', 'Confirmar Contraseña') }}
+	  {{ Form::password('password2', array('class' => 'form-control', 'placeholder' => 'Password')) }}
+	</div>
+	
+	<div class="form-group">
 		{{ Form::label('phone_number', 'Telefono') }}
 		{{ Form::text('phone_number', Input::old('phone_number'), array('class' => 'form-control')) }}
+	</div>
+	
+	<div class="form-group">
+		{{ Form::label('location', 'Ubicacion') }}
+		{{ Form::text('location', Input::old('location'), array('class' => 'form-control')) }}
 	</div>
 	
 	<div class="form-group">
@@ -57,3 +95,4 @@
 </div>
 </body>
 </html>
+@endif

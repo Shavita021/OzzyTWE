@@ -18,12 +18,16 @@ Route::get('/', function()
 
 Route::post('login', array('uses' => 'systemController@login'));
 
-Route::get('login', function()
+/*Route::get('login', function()
 {
 	return View::make('adminMaestros.inicio');
 });
+*/
 
 Route::get('logout', array('uses' => 'systemController@logout'));
+
+//Ruta para la funcion mostrarusuarios en el controlador systemController
+Route::get('mostrarUsuarios', array('uses' => 'systemController@mostrarUsuarios'));
 
 Route::get('buscar', function()
 {

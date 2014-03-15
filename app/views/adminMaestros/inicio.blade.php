@@ -1,10 +1,14 @@
 <!-- app/views/nerds/inico.blade.php -->
-
+@if((Session::get('autorizacion')) != 'si') 
+{{	header("Location: /");
+	exit();
+	}}
+@else
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Bienvenida</title>
-	<link rel="stylesheet" href="css/bootstrap.css">
+  <title>Tec WorkFlow Engine</title>
+	<link rel="stylesheet" href="/css/bootstrap.css">
 </head>
 <body>
 <div class="container">
@@ -14,7 +18,7 @@
 		<a class="navbar-brand" href="{{ URL::to('inicio') }}">INICIO</a>
 	</div>
 		<ul class="nav navbar-nav">
-		<li><a href="{{ URL::to('buscar') }}">Administrar usuarios</a></li>
+		<li><a href="{{ URL::action('systemController@mostrarUsuarios') }}">Administrar usuarios</a></li>
 	</ul>
 		<div align="right">
 	  <a class="btn btn-default btn-lg" href="{{ URL::action('systemController@logout') }}" >
@@ -32,3 +36,4 @@
 </div>
 </body>
 </html>
+@endif
