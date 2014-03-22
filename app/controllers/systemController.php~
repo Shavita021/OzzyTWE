@@ -109,6 +109,7 @@ class systemController extends \BaseController {
                    if(($usuario->password) == $password){	
                        Session::put('autorizacion', 'si');
                        Session::put('tipo', 'adminMaestro');
+                       Session::put('nombre',$usuario->name);
                        return View::make('adminMaestros.inicio')->with('adminMaestro', $usuario);;
                    }else{
                        Session::flash('message', 'Contraseña incorrecta');
@@ -122,9 +123,10 @@ class systemController extends \BaseController {
                   if(($usuario->password) == $password){	
                        Session::put('autorizacion', 'si');
                        Session::put('tipo', 'adminSecundario');
+                       Session::put('nombre',$usuario->name);
                        return View::make('adminMaestros.inicio')->with('adminSecundario', $usuario);
                   }else{
-                     Session::flash('message', 'Datos incorrectos');
+                     Session::flash('message', 'Contraseña incorrecta');
 		           return View::make('index');
                   }
               }
@@ -135,13 +137,14 @@ class systemController extends \BaseController {
                   if(($usuario->password) == $password){	
                        Session::put('autorizacion', 'si');
                        Session::put('tipo', 'usuarioNormal');
+                       Session::put('nombre',$usuario->name);                       
                        return View::make('adminMaestros.inicio')->with('usuarioNormal', $usuario);
                   }else{
-                     Session::flash('message', 'Datos incorrectos');
+                     Session::flash('message', 'Contraseña incorrecta');
 		           return View::make('index');
                   }
               }else{
-                     Session::flash('message', 'Datos incorrectos');
+                     Session::flash('message', 'Usuario no encontrado');
 		           return View::make('index');
               }
     

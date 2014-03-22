@@ -18,7 +18,11 @@ Route::get('/', function()
 
 Route::post('login', array('uses' => 'systemController@login'));
 
-
+/*Route::get('login', function()
+{
+	return View::make('adminMaestros.inicio');
+});
+*/
 
 Route::get('logout', array('uses' => 'systemController@logout'));
 

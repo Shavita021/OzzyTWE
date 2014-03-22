@@ -109,6 +109,7 @@ class systemController extends \BaseController {
                    if(($usuario->password) == $password){	
                        Session::put('autorizacion', 'si');
                        Session::put('tipo', 'adminMaestro');
+                       Session::put('sesionUsuario',$usuario->name);
                        return View::make('adminMaestros.inicio')->with('adminMaestro', $usuario);;
                    }else{
                        Session::flash('message', 'Contraseña incorrecta');
@@ -122,6 +123,7 @@ class systemController extends \BaseController {
                   if(($usuario->password) == $password){	
                        Session::put('autorizacion', 'si');
                        Session::put('tipo', 'adminSecundario');
+                       Session::put('sesionUsuario',$usuario->name);
                        return View::make('adminMaestros.inicio')->with('adminSecundario', $usuario);
                   }else{
                      Session::flash('message', 'Contraseña incorrecta');
@@ -135,6 +137,7 @@ class systemController extends \BaseController {
                   if(($usuario->password) == $password){	
                        Session::put('autorizacion', 'si');
                        Session::put('tipo', 'usuarioNormal');
+                       Session::put('sesionUsuario',$usuario->name);                       
                        return View::make('adminMaestros.inicio')->with('usuarioNormal', $usuario);
                   }else{
                      Session::flash('message', 'Contraseña incorrecta');

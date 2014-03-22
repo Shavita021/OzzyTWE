@@ -256,7 +256,7 @@ class adminMaestroController extends \BaseController {
 			
 			    case "adminSecundario":
 			      DB::table('adminSecundarios')->where('email',$email)->update(
-        array('name' => strtoupper($name), 'middleName' => strtoupper($middleName), 'plast_name' => strtoupper($plast_name) , 'mlast_name' => strtoupper($mlast_name) ,'email' => $email, 'password' => $hashedPassword, 'phone_number' => $phone_number, 'location' => $location));
+        array('name' => strtoupper($name), 'middleName' => strtoupper($middleName), 'plast_name' => strtoupper($plast_name) , 'mlast_name' => strtoupper($mlast_name) ,'email' => strtolower($email), 'password' => $hashedPassword, 'phone_number' => $phone_number, 'location' => $location));
             
                             Mail::send('emails.editar', array('firstname'=>strtoupper($name), 'email'=>$newemail, 'password'=>$password1), function($message){
             $message->to(Input::get('email'), Input::get('name').' '.Input::get('plast_name'))->subject('Tec WorkFlow Engine');});
@@ -267,7 +267,7 @@ class adminMaestroController extends \BaseController {
 			
 			    case "usuarioNormal":
 			      DB::table('usuarioNormales')->where('email',$email)->update(
-        array('name' => strtoupper($name), 'middleName' => strtoupper($middleName), 'plast_name' => strtoupper($plast_name) , 'mlast_name' => strtoupper($mlast_name) ,'email' => $email, 'password' => $hashedPassword, 'phone_number' => $phone_number, 'location' => $location));
+        array('name' => strtoupper($name), 'middleName' => strtoupper($middleName), 'plast_name' => strtoupper($plast_name) , 'mlast_name' => strtoupper($mlast_name) ,'email' => strtolower($email), 'password' => $hashedPassword, 'phone_number' => $phone_number, 'location' => $location));
             
                             Mail::send('emails.editar', array('firstname'=>strtoupper($name), 'email'=>$mewemail, 'password'=>$password1), function($message){
             $message->to(Input::get('email'), Input::get('name').' '.Input::get('plast_name'))->subject('Tec WorkFlow Engine');});
@@ -282,7 +282,7 @@ class adminMaestroController extends \BaseController {
 					      case "adminSecundario":
 					        DB::table('adminSecundarios')->where('email',$email)->delete();
 					        DB::table('usuarioNormales')->insert(
-        array('name' => strtoupper($name), 'middleName' => strtoupper($middleName), 'plast_name' => strtoupper($plast_name) , 'mlast_name' => strtoupper($mlast_name) ,'email' => $email, 'password' => $hashedPassword, 'phone_number' => $phone_number, 'location' => $location));
+        array('name' => strtoupper($name), 'middleName' => strtoupper($middleName), 'plast_name' => strtoupper($plast_name) , 'mlast_name' => strtoupper($mlast_name) ,'email' => strtolower($email), 'password' => $hashedPassword, 'phone_number' => $phone_number, 'location' => $location));
         
                             Mail::send('emails.editar', array('firstname'=>strtoupper($name), 'email'=>$newemail, 'password'=>$password1), function($message){
             $message->to(Input::get('email'), Input::get('name').' '.Input::get('plast_name'))->subject('Tec WorkFlow Engine');});
@@ -294,7 +294,7 @@ class adminMaestroController extends \BaseController {
 					      case "usuarioNormal":
 					        DB::table('usuarioNormales')->where('email',$email)->delete();
 					        DB::table('adminSecundarios')->insert(
-        array('name' => strtoupper($name), 'middleName' => strtoupper($middleName), 'plast_name' => strtoupper($plast_name) , 'mlast_name' => strtoupper($mlast_name) ,'email' => $email, 'password' => $hashedPassword, 'phone_number' => $phone_number, 'location' => $location));
+        array('name' => strtoupper($name), 'middleName' => strtoupper($middleName), 'plast_name' => strtoupper($plast_name) , 'mlast_name' => strtoupper($mlast_name) ,'email' => strtolower($email), 'password' => $hashedPassword, 'phone_number' => $phone_number, 'location' => $location));
         
                             Mail::send('emails.editar', array('firstname'=>strtoupper($name), 'email'=>$newemail, 'password'=>$password1), function($message){
             $message->to(Input::get('email'), Input::get('name').' '.Input::get('plast_name'))->subject('Tec WorkFlow Engine');});

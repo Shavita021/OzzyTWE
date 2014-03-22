@@ -26,24 +26,39 @@
   </head>
 
   <body>
-  
-  @if (Session::has('message'))
-	<div class="alert alert-danger">{{ Session::get('message') }}</div>
-@endif
 
-{{ HTML::ul($errors->all()) }}
-
-    <div class="container">
-
-{{ Form::open(array('action' => 'systemController@login', 'method' => 'post')) }}
-        <h2 class="form-signin-heading">Ingresar</h2>
-	    	{{ Form::email('email', Input::old('email'), array('class' => 'form-control', 'placeholder' => 'Email')) }}
-	    		    	{{ Form::password('password', array('class' => 'form-control', 'placeholder' => 'Password')) }}
-
-        <br>
-        <div align='center'>
-	      {{ Form::submit('Entrar', array('class' => 'btn btn-primary')) }}
-        </div>
+    <div>
+               <div style="height:130px;"></div>
+          <div style="height:400px;background-color:#030824;">
+          <br><br>
+          <div style="padding:20;width:300px;margin-left:250px;float:left">
+               {{ Form::open(array('action' => 'systemController@login', 'method' => 'post')) }}
+                       <br><br>
+                       <label for="email" style="color:#FFFFFF">Email:</label>
+	                   	{{ Form::email('email', Input::old('email'), array('class' => 'form-control', 'placeholder' => 'e-mail')) }}
+	                   	<i style="color:#7080CD">{{ $errors->first('email') }}</i>
+	                   	<br><br>
+	                   	<label for="password" style="color:#FFFFFF">Contraseña:</label>
+	                   		    	{{ Form::password('password', array('class' => 'form-control', 'placeholder' => 'Password')) }}
+	                   	<i style="color:#7080CD">{{ $errors->first('password') }}</i>
+                       <br><br>
+                       <div align='center'>
+<button type="submit" class= "btn btn-default btn-lg">Entrar</a>
+	                     {{ Form::close() }}
+                       </div>
+                       <br>
+                         <div align='center'>
+                          @if (Session::has('message'))
+	                    <i style="color:#7080CD;font-size:25px">{{ Session::get('message') }}</i>
+                          @endif
+                          </div>
+           </div>
+           <div >
+           <h1 align="center" style="color:#FFFFFF;font-size:80px"><strong>Ozzy</strong></h1>
+           <h1 align="center" style="color:#FFFFFF;font-size:50px">WorkFlow</h1>
+           <h1 align="center" style="color:#FFFFFF;font-size:50px">Engine</h1>
+           </div>
+           </div>
 
     </div> <!-- /container -->
 
