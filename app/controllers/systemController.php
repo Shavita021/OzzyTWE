@@ -86,7 +86,7 @@ class systemController extends \BaseController {
 		
 		$messages = array(
     'required' => 'El campo es requerido',
-    'email' => 'El campo debe ser un correo electornico.',
+    'email' => 'El campo debe ser un correo electronico.',
     );
 
 		$validator = Validator::make(Input::all(), $rules, $messages);
@@ -108,7 +108,7 @@ class systemController extends \BaseController {
               if(isset($usuario)){
                    if(($usuario->password) == $password){	
                        Session::put('autorizacion', 'si');
-                       Session::put('tipo', 'adminMaestro');
+                       Session::put('tipoSession', 'adminMaestro');
                        Session::put('sesionUsuario',$usuario->name);
                        return View::make('adminMaestros.inicio')->with('adminMaestro', $usuario);;
                    }else{
@@ -120,9 +120,9 @@ class systemController extends \BaseController {
               $usuario = DB::table('adminSecundarios')->where('email', $email)->first();
               
               if(isset($usuario)){
-                  if(($usuario->password) == $password){	
+                  if(Hash::check($password,$usuario->password)){	
                        Session::put('autorizacion', 'si');
-                       Session::put('tipo', 'adminSecundario');
+                       Session::put('tipoSession', 'adminSecundario');
                        Session::put('sesionUsuario',$usuario->name);
                        return View::make('adminMaestros.inicio')->with('adminSecundario', $usuario);
                   }else{
@@ -134,11 +134,11 @@ class systemController extends \BaseController {
               $usuario = DB::table('usuarioNormales')->where('email', $email)->first();
               
               if(isset($usuario)){
-                  if(($usuario->password) == $password){	
+                  if(Hash::check($password,$usuario->password)){	
                        Session::put('autorizacion', 'si');
-                       Session::put('tipo', 'usuarioNormal');
+                       Session::put('tipoSession', 'usuarioNormal');
                        Session::put('sesionUsuario',$usuario->name);                       
-                       return View::make('adminMaestros.inicio')->with('usuarioNormal', $usuario);
+                       return View::make('usuarioNormales.inicio')->with('usuarioNormal', $usuario);
                   }else{
                      Session::flash('message', 'Contraseña incorrecta');
 		           return View::make('index');
@@ -193,7 +193,7 @@ class systemController extends \BaseController {
 
 		// process the login
 		if ($validator->fails()) {
-		  Session::flash('message', 'Campo de busqueda incorrecto');
+		  Session::flash('errorMail', 'Busqueda incorrecta');
 		  return $this->mostrarUsuarios();
 		}else{
 	

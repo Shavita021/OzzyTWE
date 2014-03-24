@@ -1,9 +1,10 @@
 <!-- app/views/nerds/inico.blade.php -->
-@if((Session::get('autorizacion')) != 'si') 
+@if(Session::get('autorizacion') != 'si') 
 {{	header("Location: /");
 	exit();
 	}}
 @else
+@if(Session::get('tipoSession') == 'adminMaestro' OR Session::get('tipoSession') == 'adminSecundario') 
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -12,7 +13,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Tec WorkFlow Engine</title>
+    <title>Ozzy WorkFlow Engine</title>
 
     <!-- Bootstrap core CSS -->
     <link href="/css/bootstrap.css" rel="stylesheet">
@@ -40,9 +41,9 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse navbar-ex1-collapse">
           <ul class="nav navbar-nav side-nav">
-            <li><a href="inicio"><i class="glyphicon glyphicon-home"></i> Inicio</a></li>
+            <li><a href="/inicio"><i class="glyphicon glyphicon-home"></i> Inicio</a></li>
             <li class="active"><a href="/Usuarios"><i class="glyphicon glyphicon-user"></i> Administracion Usuarios</a></li>
-            <li><a href="/inicio"><i class="glyphicon glyphicon-registration-mark"></i> Administracion Roles</a></li>
+            <li><a href="/administracionRoles"><i class="glyphicon glyphicon-registration-mark"></i> Administracion Roles</a></li>
           </ul>
 
           <ul class="nav navbar-nav navbar-right navbar-user">
@@ -79,15 +80,22 @@
       </nav>
       
                <div id="page-wrapper">
-                    <h3>Usuario {{ $usuario->name }}</h3>
+                    <h3>Usuario {{ $datos[0]->name }}</h3>
                     <br><br>
 	               <div class="jumbotron text-center">
-		             <h2>{{ $usuario->name." ", $usuario->plast_name." ", $usuario->mlast_name }}</h2>
+		             <h2>{{ $datos[0]->name." ", $datos[0]->plast_name." ", $datos[0]->mlast_name }}</h2>
 		             <p>
 			          <strong>Tipo de Usuario:</strong> {{ Session::get('tipo')}}<br>
-			          <strong>Email:</strong> {{ $usuario->email }}<br>
-			          <strong>Telefono:</strong> {{ $usuario->phone_number }}<br>
-		               <strong>Ubicacion:</strong> {{ $usuario->location }}
+			          <strong>Roles:</strong> 
+			                @if(isset($datos[1]))
+			                @foreach($datos[1] as $value)
+			                    {{ $value.". " }}
+			                @endforeach
+			                @endif
+			          <br>
+			          <strong>Email:</strong> {{ $datos[0]->email }}<br>
+			          <strong>Telefono:</strong> {{ $datos[0]->phone_number }}<br>
+		               <strong>Ubicacion:</strong> {{ $datos[0]->location }}
 		             </p>
 	               </div>
                </div>
@@ -105,4 +113,9 @@
 
   </body>
 </html>
+@else
+{{	header("Location: /");
+	exit();
+	}}
+@endif
 @endif

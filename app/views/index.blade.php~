@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Tec WorkFlow Engine</title>
+    <title>Ozzy WorkFlow Engine</title>
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.css" rel="stylesheet">
@@ -49,7 +49,7 @@
                        <br>
                          <div align='center'>
                           @if (Session::has('message'))
-	                    <i style="color:#7080CD;font-size:30px">{{ Session::get('message') }}</i>
+	                    <i style="color:#7080CD;font-size:25px">{{ Session::get('message') }}</i>
                           @endif
                           </div>
            </div>

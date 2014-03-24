@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Tec WorkFlow Engine</title>
+    <title>Ozzy WorkFlow Engine</title>
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.css" rel="stylesheet">
@@ -54,7 +54,7 @@
                           </div>
            </div>
            <div >
-           <h1 align="center" style="color:#FFFFFF;font-size:80px"><strong>Ozzy</strong></h1>
+           <h1 align="center" style="color:#FFFFFF;font-size:100px"><strong>Ozzy</strong></h1>
            <h1 align="center" style="color:#FFFFFF;font-size:50px">WorkFlow</h1>
            <h1 align="center" style="color:#FFFFFF;font-size:50px">Engine</h1>
            </div>

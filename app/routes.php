@@ -39,12 +39,24 @@ Route::get('inicio', function()
 	return View::make('adminMaestros.inicio');
 });
 
-Route::get('crearUsuario', function()
+/*Route::get('crearUsuario', function()
 {
 	return View::make('adminMaestros.create');
-});
+});*/
 
 Route::get('busqueda', array('uses' => 'systemController@busqueda'));
+
+//Ruta para dirigirse a la pagina de administracion de los Roles
+Route::get('administracionRoles', array('uses' => 'rolController@index'));
+
+//Ruta para dirigirse a la pagina de creacion de un nuevo Rol
+Route::get('administracionRoles/crearRol', function()
+{
+	return View::make('adminMaestros.crearRol');
+});
+
+//Ruta al a accion de guardar un nuevo rol rolController
+Route::resource('administracionRoles', 'rolController');
 
 Route::resource('adminMaestro', 'adminMaestroController');
 

@@ -25,7 +25,8 @@ class adminMaestroController extends \BaseController {
 	 */
 	public function create()
 	{
-		return View::make('adminMaestros.create');
+	     $roles = DB::table('roles')->get();
+		return View::make('adminMaestros.create')->with('roles', $roles);
 	}
 
 	/**
@@ -76,6 +77,8 @@ class adminMaestroController extends \BaseController {
 			$phone_number = Input::get('phone_number');
 			$location = Input::get('location');
 			$tipo = Input::get('tipo');
+			$roles = Input::get('roles');
+			
 			
 			    $adminMaestro = DB::table('adminMaestros')->where('email', $email)->first();
 			    $adminSecundario = DB::table('adminSecundarios')->where('email', $email)->first();
@@ -99,22 +102,31 @@ class adminMaestroController extends \BaseController {
 			  DB::table('adminSecundarios')->insert(
         array('name' => strtoupper($name), 'middleName' => strtoupper($middleName), 'plast_name' => strtoupper($plast_name) , 'mlast_name' => strtoupper($mlast_name) ,'email' => strtolower($email), 'password' => $hashedPassword, 'phone_number' => $phone_number, 'location' => $location));
         
+                    foreach ($roles as $id) {
+                        DB::table('usuario_roles')->insert(array('usuarioEmail' => $email , 'idRol' => $id )); 
+                    }
+        
         Mail::send('emails.bienvenida', array('firstname'=>strtoupper($name), 'email'=>$email, 'password'=>$password1), function($message){
             $message->to(Input::get('email'), Input::get('name').' '.Input::get('plast_name'))->subject('Bienvenido a Tec WorkFlow Engine');});
         
 			  Session::flash('message', 'Administrador Secundario Creado');
-			  return Redirect::to('/inicio');
+			  return Redirect::to('/Usuarios');
 			break;
 			
 			case "usuarioNormal":
+			
 			  DB::table('usuarioNormales')->insert(
         array('name' => strtoupper($name), 'middleName' => strtoupper($middleName), 'plast_name' => strtoupper($plast_name) , 'mlast_name' => strtoupper($mlast_name) ,'email' => strtolower($email), 'password' => $hashedPassword, 'phone_number' => $phone_number, 'location' => $location));
+        
+                     foreach ($roles as $id) {
+                        DB::table('usuario_roles')->insert(array('usuarioEmail' => $email , 'idRol' => $id )); 
+                    }
         
                 Mail::send('emails.bienvenida', array('firstname'=>strtoupper($name), 'email'=>$email, 'password'=>$password1), function($message){
             $message->to(Input::get('email'), Input::get('name').' '.Input::get('plast_name'))->subject('Bienvenido a Tec WorkFlow Engine');});
         
 			  Session::flash('message', 'Usuario Normal Creado');
-			  return Redirect::to('/inicio');
+			  return Redirect::to('/Usuarios');
 			break;
 			
 			}
@@ -130,19 +142,40 @@ class adminMaestroController extends \BaseController {
 	public function show($email)
 	{
 
-    $usuario = DB::table('adminSecundarios')->where('email', $email)->first();
-    
-    if(isset($usuario)){
-    		  Session::flash('tipo', 'Administrador Secundario');
-        return View::make('adminMaestros.show')->with('usuario', $usuario);
-    }else{
-    $usuario = DB::table('usuarioNormales')->where('email', $email)->first();
-    }
+         $usuario = DB::table('adminSecundarios')->where('email', $email)->first();
+         if(isset($usuario)){
+         
+             $idroles = DB::table('usuario_roles')->where('usuarioEmail', $email)->lists('idRol');
+
+                  if(isset($idroles[0])){
+                  $roles = DB::table('roles')->whereIn('id', $idroles)->lists('nombre');
+                  }else{
+                  $roles = array("Ninguno");
+                  }
+                  $datos = array($usuario,$roles);
+             
+         		  Session::flash('tipo', 'Administrador Secundario');
+             return View::make('adminMaestros.show')->with('datos', $datos);
+             
+         }else{
+         
+         $usuario = DB::table('usuarioNormales')->where('email', $email)->first();
+         
+         }
 		
-		if(isset($usuario)){
-		    Session::flash('tipo', 'Usuario Normal');
-        return View::make('adminMaestros.show')->with('usuario', $usuario);
-    }
+		     if(isset($usuario)){
+		
+	             $idroles = DB::table('usuario_roles')->where('usuarioEmail', $email)->lists('idRol');
+             //$roles = DB::table('roles')->whereIn('id', $idroles)->lists('nombre');
+                  if(isset($idroles[0])){
+                  $roles = DB::table('roles')->whereIn('id', $idroles)->lists('nombre');
+                  }else{
+                  $roles = array("Ninguno");
+                  }
+                  $datos = array($usuario,$roles);
+		         Session::flash('tipo', 'Usuario Normal');
+               return View::make('adminMaestros.show')->with('datos', $datos);
+               }
     
 	}
 
@@ -262,7 +295,7 @@ class adminMaestroController extends \BaseController {
             $message->to(Input::get('email'), Input::get('name').' '.Input::get('plast_name'))->subject('Tec WorkFlow Engine');});
             
 			    Session::flash('message', 'Editado Correctamente');
-			      return Redirect::to('/inicio');
+			      return Redirect::to('/Usuarios');
 			    break;
 			
 			    case "usuarioNormal":
@@ -273,7 +306,7 @@ class adminMaestroController extends \BaseController {
             $message->to(Input::get('email'), Input::get('name').' '.Input::get('plast_name'))->subject('Tec WorkFlow Engine');});
             
 			    Session::flash('message', 'Editado Correctamente');
-			      return Redirect::to('/inicio');
+			      return Redirect::to('/Usuarios');
 			    break;
 			
 			    }
@@ -288,7 +321,7 @@ class adminMaestroController extends \BaseController {
             $message->to(Input::get('email'), Input::get('name').' '.Input::get('plast_name'))->subject('Tec WorkFlow Engine');});
         
         			    Session::flash('message', 'Editado Correctamente');
-			            return Redirect::to('/inicio');
+			            return Redirect::to('/Usuarios');
 					      break;
 					      
 					      case "usuarioNormal":
@@ -300,7 +333,7 @@ class adminMaestroController extends \BaseController {
             $message->to(Input::get('email'), Input::get('name').' '.Input::get('plast_name'))->subject('Tec WorkFlow Engine');});
         
         			    Session::flash('message', 'Editado Correctamente');
-			            return Redirect::to('/inicio');
+			            return Redirect::to('/Usuarios');
 					      break;					  
 					  }
 			}
@@ -321,7 +354,7 @@ class adminMaestroController extends \BaseController {
 
 		// redirect
 		Session::flash('message', 'Usuario eliminado correctamente');
-		return Redirect::to('inicio');
+		return Redirect::to('/Usuarios');
 	}
 
 

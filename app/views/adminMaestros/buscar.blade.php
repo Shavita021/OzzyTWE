@@ -1,9 +1,10 @@
 <!-- app/views/nerds/inico.blade.php -->
-@if((Session::get('autorizacion')) != 'si') 
+@if(Session::get('autorizacion') != 'si') 
 {{	header("Location: /");
 	exit();
 	}}
 @else
+@if(Session::get('tipoSession') == 'adminMaestro' OR Session::get('tipoSession') == 'adminSecundario') 
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -12,7 +13,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Tec WorkFlow Engine</title>
+    <title>Ozzy WorkFlow Engine</title>
 
     <!-- Bootstrap core CSS -->
     <link href="/css/bootstrap.css" rel="stylesheet">
@@ -42,7 +43,7 @@
           <ul class="nav navbar-nav side-nav">
             <li><a href="inicio"><i class="glyphicon glyphicon-home"></i> Inicio</a></li>
             <li class="active"><a href="Usuarios"><i class="glyphicon glyphicon-user"></i> Administracion Usuarios</a></li>
-            <li><a href="inicio"><i class="glyphicon glyphicon-registration-mark"></i> Administracion Roles</a></li>
+            <li><a href="administracionRoles"><i class="glyphicon glyphicon-registration-mark"></i> Administracion Roles</a></li>
           </ul>
 
           <ul class="nav navbar-nav navbar-right navbar-user">
@@ -88,7 +89,7 @@
                     </td>
                     <td align="center">
                          @if (Session::has('message'))
-                         <div class="alert alert-danger" style="width:300px;">{{ Session::get('message') }}</div>
+                         <div class="alert alert-info" style="width:300px;">{{ Session::get('message') }}</div>
                          @endif
                     </td>
                     </tr>  
@@ -99,9 +100,11 @@
                      <table style="width:80%">
 	                 <tbody>
 	                    <tr>
-	                    <td><a class="btn btn-default btn-lg" href="{{ URL::to('crearUsuario') }}"><span class="glyphicon glyphicon-user"> Crear</span></a>
+	                    <td><a class="btn btn-default btn-lg" href="adminMaestro/create"><span class="glyphicon glyphicon-user"> Crear</span></a>
 	                    </td>
-	                    <td align="right" style="width:500px" class="form-inline">{{ Form::open(array('action' => 'systemController@busqueda', 'method' => 'get')) }}
+	                    <td align="right" style="width:500px" class="form-inline">
+	                    {{ Form::open(array('action' => 'systemController@busqueda', 'method' => 'get')) }}
+	                    <i style="color:#7080CD">{{ Session::get('errorMail') }}</i>
 	              	{{ Form::email('email', Input::old('email'), array('class' => 'form-control', 'style'=>'width:250px', 'placeholder' => 'e-mail')) }}
 	               {{ Form::submit('Buscar', array('class' => 'btn btn-default btn-lg')) }}
 	            				{{ Form::close() }}
@@ -131,7 +134,6 @@
 			   <td>{{ $value->email }}</td>
 			   <td>{{ $value->phone_number }}</td>
 			   <td>
-                         {{ Form::open(array('url' => 'adminMaestro/' . $value->email)) }}
 				<a class="btn btn-default btn-lg" href="{{ URL::to('adminMaestro/' . $value->email) }}"><span class="glyphicon glyphicon-eye-open"></span></a>
 			   </td>
 			   <td>
@@ -139,8 +141,9 @@
 				<a class="btn btn-default btn-lg" href="{{ URL::to('adminMaestro/' . $value->email . '/edit') }}"><span class="glyphicon glyphicon-pencil"></span></a>
 			   </td>	
 			   <td>		
+			          {{ Form::open(array('url' => 'adminMaestro/' . $value->email)) }}
 					{{ Form::hidden('_method', 'DELETE') }}
-				<a type="button" class="btn btn-default btn-lg" onclick="if(!confirm('Confirma la eliminacion del usuario')){return false;};"><span class="glyphicon glyphicon-trash"></span></a>
+				<button type="submit" class="btn btn-default btn-lg" onclick="if(!confirm('Confirma la eliminacion del usuario')){return false;};"><span class="glyphicon glyphicon-trash"></span></button>
 				{{ Form::close() }}
 			    </td>
 		       </tr>
@@ -161,4 +164,9 @@
 
   </body>
 </html>
+@else
+{{	header("Location: /");
+	exit();
+	}}
+@endif
 @endif

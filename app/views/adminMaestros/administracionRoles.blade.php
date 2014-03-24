@@ -15,7 +15,9 @@
 
     <title>Ozzy WorkFlow Engine</title>
 
+    <!-- Bootstrap core CSS -->
     <link href="/css/bootstrap.css" rel="stylesheet">
+
     <link href="/css/sb-admin.css" rel="stylesheet">
   </head>
 
@@ -40,8 +42,8 @@
         <div class="collapse navbar-collapse navbar-ex1-collapse">
           <ul class="nav navbar-nav side-nav">
             <li><a href="inicio"><i class="glyphicon glyphicon-home"></i> Inicio</a></li>
-            <li class="active"><a href="Usuarios"><i class="glyphicon glyphicon-user"></i> Administracion Usuarios</a></li>
-            <li><a href="inicio"><i class="glyphicon glyphicon-registration-mark"></i> Administracion Roles</a></li>
+            <li><a href="Usuarios"><i class="glyphicon glyphicon-user"></i> Administracion Usuarios</a></li>
+            <li class="active"><a href="administracionRoles"><i class="glyphicon glyphicon-registration-mark"></i> Administracion Roles</a></li>
           </ul>
 
           <ul class="nav navbar-nav navbar-right navbar-user">
@@ -77,49 +79,65 @@
         </div><!-- /.navbar-collapse -->
       </nav>
       
-      
-      
-               <div id="page-wrapper">
-                    <h3>Busqueda</h3>
-                    <br><br>
-                 <table class="table table-striped table-hover">
+          <div style="margin-left:30px">
+          <br>
+              <table width="100%">
+                 <tbody>
+                    <tr>
+                    <td>
+                         <h3>Roles</h3>
+                    </td>
+                    <td align="center">
+                         @if (Session::has('message'))
+                         <div class="alert alert-info" style="width:300px;">{{ Session::get('message') }}</div>
+                         @endif
+                    </td>
+                    </tr>  
+                 </tbody>
+              </table> 
+                  <br>
+                  <div class="container"">
+                     <table style="width:80%">
+	                 <tbody>
+	                    <tr>
+	                    <td><a class="btn btn-default btn-lg" href="administracionRoles/crearRol"><span class="glyphicon glyphicon-registration-mark"> Crear Rol</span></a>
+	                    </td>
+	                      </tr>
+	                </tbody>
+	            </table>      
+                 </div>
+     
+              <br>
+              <br>
+               <table class="table table-striped table-hover">
 	            <thead>
 		        <tr align="center">
 	      	   <td><b>Nombre</b></td>
-			   <td><b>Email</b></td>
-			   <td><b>Numero</b></td>
-			   <td><b>Datos</b></td>
+			   <td><b>Descripcion</b></td>
 			   <td><b>Editar</b></td>			
 			   <td><b>Eliminar</b></td>			   
 		       </tr>
 	            </thead>
 	           <tbody>
+@foreach($roles as $key => $value)
 	           <tr align="center">
-			   <td align="left">{{ Session::get('nombre') }}</td>
-			   <td>{{ Session::get('email') }}</td>
-			   <td>{{ Session::get('telefono') }}</td>
+			   <td align="left">{{ $value->nombre }}</td>
+			   <td>{{ $value->descripcion }}</td>
 			   <td>
-                         {{ Form::open(array('url' => 'adminMaestro/' .  Session::get('email'))) }}
-				<a class="btn btn-default btn-lg" href="{{ URL::to('adminMaestro/' . Session::get('email')) }}"><span class="glyphicon glyphicon-eye-open"></span></a>
-				    {{ Form::close() }}
-			   </td>
-			   <td>
-
-				<a class="btn btn-default btn-lg" href="{{ URL::to('adminMaestro/' . Session::get('email'). '/edit') }}"><span class="glyphicon glyphicon-pencil"></span></a>
+				<a class="btn btn-default btn-lg" href="{{ URL::to('administracionRoles/' . $value->id . '/edit') }}"><span class="glyphicon glyphicon-pencil"></span></a>
 			   </td>	
 			   <td>		
-					{{ Form::hidden('_method', 'DELETE') }}
-				<a type="button" class="btn btn-default btn-lg" onclick="if(!confirm('Confirma la eliminacion del usuario')){return false;};"><span class="glyphicon glyphicon-trash"></span></a>
-				{{ Form::close() }}
+			    {{ Form::open(array('url' => 'administracionRoles/' . $value->id)) }}
+			    {{ Form::hidden('_method', 'DELETE') }}
+				<button type="submit" class="btn btn-default btn-lg" onclick="if(!confirm('Confirma la eliminacion del usuario')){return false;};"><span class="glyphicon glyphicon-trash"></span></button>
+			    {{ Form::close() }}
 			    </td>
-		         </tr>
-	                </tbody>
-                   </table>
-               </div>
-          
-          
-          
-    </div><!-- /#wrapper -->
+		       </tr>
+@endforeach
+	          </tbody>
+             </table>
+            </div>
+          </div><!-- /#wrapper -->
 
     <!-- JavaScript -->
     <script src="/js/jquery-1.10.2.js"></script>

@@ -1,9 +1,10 @@
 <!-- app/views/nerds/inico.blade.php -->
-@if((Session::get('autorizacion')) != 'si') 
+@if(Session::get('autorizacion') != 'si') 
 {{	header("Location: /");
 	exit();
 	}}
 @else
+@if(Session::get('tipoSession') == 'adminMaestro' OR Session::get('tipoSession') == 'adminSecundario') 
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -12,7 +13,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Tec WorkFlow Engine</title>
+    <title>Ozzy WorkFlow Engine</title>
 
     <link href="/css/bootstrap.css" rel="stylesheet">
     <link href="/css/sb-admin.css" rel="stylesheet">
@@ -40,7 +41,7 @@
           <ul class="nav navbar-nav side-nav">
             <li><a href="inicio"><i class="glyphicon glyphicon-home"></i> Inicio</a></li>
             <li class="active"><a href="Usuarios"><i class="glyphicon glyphicon-user"></i> Administracion Usuarios</a></li>
-            <li><a href="inicio"><i class="glyphicon glyphicon-registration-mark"></i> Administracion Roles</a></li>
+            <li><a href="administracionRoles"><i class="glyphicon glyphicon-registration-mark"></i> Administracion Roles</a></li>
           </ul>
 
           <ul class="nav navbar-nav navbar-right navbar-user">
@@ -131,4 +132,9 @@
 
   </body>
 </html>
+@else
+{{	header("Location: /");
+	exit();
+	}}
+@endif
 @endif
