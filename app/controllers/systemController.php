@@ -106,7 +106,7 @@ class systemController extends \BaseController {
               $usuario = DB::table('adminMaestros')->where('email', $email)->first();
               
               if(isset($usuario)){
-                   if(($usuario->password) == $password){	
+                   if(Hash::check($password,$usuario->password)){	
                        Session::put('autorizacion', 'si');
                        Session::put('tipoSession', 'adminMaestro');
                        Session::put('sesionUsuario',$usuario->name);
@@ -160,6 +160,68 @@ class systemController extends \BaseController {
 	      Session::flush();
 	      return View::make('index');
 	}
+	
+	
+	
+	
+	
+	
+		public function recuperarContraseña()
+	{
+
+	     $rules = array(
+			'email'      => 'required|email',
+		);
+		
+		$messages = array(
+              'required' => 'El campo es requerido',
+              'email' => 'El campo debe ser un correo electornico.',
+              );
+
+		$validator = Validator::make(Input::all(), $rules, $messages);
+
+		// process the login
+		if ($validator->fails()) {
+			return Redirect::to('/recuperarContraseña')
+				->withErrors($validator)
+				->withInput(Input::all());
+		}else{
+		
+	          $email = Input::get('email');
+	          
+	          $adminMaestro = DB::table('adminMaestros')->where('email', $email)->first();
+	          $adminSecundario = DB::table('adminSecundarios')->where('email', $email)->first();
+	          $usuarioNormal = DB::table('usuarioNormales')->where('email', $email)->first();
+
+	          
+               if(isset($adminMaestro)){
+                    $usuario = $adminMaestro;
+                    $tabla = "adminMaestros";
+               }elseif(isset($adminSecundario)){
+                    $usuario = $adminSecundario;
+                    $tabla = "adminSecundarios";
+               }elseif(isset($usuarioNormal)){
+                    $usuario = $usuarioNormal;
+                    $tabla = "usuarioNormales";
+               }else{
+	               Session::flash('message', 'El usuario no existe');
+	            	return Redirect::to('/recuperarContraseña')->withInput(Input::all());
+	          }
+	          
+	          $password = uniqid();
+	          $hashedPassword = Hash::make($password);
+	          
+	          DB::table($tabla)->where('email',$email)->update(array('password' => $hashedPassword));
+	          
+	          Mail::send('emails.recuperarContraseña', array('firstname'=>strtoupper($usuario->name), 'email'=>$email, 'password'=>$password), function($message){
+            $message->to(Input::get('email'))->subject('Recuperacion de Contraseña');});
+            
+               return Redirect::to('/');
+		
+		}
+	}
+	
+	
 	
 	
 	

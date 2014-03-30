@@ -84,9 +84,9 @@
                  <tbody>
                     <tr>
                     <td>
-                         <h3>Edicion del usuario {{ $rol->nombre }}</h3>
+                         <h3>Edicion del rol {{ $rol->nombre }}</h3>
                     </td>
-                    <td align="center">
+                    <td name="ddiv" align="center">
                          @if (Session::has('errorCrearRol'))
                          <div class="alert alert-danger"  style="width:300px;">{{ Session::get('errorCrearRol') }}</div>
                          @endif
@@ -137,6 +137,7 @@
     <script src="/js/morris/chart-data-morris.js"></script>
     <script src="/js/tablesorter/jquery.tablesorter.js"></script>
     <script src="/js/tablesorter/tables.js"></script>
+    <script src="/js/javaScript.js"></script>    
 
   </body>
 </html>

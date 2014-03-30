@@ -86,7 +86,7 @@
                     <td>
                          <h3>Crear Usuario</h3>
                     </td>
-                    <td align="center">
+                    <td name="ddiv" align="center">
                          @if (Session::has('errorRegistro'))
                          <div class="alert alert-danger"  style="width:300px;">{{ Session::get('errorRegistro') }}</div>
                          @endif
@@ -104,7 +104,7 @@
 		            </td>
 		            <td style="padding:15px">
 		               {{ Form::text('name', Input::old('name'), array('class' => 'form-control')) }}
-		            <td><i style="color:#7080CD">{{ $errors->first('name') }}</i></td>
+		            <td><i name="ddiv" style="color:#7080CD">{{ $errors->first('name') }}</i></td>
 		            </td>
 		            </tr>
 	                 <tr>
@@ -113,7 +113,7 @@
 		            </td>
 		            <td style="padding:15px">
 		               {{ Form::text('middleName', Input::old('middleName'), array('class' => 'form-control')) }}
-		            <td><i style="color:#7080CD">{{ $errors->first('middleName') }}</i></td>
+		            <td><i name="ddiv" style="color:#7080CD">{{ $errors->first('middleName') }}</i></td>
 		            </td>
 		            </tr>
                       <tr>
@@ -122,7 +122,7 @@
 		            </td>
 		            <td style="padding:15px">
 		               {{ Form::text('plast_name', Input::old('plast_name'), array('class' => 'form-control')) }}
-		            <td><i style="color:#7080CD">{{ $errors->first('plast_name') }}</i></td>
+		            <td><i name="ddiv" style="color:#7080CD">{{ $errors->first('plast_name') }}</i></td>
 		            </td>
 		            </tr>
                       <tr>
@@ -131,7 +131,7 @@
 		            </td>
 		            <td style="padding:15px">
 		               {{ Form::text('mlast_name', Input::old('mlast_name'), array('class' => 'form-control')) }}
-		            <td><i style="color:#7080CD">{{ $errors->first('mlast_name') }}</i></td>		         
+		            <td><i name="ddiv" style="color:#7080CD">{{ $errors->first('mlast_name') }}</i></td>		         
 		            </td>
 		            </tr>
                       <tr>
@@ -140,7 +140,7 @@
 		            </td>
 		            <td style="padding:15px">
 		               {{ Form::email('email', Input::old('email'), array('class' => 'form-control')) }}
-		            <td><i style="color:#7080CD">{{ $errors->first('email') }}</i></td>		              
+		            <td><i name="ddiv" style="color:#7080CD">{{ $errors->first('email') }}</i></td>		              
 		            </td>
 		            </tr>
                       <tr>
@@ -149,7 +149,7 @@
 	                 </td>
 	                 <td style="padding:15px">
 	                 {{ Form::password('password1', array('class' => 'form-control', 'placeholder' => 'Password')) }}
-		            <td><i style="color:#7080CD">{{ $errors->first('password1') }}</i></td>	                 
+		            <td><i name="ddiv" style="color:#7080CD">{{ $errors->first('password1') }}</i></td>	                 
 	                 </td>
 	                 </tr>
 	                 <tr>
@@ -166,7 +166,7 @@
 		            </td>
 		            <td style="padding:15px">
 		               {{ Form::text('phone_number', Input::old('phone_number'), array('class' => 'form-control')) }}
-		            <td><i style="color:#7080CD">{{ $errors->first('phone_number') }}</i></td>		              
+		            <td><i name="ddiv" style="color:#7080CD">{{ $errors->first('phone_number') }}</i></td>		              
 		            </td>
                       </tr>
                       <tr>
@@ -185,7 +185,8 @@
 	                 {{ Form::select('tipo', array('adminSecundario' => 'Administrador Secundario', 'usuarioNormal' => 'Usuario Normal')) }}
 	                 </td>
 	                 </tr>
-	                  <tr>
+	                 
+	                  <tr>	         
 	                 <td style="padding:15px">
 	                 {{ Form::label('tipo', 'Roles:') }}
 	                 </td>
@@ -196,10 +197,8 @@
 @endforeach
 </div>
                       </td>
-                      <td>
-                      <i>Si no existe el Rol deseado hac click aqui</i>
-                      </td>
-                      </tr>                      
+                      </tr>  
+                                          
 	                 <tr>
 	                 <td style="padding:15px">
 	               {{ Form::submit('Crear', array('class' => 'btn btn-default btn-lg')) }}
@@ -221,6 +220,7 @@
     <script src="/js/morris/chart-data-morris.js"></script>
     <script src="/js/tablesorter/jquery.tablesorter.js"></script>
     <script src="/js/tablesorter/tables.js"></script>
+    <script src="/js/javaScript.js"></script>    
 
   </body>
 </html>

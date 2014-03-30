@@ -86,7 +86,7 @@
                     <td>
                          <h3>Edicion del rol {{ $rol->nombre }}</h3>
                     </td>
-                    <td align="center">
+                    <td name="ddiv" align="center">
                          @if (Session::has('errorCrearRol'))
                          <div class="alert alert-danger"  style="width:300px;">{{ Session::get('errorCrearRol') }}</div>
                          @endif
@@ -104,7 +104,7 @@
 		            </td>
 		            <td style="padding:15px">
 		               {{ Form::text('nombre', Input::old('nombre'), array('class' => 'form-control')) }}
-		            <td><i style="color:#7080CD">{{ $errors->first('nombre') }}</i></td>
+		            <td><i name="ddiv" style="color:#7080CD">{{ $errors->first('nombre') }}</i></td>
 		            </td>
 		            </tr>
 	                 <tr>
@@ -113,7 +113,7 @@
 		            </td>
 		            <td style="padding:15px">
 		               {{ Form::textarea('descripcion', Input::old('descripcion'), array('class' => 'form-control')) }}
-		            <td><i style="color:#7080CD">{{ $errors->first('descripcion') }}</i></td>
+		            <td><i name="ddiv" style="color:#7080CD">{{ $errors->first('descripcion') }}</i></td>
 		            </td>
 		            </tr>
 		            <tr>
@@ -137,6 +137,7 @@
     <script src="/js/morris/chart-data-morris.js"></script>
     <script src="/js/tablesorter/jquery.tablesorter.js"></script>
     <script src="/js/tablesorter/tables.js"></script>
+    <script src="/js/javaScript.js"></script>    
 
   </body>
 </html>

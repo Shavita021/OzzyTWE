@@ -142,40 +142,40 @@ class adminMaestroController extends \BaseController {
 	public function show($email)
 	{
 
-    $usuario = DB::table('adminSecundarios')->where('email', $email)->first();
-    if(isset($usuario)){
-    
-        $idroles = DB::table('usuario_roles')->where('usuarioEmail', $email)->lists('idRol');
+         $usuario = DB::table('adminSecundarios')->where('email', $email)->first();
+         if(isset($usuario)){
+         
+             $idroles = DB::table('usuario_roles')->where('usuarioEmail', $email)->lists('idRol');
 
-             if(isset($idroles[0])){
-             $roles = DB::table('roles')->whereIn('id', $idroles)->lists('nombre');
-             }else{
-             $roles = array("Ninguno");
-             }
-             $datos = array($usuario,$roles);
-        
-    		  Session::flash('tipo', 'Administrador Secundario');
-        return View::make('adminMaestros.show')->with('datos', $datos);
-        
-    }else{
-    
-    $usuario = DB::table('usuarioNormales')->where('email', $email)->first();
-    
-    }
+                  if(isset($idroles[0])){
+                  $roles = DB::table('roles')->whereIn('id', $idroles)->lists('nombre');
+                  }else{
+                  $roles = array("Ninguno");
+                  }
+                  $datos = array($usuario,$roles);
+             
+         		  Session::flash('tipo', 'Administrador Secundario');
+             return View::make('adminMaestros.show')->with('datos', $datos);
+             
+         }else{
+         
+         $usuario = DB::table('usuarioNormales')->where('email', $email)->first();
+         
+         }
 		
-		if(isset($usuario)){
+		     if(isset($usuario)){
 		
-	        $idroles = DB::table('usuario_roles')->where('usuarioEmail', $email)->lists('idRol');
-        //$roles = DB::table('roles')->whereIn('id', $idroles)->lists('nombre');
-             if(isset($idroles[0])){
-             $roles = DB::table('roles')->whereIn('id', $idroles)->lists('nombre');
-             }else{
-             $roles = array("Ninguno");
-             }
-             $datos = array($usuario,$roles);
-		    Session::flash('tipo', 'Usuario Normal');
-          return View::make('adminMaestros.show')->with('datos', $datos);
-          }
+	             $idroles = DB::table('usuario_roles')->where('usuarioEmail', $email)->lists('idRol');
+             //$roles = DB::table('roles')->whereIn('id', $idroles)->lists('nombre');
+                  if(isset($idroles[0])){
+                  $roles = DB::table('roles')->whereIn('id', $idroles)->lists('nombre');
+                  }else{
+                  $roles = array("Ninguno");
+                  }
+                  $datos = array($usuario,$roles);
+		         Session::flash('tipo', 'Usuario Normal');
+               return View::make('adminMaestros.show')->with('datos', $datos);
+               }
     
 	}
 
@@ -191,12 +191,21 @@ class adminMaestroController extends \BaseController {
     $usuario = DB::table('adminSecundarios')->where('email', $email)->first();
     
     if(isset($usuario)){
+        $idroles = DB::table('usuario_roles')->where('usuarioEmail', $email)->lists('idRol');
+        $roles = DB::table('roles')->get();
+        Session::flash('roles', $roles);
+        Session::flash('idroles', $idroles);
+        
         return View::make('adminMaestros.edit')->with('usuario', $usuario);
     }else{
     $usuario = DB::table('usuarioNormales')->where('email', $email)->first();
     }
 		
 		if(isset($usuario)){
+        $idroles = DB::table('usuario_roles')->where('usuarioEmail', $email)->lists('idRol');
+        $roles = DB::table('roles')->get();
+        Session::flash('roles', $roles);
+        Session::flash('idroles', $idroles);
         return View::make('adminMaestros.edit')->with('usuario', $usuario);
     }
 	}
@@ -217,7 +226,7 @@ class adminMaestroController extends \BaseController {
 			'plast_name' => 'required|alpha|max:20',
 			'mlast_name' => 'required|alpha|max:20',
 			'email'      => 'required|email',
-			'password1' => 'required|digits_between:6,20',
+			'password1' => 'digits_between:6,20',
 			'phone_number' => 'required|numeric|digits_between:1,20',
 			'tipo' => 'required',
 		);
@@ -250,6 +259,7 @@ class adminMaestroController extends \BaseController {
 			$phone_number = Input::get('phone_number');
 			$location = Input::get('location');
 			$tipo = Input::get('tipo');
+			$roles = Input::get('roles');
 
       if($email != $newemail){
       //BUSCAMOS EL USUARIO QUE TENGA EL EMAIL QUE SE QUIERE EDITAR Y EN CASO DE ECONTRARLO REGRASAMOS ERROR
@@ -264,32 +274,45 @@ class adminMaestroController extends \BaseController {
 			}
 			
 			//BUSCAMOS EL USUARIO PARA VER QUE TIPO DE USUARIO ES Y ASI PODER REASIGNARLO EN EL OTRO TIPO DE USUARIO SI ASI SE QUIERE
-			
 			    $adminMaestro = DB::table('adminMaestros')->where('email', $email)->first();
 			    $adminSecundario = DB::table('adminSecundarios')->where('email', $email)->first();
 			    $usuarioNormal = DB::table('usuarioNormales')->where('email', $email)->first();
 			    if(isset($adminMaestro)){
+			    $usuario = $adminMaestro;
 			    $tipoAnterior = 'adminMaestro';
 			    }elseif(isset($adminSecundario)){
+			    $usuario = $adminSecundario;
 			    $tipoAnterior = 'adminSecundario';
 			    }elseif(isset($usuarioNormal)){
+			    $usuario = $usuarioNormal;
 			    $tipoAnterior = 'usuarioNormal';
 			    }
 			    
-			
+
 			if($password1 != $password2){
 				Session::flash('errorRegistro', 'Porfavor ingresa las contraseñas iguales');
 							return Redirect::to('adminMaestro/' . $email . '/edit')->withInput(Input::except('password1','password2'));
 			}
+			
+			if($password1 == "" && $password2 == ""){
+			    $hashedPassword = $usuario->password;
+			}else{
 			    $hashedPassword = Hash::make($password1);
+			}
+			    
 			//FALTA ACTUALIZAR EN CASO DE QUE SE DECIDCA CAMBIAR DE TIPO DE USUARIO, PORQUE SI SE SELECCIONA EL MISMO TIPO DE USUARIO SI SE ACTUALIZA BIEN PERO SI SE SELECCIONA EL OTRO TIPO DE USUARIO NO.
+			DB::table('usuario_roles')->where('usuarioEmail',$email)->delete();
 			
 			if($tipoAnterior == $tipo){
 						    switch($tipo){
 			
 			    case "adminSecundario":
 			      DB::table('adminSecundarios')->where('email',$email)->update(
-        array('name' => strtoupper($name), 'middleName' => strtoupper($middleName), 'plast_name' => strtoupper($plast_name) , 'mlast_name' => strtoupper($mlast_name) ,'email' => strtolower($email), 'password' => $hashedPassword, 'phone_number' => $phone_number, 'location' => $location));
+        array('name' => strtoupper($name), 'middleName' => strtoupper($middleName), 'plast_name' => strtoupper($plast_name) , 'mlast_name' => strtoupper($mlast_name) ,'email' => strtolower($newemail), 'password' => $hashedPassword, 'phone_number' => $phone_number, 'location' => $location));
+        
+                   foreach ($roles as $id) {
+                      DB::table('usuario_roles')->insert(array('usuarioEmail' => $email , 'idRol' => $id )); 
+                    }
             
                             Mail::send('emails.editar', array('firstname'=>strtoupper($name), 'email'=>$newemail, 'password'=>$password1), function($message){
             $message->to(Input::get('email'), Input::get('name').' '.Input::get('plast_name'))->subject('Tec WorkFlow Engine');});
@@ -300,9 +323,13 @@ class adminMaestroController extends \BaseController {
 			
 			    case "usuarioNormal":
 			      DB::table('usuarioNormales')->where('email',$email)->update(
-        array('name' => strtoupper($name), 'middleName' => strtoupper($middleName), 'plast_name' => strtoupper($plast_name) , 'mlast_name' => strtoupper($mlast_name) ,'email' => strtolower($email), 'password' => $hashedPassword, 'phone_number' => $phone_number, 'location' => $location));
+        array('name' => strtoupper($name), 'middleName' => strtoupper($middleName), 'plast_name' => strtoupper($plast_name) , 'mlast_name' => strtoupper($mlast_name) ,'email' => strtolower($newemail), 'password' => $hashedPassword, 'phone_number' => $phone_number, 'location' => $location));
             
-                            Mail::send('emails.editar', array('firstname'=>strtoupper($name), 'email'=>$mewemail, 'password'=>$password1), function($message){
+                   foreach ($roles as $id) {
+                      DB::table('usuario_roles')->insert(array('usuarioEmail' => $email , 'idRol' => $id )); 
+                    }
+                    
+                            Mail::send('emails.editar', array('firstname'=>strtoupper($name), 'email'=>$newemail, 'password'=>$password1), function($message){
             $message->to(Input::get('email'), Input::get('name').' '.Input::get('plast_name'))->subject('Tec WorkFlow Engine');});
             
 			    Session::flash('message', 'Editado Correctamente');
@@ -315,7 +342,11 @@ class adminMaestroController extends \BaseController {
 					      case "adminSecundario":
 					        DB::table('adminSecundarios')->where('email',$email)->delete();
 					        DB::table('usuarioNormales')->insert(
-        array('name' => strtoupper($name), 'middleName' => strtoupper($middleName), 'plast_name' => strtoupper($plast_name) , 'mlast_name' => strtoupper($mlast_name) ,'email' => strtolower($email), 'password' => $hashedPassword, 'phone_number' => $phone_number, 'location' => $location));
+        array('name' => strtoupper($name), 'middleName' => strtoupper($middleName), 'plast_name' => strtoupper($plast_name) , 'mlast_name' => strtoupper($mlast_name) ,'email' => strtolower($newemail), 'password' => $hashedPassword, 'phone_number' => $phone_number, 'location' => $location));
+        
+                           foreach ($roles as $id) {
+                      DB::table('usuario_roles')->insert(array('usuarioEmail' => $email , 'idRol' => $id )); 
+                    }
         
                             Mail::send('emails.editar', array('firstname'=>strtoupper($name), 'email'=>$newemail, 'password'=>$password1), function($message){
             $message->to(Input::get('email'), Input::get('name').' '.Input::get('plast_name'))->subject('Tec WorkFlow Engine');});
@@ -327,7 +358,11 @@ class adminMaestroController extends \BaseController {
 					      case "usuarioNormal":
 					        DB::table('usuarioNormales')->where('email',$email)->delete();
 					        DB::table('adminSecundarios')->insert(
-        array('name' => strtoupper($name), 'middleName' => strtoupper($middleName), 'plast_name' => strtoupper($plast_name) , 'mlast_name' => strtoupper($mlast_name) ,'email' => strtolower($email), 'password' => $hashedPassword, 'phone_number' => $phone_number, 'location' => $location));
+        array('name' => strtoupper($name), 'middleName' => strtoupper($middleName), 'plast_name' => strtoupper($plast_name) , 'mlast_name' => strtoupper($mlast_name) ,'email' => strtolower($newemail), 'password' => $hashedPassword, 'phone_number' => $phone_number, 'location' => $location));
+        
+                            foreach ($roles as $id) {
+                      DB::table('usuario_roles')->insert(array('usuarioEmail' => $email , 'idRol' => $id )); 
+                    }
         
                             Mail::send('emails.editar', array('firstname'=>strtoupper($name), 'email'=>$newemail, 'password'=>$password1), function($message){
             $message->to(Input::get('email'), Input::get('name').' '.Input::get('plast_name'))->subject('Tec WorkFlow Engine');});

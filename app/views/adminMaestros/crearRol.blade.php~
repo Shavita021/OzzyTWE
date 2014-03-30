@@ -86,12 +86,9 @@
                     <td>
                          <h3>Crear Rol</h3>
                     </td>
-                    <td align="center">
+                    <td name="ddiv" align="center">
                          @if (Session::has('errorCrearRol'))
                          <div class="alert alert-danger"  style="width:300px;">{{ Session::get('errorCrearRol') }}</div>
-                         @endif
-                         @if (Session::has('messageRol'))
-                         <div class="alert alert-info"  style="width:300px;">{{ Session::get('messageRol') }}</div>
                          @endif
                     </td>
                     </tr>  
@@ -140,6 +137,7 @@
     <script src="/js/morris/chart-data-morris.js"></script>
     <script src="/js/tablesorter/jquery.tablesorter.js"></script>
     <script src="/js/tablesorter/tables.js"></script>
+    <script src="/js/javaScript.js"></script>    
 
   </body>
 </html>

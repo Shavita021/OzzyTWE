@@ -32,27 +32,19 @@
           <div style="height:400px;background-color:#030824;">
           <br><br>
           <div style="padding:20;width:300px;margin-left:250px;float:left">
-               {{ Form::open(array('action' => 'systemController@login', 'method' => 'post')) }}
+               {{ Form::open(array('action' => 'systemController@recuperarContraseña', 'method' => 'post')) }}
                        <br><br>
                        <label for="email" style="color:#FFFFFF">Email:</label>
 	                   	{{ Form::email('email', Input::old('email'), array('class' => 'form-control', 'placeholder' => 'e-mail')) }}
 	                   	<i name="ddiv" style="color:#7080CD">{{ $errors->first('email') }}</i>
 	                   	<br><br>
-	                   	<label for="password" style="color:#FFFFFF">Contraseña:</label>
-	                   		    	{{ Form::password('password', array('class' => 'form-control', 'placeholder' => 'Password')) }}
-	                   	<i name="ddiv" style="color:#7080CD">{{ $errors->first('password') }}</i>
-	                   	 @if (Session::has('message'))
-	                    <i name="ddiv" style="color:#7080CD">{{ Session::get('message') }}</i>
-                          @endif
-                       <br><br>
+
+                       <br>
                        <div align='center'>
-<button type="submit" class= "btn btn-default btn-lg">Entrar</a>
+<button type="submit" class= "btn btn-default btn-lg">Recuperar</a>
 	                     {{ Form::close() }}
                        </div>
                        <br>
-                       <div align='center'>
-                       	   <a style="color:#7080CD;font-size:20px" href="/recuperarContraseña">Recuperar Contraseña</i>
-                       </div>
            </div>
            <div >
            <h1 align="center" style="color:#FFFFFF;font-size:100px"><strong>ITESM</strong></h1>

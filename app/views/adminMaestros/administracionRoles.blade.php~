@@ -87,7 +87,7 @@
                     <td>
                          <h3>Roles</h3>
                     </td>
-                    <td align="center">
+                    <td id="ddiv" align="center">
                          @if (Session::has('message'))
                          <div class="alert alert-info" style="width:300px;">{{ Session::get('message') }}</div>
                          @endif
@@ -129,7 +129,7 @@
 			   <td>		
 			    {{ Form::open(array('url' => 'administracionRoles/' . $value->id)) }}
 			    {{ Form::hidden('_method', 'DELETE') }}
-				<a type="submit" class="btn btn-default btn-lg" onclick="if(!confirm('Confirma la eliminacion del usuario')){return false;};"><span class="glyphicon glyphicon-trash"></span></a>
+				<button type="submit" class="btn btn-default btn-lg" onclick="if(!confirm('Confirma la eliminacion del usuario')){return false;};"><span class="glyphicon glyphicon-trash"></span></button>
 			    {{ Form::close() }}
 			    </td>
 		       </tr>
@@ -147,6 +147,7 @@
     <script src="/js/morris/chart-data-morris.js"></script>
     <script src="/js/tablesorter/jquery.tablesorter.js"></script>
     <script src="/js/tablesorter/tables.js"></script>
+     <script src="/js/javaScript.js"></script>
 
   </body>
 </html>

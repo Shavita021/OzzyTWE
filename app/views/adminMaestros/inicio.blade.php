@@ -85,7 +85,7 @@
                     <td>
                          <h2>Bienvenido {{ Session::get('sesionUsuario') }}</h2>
                     </td>
-                    <td align="center">
+                    <td name="ddiv" align="center">
                           @if (Session::has('message'))
                          <div class="alert alert-info"  style="width:300px;">{{ Session::get('message') }}</div>
                          @endif
@@ -105,6 +105,7 @@
     <script src="/js/morris/chart-data-morris.js"></script>
     <script src="/js/tablesorter/jquery.tablesorter.js"></script>
     <script src="/js/tablesorter/tables.js"></script>
+    <script src="/js/javaScript.js"></script>    
 
   </body>
 </html>

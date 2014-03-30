@@ -82,8 +82,8 @@
                <div id="page-wrapper">
                     <h3>Usuario {{ $datos[0]->name }}</h3>
                     <br><br>
-	               <div class="jumbotron text-center">
-		             <h2>{{ $datos[0]->name." ", $datos[0]->plast_name." ", $datos[0]->mlast_name }}</h2>
+	               <div class="jumbotron ">
+		             <h2>{{ $datos[0]->name." ", $datos[0]->plast_name." ", $datos[0]->mlast_name }}</h2><br>
 		             <p>
 			          <strong>Tipo de Usuario:</strong> {{ Session::get('tipo')}}<br>
 			          <strong>Roles:</strong> 
@@ -110,6 +110,7 @@
     <script src="/js/morris/chart-data-morris.js"></script>
     <script src="/js/tablesorter/jquery.tablesorter.js"></script>
     <script src="/js/tablesorter/tables.js"></script>
+    <script src="/js/javaScript.js"></script>    
 
   </body>
 </html>

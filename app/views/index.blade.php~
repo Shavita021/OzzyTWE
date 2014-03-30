@@ -14,7 +14,7 @@
 
     <!-- Custom styles for this template -->
     <link href="css/signin.css" rel="stylesheet">
-
+    <script src="/js/javaScript.js"></script>
     <!-- Just for debugging purposes. Don't actually copy this line! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
 
@@ -36,25 +36,26 @@
                        <br><br>
                        <label for="email" style="color:#FFFFFF">Email:</label>
 	                   	{{ Form::email('email', Input::old('email'), array('class' => 'form-control', 'placeholder' => 'e-mail')) }}
-	                   	<i style="color:#7080CD">{{ $errors->first('email') }}</i>
+	                   	<i name="ddiv" style="color:#7080CD">{{ $errors->first('email') }}</i>
 	                   	<br><br>
 	                   	<label for="password" style="color:#FFFFFF">Contraseña:</label>
 	                   		    	{{ Form::password('password', array('class' => 'form-control', 'placeholder' => 'Password')) }}
-	                   	<i style="color:#7080CD">{{ $errors->first('password') }}</i>
+	                   	<i name="ddiv" style="color:#7080CD">{{ $errors->first('password') }}</i>
+	                   	 @if (Session::has('message'))
+	                    <i name="ddiv" style="color:#7080CD">{{ Session::get('message') }}</i>
+                          @endif
                        <br><br>
                        <div align='center'>
-<button type="submit" class= "btn btn-default btn-lg">Entrar</a>
+<button type="submit" class= "btn btn-default btn-lg">Recuperar</a>
 	                     {{ Form::close() }}
                        </div>
                        <br>
-                         <div align='center'>
-                          @if (Session::has('message'))
-	                    <i style="color:#7080CD;font-size:25px">{{ Session::get('message') }}</i>
-                          @endif
-                          </div>
+                       <div align='center'>
+                       	   <a style="color:#7080CD;font-size:20px" href="/recuperarContraseña">Recuperar Contraseña</i>
+                       </div>
            </div>
            <div >
-           <h1 align="center" style="color:#FFFFFF;font-size:80px"><strong>Ozzy</strong></h1>
+           <h1 align="center" style="color:#FFFFFF;font-size:100px"><strong>ITESM</strong></h1>
            <h1 align="center" style="color:#FFFFFF;font-size:50px">WorkFlow</h1>
            <h1 align="center" style="color:#FFFFFF;font-size:50px">Engine</h1>
            </div>

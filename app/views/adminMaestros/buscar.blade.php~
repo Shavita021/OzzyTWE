@@ -100,7 +100,7 @@
                      <table style="width:80%">
 	                 <tbody>
 	                    <tr>
-	                    <td><a class="btn btn-default btn-lg" href="create"><span class="glyphicon glyphicon-user"> Crear</span></a>
+	                    <td><a class="btn btn-default btn-lg" href="adminMaestro/create"><span class="glyphicon glyphicon-user"> Crear</span></a>
 	                    </td>
 	                    <td align="right" style="width:500px" class="form-inline">
 	                    {{ Form::open(array('action' => 'systemController@busqueda', 'method' => 'get')) }}
@@ -161,6 +161,7 @@
     <script src="/js/morris/chart-data-morris.js"></script>
     <script src="/js/tablesorter/jquery.tablesorter.js"></script>
     <script src="/js/tablesorter/tables.js"></script>
+    <script src="/js/javaScript.js"></script>
 
   </body>
 </html>

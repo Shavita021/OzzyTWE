@@ -16,6 +16,11 @@ Route::get('/', function()
 	return View::make('index');
 });
 
+Route::get('/recuperarContraseña', function()
+{
+	return View::make('recuperarContraseña');
+});
+
 Route::post('login', array('uses' => 'systemController@login'));
 
 /*Route::get('login', function()
@@ -39,10 +44,10 @@ Route::get('inicio', function()
 	return View::make('adminMaestros.inicio');
 });
 
-Route::get('crearUsuario', function()
+/*Route::get('crearUsuario', function()
 {
 	return View::make('adminMaestros.create');
-});
+});*/
 
 Route::get('busqueda', array('uses' => 'systemController@busqueda'));
 

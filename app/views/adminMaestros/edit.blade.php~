@@ -85,7 +85,7 @@
                     <td>
                          <h3>Edicion del usuario {{ $usuario->name }}</h3>
                     </td>
-                    <td align="center">
+                    <td name="ddiv" align="center">
                          @if (Session::has('errorRegistro'))
                          <div class="alert alert-danger" style="width:300px;">{{ Session::get('errorRegistro') }}</div>
                          @endif
@@ -104,7 +104,7 @@
 		            </td>
 		            <td style="padding:15px">
 		               {{ Form::text('name', Input::old('name'), array('class' => 'form-control')) }}
-                      <td><i style="color:#7080CD">{{ $errors->first('name') }}</i></td>		               
+                      <td><i name="ddiv" style="color:#7080CD">{{ $errors->first('name') }}</i></td>		               
 		            </td>
 		            </tr>
 	                 <tr>
@@ -113,7 +113,7 @@
 		            </td>
 		            <td style="padding:15px">
 		               {{ Form::text('middleName', Input::old('middleName'), array('class' => 'form-control')) }}
-		            <td><i style="color:#7080CD">{{ $errors->first('middleName') }}</i></td>		               
+		            <td><i name="ddiv" style="color:#7080CD">{{ $errors->first('middleName') }}</i></td>		               
 		            </td>
 		            </tr>
                       <tr>
@@ -122,7 +122,7 @@
 		            </td>
 		            <td style="padding:15px">
 		               {{ Form::text('plast_name', Input::old('plast_name'), array('class' => 'form-control')) }}
-		            <td><i style="color:#7080CD">{{ $errors->first('plast_name') }}</i></td>		               
+		            <td><i name="ddiv" style="color:#7080CD">{{ $errors->first('plast_name') }}</i></td>		               
 		            </td>
 		            </tr>
                       <tr>
@@ -131,7 +131,7 @@
 		            </td>
 		            <td style="padding:15px">
 		               {{ Form::text('mlast_name', Input::old('mlast_name'), array('class' => 'form-control')) }}
-		            <td><i style="color:#7080CD">{{ $errors->first('mlast_name') }}</i></td>		               
+		            <td><i name="ddiv" style="color:#7080CD">{{ $errors->first('mlast_name') }}</i></td>		               
 		            </td>
 		            </tr>
                       <tr>
@@ -140,25 +140,27 @@
 		            </td>
 		            <td style="padding:15px">
 		               {{ Form::email('email', Input::old('email'), array('class' => 'form-control')) }}
-		            <td><i style="color:#7080CD">{{ $errors->first('email') }}</i></td>		               
+		            <td><i name="ddiv" style="color:#7080CD">{{ $errors->first('email') }}</i></td>		               
 		            </td>
 		            </tr>
                       <tr>
                       <td style="padding:15px">
-	                 {{ Form::label('password', 'Contraseña:') }}
+	                 {{ Form::label('password1', 'Contraseña:') }}
 	                 </td>
 	                 <td style="padding:15px">
 	                 {{ Form::password('password1', array('class' => 'form-control', 'placeholder' => 'Password')) }}
-		            <td><i style="color:#7080CD">{{ $errors->first('password1') }}</i></td>	                 
-	                 </td>
+		            </td>
+		            <td><i name="ddiv" style="color:#7080CD">{{ $errors->first('password1') }}</i>
+		            </td>	                 
 	                 </tr>
 	                 <tr>
 	                 <td style="padding:15px">
-	                 {{ Form::label('password', 'Confirmar Contraseña:') }}
+	                 {{ Form::label('password2', 'Confirmar Contraseña:') }}
 	                 </td>
 	                 <td style="padding:15px">
 	                 {{ Form::password('password2', array('class' => 'form-control', 'placeholder' => 'Password')) }}
 	                 </td>
+	                 <td><i style="color:#7080CD">Dejar los campos vacios en caso <br> de no querer editar la contraseña</i></td>
 	                 </tr>
                       <tr>
                       <td style="padding:15px">
@@ -185,17 +187,24 @@
 	                 {{ Form::select('tipo', array('adminSecundario' => 'Administrador Secundario', 'usuarioNormal' => 'Usuario Normal')) }}
 	                 </td>
 	                 </tr>
+	                 
 	                 <tr>
 	                 <td style="padding:15px">
 	                 {{ Form::label('tipo', 'Roles:') }}
 	                 </td>
                       <td>
 <div style="width:300px; height: 100px; overflow-y: scroll;">
-{{Form::checkbox('hola', Input::old('hola'))}}Opcion 1<br>
-{{Form::checkbox('hola', Input::old('hola'))}}Opcion 2
+@foreach(Session::get('roles') as $value)	   
+@if (in_array($value->id,Session::get('idroles')))
+<input type="checkbox" name="roles[]" value="{{ $value->id }}" checked> {{ $value->nombre }}<br>
+@else                              
+<input type="checkbox" name="roles[]" value="{{ $value->id }}"> {{ $value->nombre }}<br>
+@endif
+@endforeach
 </div>
                       </td>
                       </tr>
+                      
 	                 <tr>
 	                 <td style="padding:15px">
 <button type="submit" class= "btn btn-default btn-lg" onclick="if(!confirm('Desea guardar los cambios?')){return false;};" title="Delete this Item">Editar</a>
@@ -216,6 +225,7 @@
     <script src="/js/morris/chart-data-morris.js"></script>
     <script src="/js/tablesorter/jquery.tablesorter.js"></script>
     <script src="/js/tablesorter/tables.js"></script>
+    <script src="/js/javaScript.js"></script>    
 
   </body>
 </html>

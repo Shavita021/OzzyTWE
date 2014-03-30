@@ -16,6 +16,13 @@ Route::get('/', function()
 	return View::make('index');
 });
 
+Route::get('/recuperarContraseña', function()
+{
+	return View::make('recuperarContraseña');
+});
+
+Route::post('recuperarContraseña', array('uses' => 'systemController@recuperarContraseña'));
+
 Route::post('login', array('uses' => 'systemController@login'));
 
 /*Route::get('login', function()
