@@ -51,7 +51,7 @@
                        </div>
                        <br>
                        <div align='center'>
-                       	   <a style="color:#7080CD;font-size:20px" href="/recuperarContraseña">Recuperar Contraseña</i>
+                       	   <a style="color:#7080CD;font-size:20px" href="/recuperarContraseña">Olvide mi contraseña</a>
                        </div>
            </div>
            <div >

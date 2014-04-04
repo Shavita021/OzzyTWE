@@ -168,7 +168,7 @@
 		            </td>
 		            <td style="padding:15px">
 		               {{ Form::text('phone_number', Input::old('phone_number'), array('class' => 'form-control')) }}
-		            <td><i style="color:#7080CD">{{ $errors->first('phone_number') }}</i></td>		               
+		            <td><i name="ddiv" style="color:#7080CD">{{ $errors->first('phone_number') }}</i></td>		               
 		            </td>
                       </tr>
                       <tr>

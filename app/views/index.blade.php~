@@ -46,12 +46,12 @@
                           @endif
                        <br><br>
                        <div align='center'>
-<button type="submit" class= "btn btn-default btn-lg">Recuperar</a>
+<button type="submit" class= "btn btn-default btn-lg">Entrar</a>
 	                     {{ Form::close() }}
                        </div>
                        <br>
                        <div align='center'>
-                       	   <a style="color:#7080CD;font-size:20px" href="/recuperarContraseña">Recuperar Contraseña</i>
+                       	   <a style="color:#7080CD;font-size:20px" href="/recuperarContraseña">Olvide mi Contraseña</a>
                        </div>
            </div>
            <div >

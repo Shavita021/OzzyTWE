@@ -32,12 +32,13 @@ class rolController extends \BaseController {
 	public function store()
 	{
 			$rules = array(
-			'nombre'       => 'required|max:200',
+			'nombre'       => 'required|alpha|max:20',
 			'descripcion' => 'required|max:200',);
 		
 		     $messages = array(
+		    'alpha' => 'El campo debe contener solo letras',
               'nombre.max' => 'El campo debe tener un maximo de 200 caracteres',
-              'descripcion.max' => 'El campo debe tener un maximo de 200 caracteres',		
+              'descripcion.max' => 'La descipcion debe tener  hasta 200 caracteres',		
               'required' => 'El campo es requerido',);
               
                $validator = Validator::make(Input::all(), $rules, $messages);

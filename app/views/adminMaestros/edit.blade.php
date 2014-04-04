@@ -207,7 +207,7 @@
                       
 	                 <tr>
 	                 <td style="padding:15px">
-<button type="submit" class= "btn btn-default btn-lg" onclick="if(!confirm('Desea guardar los cambios?')){return false;};" title="Delete this Item">Editar</a>
+<button type="submit" class= "btn btn-default btn-lg" onclick="if(!confirm('Desea guardar los cambios?')){return false;};" title="Delete this Item">Guardar</a>
                       </td>
                       </tr>
                       </tbody>
