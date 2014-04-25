@@ -106,11 +106,11 @@ class systemController extends \BaseController {
               $usuario = DB::table('adminMaestros')->where('email', $email)->first();
               
               if(isset($usuario)){
-                   if(($usuario->password) == $password){	
+                   if(Hash::check($password,$usuario->password)){	
                        Session::put('autorizacion', 'si');
                        Session::put('tipoSession', 'adminMaestro');
                        Session::put('sesionUsuario',$usuario->name);
-                       return View::make('adminMaestros.inicio')->with('adminMaestro', $usuario);;
+                       return Redirect::to('adminMaestro');
                    }else{
                        Session::flash('message', 'Contraseña incorrecta');
 		             return View::make('index');
@@ -118,13 +118,13 @@ class systemController extends \BaseController {
                }
                
               $usuario = DB::table('adminSecundarios')->where('email', $email)->first();
-              
+                                     return Redirect::to('adminMaestro');
               if(isset($usuario)){
                   if(Hash::check($password,$usuario->password)){	
                        Session::put('autorizacion', 'si');
                        Session::put('tipoSession', 'adminSecundario');
                        Session::put('sesionUsuario',$usuario->name);
-                       return View::make('adminMaestros.inicio')->with('adminSecundario', $usuario);
+                       return Redirect::to('adminMaestro');
                   }else{
                      Session::flash('message', 'Contraseña incorrecta');
 		           return View::make('index');

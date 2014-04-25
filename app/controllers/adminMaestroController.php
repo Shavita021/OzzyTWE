@@ -10,11 +10,9 @@ class adminMaestroController extends \BaseController {
 	public function index()
 	{
 		// get all the adminMaestros
-    $adminMaestros = DB::table('adminMaestros')->get();
-
 		// load the view and pass the admins
-		return View::make('adminMaestros.index')
-			->with('adminMaestros', $adminMaestros);
+		return View::make('adminMaestros.inicio');
+
 	}
 
 
@@ -416,8 +414,9 @@ class adminMaestroController extends \BaseController {
 	public function destroy($email)
 	{
 				// delete
-  DB::table('adminSecundarios')->where('email',$email)->delete();
+     DB::table('adminSecundarios')->where('email',$email)->delete();
     DB::table('usuarioNormales')->where('email',$email)->delete();
+    DB::table('usuario_roles')->where('usuarioEmail',$email)->delete();
 
 		// redirect
 		Session::flash('message', 'Usuario eliminado correctamente');

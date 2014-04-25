@@ -40,8 +40,9 @@
         <div class="collapse navbar-collapse navbar-ex1-collapse">
           <ul class="nav navbar-nav side-nav">
             <li class="active"><a href="inicio"><i class="glyphicon glyphicon-home"></i> Inicio</a></li>
-            <li><a href="Usuarios"><i class="glyphicon glyphicon-user"></i> Administracion Usuarios</a></li>
+            <li><a href="usuarios"><i class="glyphicon glyphicon-user"></i> Administracion Usuarios</a></li>
             <li><a href="administracionRoles"><i class="glyphicon glyphicon-registration-mark"></i> Administracion Roles</a></li>
+            <li><a href="/procesos"><i class="glyphicon glyphicon-random"></i>  Procesos</a></li>            
           </ul>
 
           <ul class="nav navbar-nav navbar-right navbar-user">
@@ -85,7 +86,7 @@
                     <td>
                          <h2>Bienvenido {{ Session::get('sesionUsuario') }}</h2>
                     </td>
-                    <td align="center">
+                    <td name="ddiv" align="center">
                           @if (Session::has('message'))
                          <div class="alert alert-info"  style="width:300px;">{{ Session::get('message') }}</div>
                          @endif

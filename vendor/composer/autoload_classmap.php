@@ -32,7 +32,9 @@ return array(
     'ClassPreloader\\Parser\\NodeTraverser' => $vendorDir . '/classpreloader/classpreloader/src/ClassPreloader/Parser/NodeTraverser.php',
     'CreateAdminMaestrosTable' => $baseDir . '/app/database/migrations/2014_03_14_233454_create_adminMaestros_table.php',
     'CreateAdminSecundariosTable' => $baseDir . '/app/database/migrations/2014_03_14_233519_create_adminSecundarios_table.php',
+    'CreateProcesosTable' => $baseDir . '/app/database/migrations/2014_04_06_064500_create_procesos_table.php',
     'CreateRolesTable' => $baseDir . '/app/database/migrations/2014_03_22_190321_create_roles_table.php',
+    'CreateTareasTable' => $baseDir . '/app/database/migrations/2014_04_06_214022_create_tareas_table.php',
     'CreateUsuarioNormalesTable' => $baseDir . '/app/database/migrations/2014_03_14_233534_create_usuarioNormales_table.php',
     'CreateUsuariosRolesTable' => $baseDir . '/app/database/migrations/2014_03_22_192849_create_usuarios_roles_table.php',
     'Crypt_AES' => $vendorDir . '/phpseclib/phpseclib/phpseclib/Crypt/AES.php',
@@ -1429,6 +1431,8 @@ return array(
     'Whoops\\Run' => $vendorDir . '/filp/whoops/src/Whoops/Run.php',
     'adminMaestroController' => $baseDir . '/app/controllers/adminMaestroController.php',
     'adminSecundarioController' => $baseDir . '/app/controllers/adminSecundarioController.php',
+    'procesoController' => $baseDir . '/app/controllers/procesoController.php',
+    'rolController' => $baseDir . '/app/controllers/rolController.php',
     'systemController' => $baseDir . '/app/controllers/systemController.php',
     'usuarioNormalController' => $baseDir . '/app/controllers/usuarioNormalController.php',
 );

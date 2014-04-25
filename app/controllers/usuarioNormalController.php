@@ -10,11 +10,9 @@ class usuarioNormalController extends \BaseController {
 	public function index()
 	{
 		// get all the adminMaestros
-    $usuarioNormales = DB::table('usuarioNormales')->get();
-
 		// load the view and pass the admins
-		return View::make('usuarioNormales.index')
-			->with('usuarioNormales', $usuarioNormales);
+		return View::make('usuarioNormales.inicio')
+
 	}
 
 

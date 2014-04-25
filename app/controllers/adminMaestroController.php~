@@ -10,11 +10,9 @@ class adminMaestroController extends \BaseController {
 	public function index()
 	{
 		// get all the adminMaestros
-    $adminMaestros = DB::table('adminMaestros')->get();
-
 		// load the view and pass the admins
-		return View::make('adminMaestros.index')
-			->with('adminMaestros', $adminMaestros);
+		return View::make('adminMaestros.inicio');
+
 	}
 
 
@@ -390,9 +388,14 @@ class adminMaestroController extends \BaseController {
                       DB::table('usuario_roles')->insert(array('usuarioEmail' => $email , 'idRol' => $id )); 
                     }
                     }
-        
+                    
+                    if($password1 != ""){
                             Mail::send('emails.editar', array('firstname'=>strtoupper($name), 'email'=>$newemail, 'password'=>$password1), function($message){
             $message->to(Input::get('email'), Input::get('name').' '.Input::get('plast_name'))->subject('Tec WorkFlow Engine');});
+            }else{
+                            Mail::send('emails.editar2', array('firstname'=>strtoupper($name), 'email'=>$newemail, 'password'=>$password1), function($message){
+            $message->to(Input::get('email'), Input::get('name').' '.Input::get('plast_name'))->subject('Tec WorkFlow Engine');});            
+            }
         
         			    Session::flash('message', 'Editado Correctamente');
 			            return Redirect::to('/Usuarios');
@@ -411,8 +414,9 @@ class adminMaestroController extends \BaseController {
 	public function destroy($email)
 	{
 				// delete
-  DB::table('adminSecundarios')->where('email',$email)->delete();
+     DB::table('adminSecundarios')->where('email',$email)->delete();
     DB::table('usuarioNormales')->where('email',$email)->delete();
+    DB::table('usuario_roles')->where('email',$email)->delete();
 
 		// redirect
 		Session::flash('message', 'Usuario eliminado correctamente');

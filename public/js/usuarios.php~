@@ -1,0 +1,7 @@
+<?php
+$rol = $_GET["rol"];
+
+echo $rol;
+
+
+?>

@@ -13,7 +13,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Ozzy WorkFlow Engine</title>
+    <title>ITESM WorkFlow Engine</title>
 
     <link href="/css/bootstrap.css" rel="stylesheet">
     <link href="/css/sb-admin.css" rel="stylesheet">
@@ -40,8 +40,9 @@
         <div class="collapse navbar-collapse navbar-ex1-collapse">
           <ul class="nav navbar-nav side-nav">
             <li><a href="/inicio"><i class="glyphicon glyphicon-home"></i> Inicio</a></li>
-            <li><a href="/Usuarios"><i class="glyphicon glyphicon-user"></i> Administracion Usuarios</a></li>
+            <li><a href="/usuarios"><i class="glyphicon glyphicon-user"></i> Administracion Usuarios</a></li>
             <li class="active"><a href="/administracionRoles"><i class="glyphicon glyphicon-registration-mark"></i> Administracion Roles</a></li>
+            <li><a href="/procesos"><i class="glyphicon glyphicon-random"></i>  Procesos</a></li>                  
           </ul>
 
           <ul class="nav navbar-nav navbar-right navbar-user">

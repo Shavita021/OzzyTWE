@@ -10,11 +10,9 @@ class usuarioNormalController extends \BaseController {
 	public function index()
 	{
 		// get all the adminMaestros
-    $usuarioNormales = DB::table('usuarioNormales')->get();
-
 		// load the view and pass the admins
 		return View::make('usuarioNormales.index')
-			->with('usuarioNormales', $usuarioNormales);
+
 	}
 
 
@@ -147,7 +145,7 @@ class usuarioNormalController extends \BaseController {
 
 		// redirect
 		Session::flash('message', 'Successfully deleted the nerd!');
-		return Redirect::to('adminMaestro');
+		return Redirect::to('usuarioNormal');
 	}
 
 }

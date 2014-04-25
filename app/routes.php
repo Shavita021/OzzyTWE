@@ -34,7 +34,7 @@ Route::post('login', array('uses' => 'systemController@login'));
 Route::get('logout', array('uses' => 'systemController@logout'));
 
 //Ruta para la funcion mostrarusuarios en el controlador systemController
-Route::get('Usuarios', array('uses' => 'systemController@mostrarUsuarios'));
+Route::get('usuarios', array('uses' => 'systemController@mostrarUsuarios'));
 
 Route::get('buscar', function()
 {
@@ -62,6 +62,9 @@ Route::get('administracionRoles/crearRol', function()
 	return View::make('adminMaestros.crearRol');
 });
 
+//Ruta para ajax, para extraer los usuarios relacionados con un rol
+Route::get('procesos/usuariosRoles', array('uses' => 'procesoController@usuariosRoles'));
+
 //Ruta al a accion de guardar un nuevo rol rolController
 Route::resource('administracionRoles', 'rolController');
 
@@ -70,6 +73,13 @@ Route::resource('adminMaestro', 'adminMaestroController');
 Route::resource('adminSecundario', 'adminSecundarioController');
 
 Route::resource('usuarioNormal', 'usuarioNormalController');
+
+Route::resource('procesos', 'procesoController');
+
+Route::resource('procesos/tareas', 'tareaController');
+
+//Ruta para la creacion de las tareas con respecto al id del proceso
+Route::get('/procesos/tareas/create/{id}', array('uses' => 'tareaController@create'));
 
 ?>
 

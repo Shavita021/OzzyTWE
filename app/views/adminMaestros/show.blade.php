@@ -13,7 +13,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Ozzy WorkFlow Engine</title>
+    <title>ITESM WorkFlow Engine</title>
 
     <!-- Bootstrap core CSS -->
     <link href="/css/bootstrap.css" rel="stylesheet">
@@ -42,8 +42,9 @@
         <div class="collapse navbar-collapse navbar-ex1-collapse">
           <ul class="nav navbar-nav side-nav">
             <li><a href="/inicio"><i class="glyphicon glyphicon-home"></i> Inicio</a></li>
-            <li class="active"><a href="/Usuarios"><i class="glyphicon glyphicon-user"></i> Administracion Usuarios</a></li>
+            <li class="active"><a href="/usuarios"><i class="glyphicon glyphicon-user"></i> Administracion Usuarios</a></li>
             <li><a href="/administracionRoles"><i class="glyphicon glyphicon-registration-mark"></i> Administracion Roles</a></li>
+            <li><a href="/procesos"><i class="glyphicon glyphicon-random"></i>  Procesos</a></li>                  
           </ul>
 
           <ul class="nav navbar-nav navbar-right navbar-user">
@@ -82,7 +83,7 @@
                <div id="page-wrapper">
                     <h3>Usuario {{ $datos[0]->name }}</h3>
                     <br><br>
-	               <div class="jumbotron ">
+	               <div class="jumbotron " style="background-color:#B1B1B1;">
 		             <h2>{{ $datos[0]->name." ", $datos[0]->plast_name." ", $datos[0]->mlast_name }}</h2><br>
 		             <p>
 			          <strong>Tipo de Usuario:</strong> {{ Session::get('tipo')}}<br>

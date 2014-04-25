@@ -110,7 +110,7 @@ class systemController extends \BaseController {
                        Session::put('autorizacion', 'si');
                        Session::put('tipoSession', 'adminMaestro');
                        Session::put('sesionUsuario',$usuario->name);
-                       return View::make('adminMaestros.inicio')->with('adminMaestro', $usuario);;
+                       return Redirect::to('adminMaestro');
                    }else{
                        Session::flash('message', 'Contraseña incorrecta');
 		             return View::make('index');
@@ -118,13 +118,13 @@ class systemController extends \BaseController {
                }
                
               $usuario = DB::table('adminSecundarios')->where('email', $email)->first();
-              
+                                     return Redirect::to('adminMaestro');
               if(isset($usuario)){
                   if(Hash::check($password,$usuario->password)){	
                        Session::put('autorizacion', 'si');
                        Session::put('tipoSession', 'adminSecundario');
                        Session::put('sesionUsuario',$usuario->name);
-                       return View::make('adminMaestros.inicio')->with('adminSecundario', $usuario);
+                       return Redirect::to('adminMaestro');
                   }else{
                      Session::flash('message', 'Contraseña incorrecta');
 		           return View::make('index');
@@ -138,7 +138,7 @@ class systemController extends \BaseController {
                        Session::put('autorizacion', 'si');
                        Session::put('tipoSession', 'usuarioNormal');
                        Session::put('sesionUsuario',$usuario->name);                       
-                       return View::make('usuarioNormales.inicio')->with('usuarioNormal', $usuario);
+                       return Redirect::to('usuarioNormal');
                   }else{
                      Session::flash('message', 'Contraseña incorrecta');
 		           return View::make('index');

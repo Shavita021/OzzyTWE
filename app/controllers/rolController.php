@@ -140,6 +140,7 @@ class rolController extends \BaseController {
 	public function destroy($id)
 	{
 		DB::table('roles')->where('id',$id)->delete();
+		DB::table('usuario_roles')->where('idRol',$id)->delete();
 
 		// redirect
 		Session::flash('message', 'Rol eliminado correctamente');
