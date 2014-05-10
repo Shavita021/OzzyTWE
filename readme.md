@@ -14,4 +14,4 @@ El proyecto fue desarrollado por:
 
 Angel Torquemada Vazquez
 Salvador Juarez Gutierrez
-Jaime Eduardo Nery Campos
+Jaime Eduardo Neri Campos
