@@ -19,7 +19,6 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 See the
 GNU General Public License for more details.
 
-
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -31,11 +30,10 @@ Dr. Juan Arturo Nolazco Flores - <span style="color:#1A26CF;">jnolazco@itesm.mx<
 
 Ing. Maria Isabel Cabrera Cancinos - <span style="color:#1A26CF;">marisa.cabrera@tecvirtual.mx</span>
 
-### ITESM Students
+###   ITESM Students
 
 Angel Torquemada Vazquez - <span style="color:#1A26CF;">torquemadage@gmail.com</span>
 
 Salvador Juarez Gutierrez - <span style="color:#1A26CF;">kimster021@gmail.com</span>
 
 Jaime Eduardo Neri Campos - <span style="color:#1A26CF;">ghx1337@gmail.com</span> 
-

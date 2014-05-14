@@ -180,7 +180,9 @@ class tareaParalelaController extends \BaseController {
 		return View::make('tareasParalelas.edit')->with("datos",$returnDatos);
 		
 		}else{
-		
+		          Session::flash('errorEliminar', 'Error: Tarea en un proceso en ejecucion');
+	               Session::flash('message', 'Error: Tarea en un proceso en ejecucion');
+	               return Redirect::to('/procesos');   		
 		}	
 	}
 
@@ -248,6 +250,8 @@ class tareaParalelaController extends \BaseController {
 		     
 		     DB::table('usuario_TareasParalelas')->where('idTarea',$id)->delete();
 		    
+               $createdate = date('Y-m-d H:i:s');	
+               		    
 		     foreach($usuariosTarea as $usuario){
 		     DB::table('usuario_TareasParalelas')->insert(array('emailUsuario' => $usuario, 'idTarea' => $id, 'created_at' => $createdate));
                }

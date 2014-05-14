@@ -40,7 +40,8 @@
         <div class="collapse navbar-collapse navbar-ex1-collapse">
           <ul class="nav navbar-nav side-nav">
             <li><a href="/usuarioNormal"><i class="glyphicon glyphicon-home"></i> Inicio</a></li>
-            <li class="active" style="top:30px"><a href="/bandeja"><i class="glyphicon glyphicon-th-list"></i>  Bandeja de Tareas</a></li>               
+            <li class="active" style="top:30px"><a href="/bandeja"><i class="glyphicon glyphicon-th-list"></i>  Bandeja de Tareas</a></li> 
+                        <li style="top:470px"><a href="/creditos" align="center" style="color:#FFFFFF"><strong>Creditos</strong></a></li>                              
           </ul>
 
           <ul class="nav navbar-nav navbar-right navbar-user">

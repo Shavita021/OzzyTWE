@@ -115,7 +115,7 @@ class systemController extends \BaseController {
 			      DB::table('adminMaestros')->where('email',$email)->update(array('email' => strtolower($newemail), 'password' => $hashedPassword));
         
                      Mail::send('emails.editar', array('firstname'=> $usuario->name, 'email'=>$newemail, 'password'=>$password1), function($message) use ($usuario){
-            $message->to($usuario->email, $usuario->name)->subject('Tec WorkFlow Engine');});
+            $message->to(Input::get('email');, $usuario->name)->subject('Tec WorkFlow Engine');});
             
                      Session::flash('message', 'Usuario Root editado correctamente');
 			      return Redirect::to('adminMaestro');
@@ -219,7 +219,7 @@ class systemController extends \BaseController {
 		public function logout()
 	{
 	      Session::flush();
-	      return View::make('index');
+           return Redirect::to('/');
 	}
 	
 	

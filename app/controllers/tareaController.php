@@ -252,6 +252,8 @@ class tareaController extends \BaseController {
 		     
 		    DB::table('usuario_Tareas')->where('idTarea',$id)->delete();
 		    
+               $createdate = date('Y-m-d H:i:s');	
+               	    
 		     foreach($usuariosTarea as $usuario){
 		     DB::table('usuario_Tareas')->insert(array('emailUsuario' => $usuario, 'idTarea' => $id, 'created_at' => $createdate));
                }

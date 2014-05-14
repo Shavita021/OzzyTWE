@@ -197,7 +197,7 @@ class respuestaTareasController extends \BaseController {
 	                
                     Mail::send('emails.tareaCancelada', array('firstname'=>$usuario->name,'nombreProceso' => $proceso->nombre, 'usuario' => $email, 'comentarios' => $comentarios), function($message) use ($usuario){$message->to($usuario->email, $usuario->name.' '.$usuario->plast_name)->subject('Tec WorkFlow Engine - Proceso Cancelado');});	
                     
-	               Session::flash('message', 'Tarea declinada correctamente correctamente');
+	               Session::flash('message', 'Tarea declinada correctamente');
 	               return Redirect::to('/bandeja');
 	     
 	          }               

@@ -216,7 +216,7 @@ class tareaParalelaController extends \BaseController {
 		Session::flash('diasLimite', 'El campo no puede ser negativo');		    
 
 		if ($validator->fails() || $diasLimite < 0) {
-			     return Redirect::to('/procesos/tareas/'.$id.'/edit')
+			     return Redirect::to('/procesos/tareas/paralela/'.$id.'/edit')
 				->withErrors($validator)
 				->withInput(Input::all());
 		} else {
@@ -250,6 +250,8 @@ class tareaParalelaController extends \BaseController {
 		     
 		     DB::table('usuario_TareasParalelas')->where('idTarea',$id)->delete();
 		    
+               $createdate = date('Y-m-d H:i:s');	
+               		    
 		     foreach($usuariosTarea as $usuario){
 		     DB::table('usuario_TareasParalelas')->insert(array('emailUsuario' => $usuario, 'idTarea' => $id, 'created_at' => $createdate));
                }

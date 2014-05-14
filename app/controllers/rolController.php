@@ -36,7 +36,7 @@ class rolController extends \BaseController {
 			'descripcion' => 'required|max:200',);
 		
 		     $messages = array(
-		    'alpha' => 'El campo debe contener solo letras',
+		    'alpha' => 'El campo no debe contener caracteres como el espacio',
               'nombre.max' => 'El campo debe tener un maximo de 200 caracteres',
               'descripcion.max' => 'La descipcion debe tener  hasta 200 caracteres',		
               'required' => 'El campo es requerido',);
@@ -96,10 +96,11 @@ class rolController extends \BaseController {
 	public function update($id)
 	{
 	          $rules = array(
-			'nombre'       => 'required|max:200',
+			'nombre'       => 'required|alpha|max:20',
 			'descripcion' => 'required|max:200',);
 		
 		     $messages = array(
+		    'alpha' => 'El campo no debe contener caracteres como el espacio',		     
               'nombre.max' => 'El campo debe tener un maximo de 200 caracteres',
               'descripcion.max' => 'El campo debe tener un maximo de 200 caracteres',		
               'required' => 'El campo es requerido',);
