@@ -19,7 +19,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 See the
 GNU General Public License for more details.
 
-<<<<<<< HEAD
+
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -38,5 +38,4 @@ Angel Torquemada Vazquez - <span style="color:#1A26CF;">torquemadage@gmail.com</
 Salvador Juarez Gutierrez - <span style="color:#1A26CF;">kimster021@gmail.com</span>
 
 Jaime Eduardo Neri Campos - <span style="color:#1A26CF;">ghx1337@gmail.com</span> 
-=======
->>>>>>> b250e25fe75a2b6f0f3816a122533c6be6ea10bb
+
