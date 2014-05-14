@@ -1,3 +1,12 @@
+@if(Session::get('tipoSession') == 'adminMaestro' OR Session::get('tipoSession') == 'adminSecundario')
+{{	header("Location: /adminMaestro");
+	exit();
+	}}
+@elseif(Session::get('tipoSession') == 'usuarioNormal')
+{{	header("Location: /usuarioNormal");
+	exit();
+	}}
+@else	
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -7,7 +16,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Ozzy WorkFlow Engine</title>
+    <title>ITESM WorkFlow Engine</title>
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.css" rel="stylesheet">
@@ -68,3 +77,4 @@
     <!-- Placed at the end of the document so the pages load faster -->
   </body>
 </html>
+@endif

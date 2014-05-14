@@ -35,16 +35,18 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/inicio"><strong>WorkFlow Engine</strong></a>
+          <a class="navbar-brand" href="/adminMaestro"><strong>ITESM WorkFlow Engine</strong></a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse navbar-ex1-collapse">
           <ul class="nav navbar-nav side-nav">
-            <li><a href="/inicio"><i class="glyphicon glyphicon-home"></i> Inicio</a></li>
-            <li><a href="/usuarios"><i class="glyphicon glyphicon-user"></i> Administracion Usuarios</a></li>
-            <li><a href="/administracionRoles"><i class="glyphicon glyphicon-registration-mark"></i> Administracion Roles</a></li>
-            <li class="active"><a href="/procesos"><i class="glyphicon glyphicon-random"></i>  Procesos</a></li>          
+            <li><a href="/adminMaestro"><i class="glyphicon glyphicon-home"></i> Inicio</a></li>
+            <li><a href="/usuarios"><i class="glyphicon glyphicon-user"></i> Administracion de Usuarios</a></li>
+            <li><a href="/administracionRoles"><i class="glyphicon glyphicon-registration-mark"></i> Administracion de Roles</a></li>
+            <li class="active"><a href="/procesos"><i class="glyphicon glyphicon-random"></i>  Administracion de Procesos</a></li>          
+            <li style="top:30px"><a href="/bandeja"><i class="glyphicon glyphicon-th-list"></i>  Bandeja de Tareas</a></li> 
+                        <li style="top:320px"><a href="/creditos" align="center" style="color:#FFFFFF"><strong>Creditos</strong></a></li>                           
           </ul>
 
           <ul class="nav navbar-nav navbar-right navbar-user">
@@ -73,6 +75,9 @@
             <li class="dropdown user-dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-user"></i> {{ Session::get('sesionUsuario') }} <b class="caret"></b></a>
               <ul class="dropdown-menu">
+@if(Session::get('tipoSession') == 'adminMaestro')          
+                <li><a href="/edit"><i class="glyphicon glyphicon-pencil"></i> Editar</a></li>
+@endif                
                 <li><a href="logout"><i class="glyphicon glyphicon-off"></i> Salir</a></li>
               </ul>
             </li>
@@ -86,10 +91,12 @@
                  <tbody>
                     <tr>
                     <td>
-                         <h3>Proceso <strong>{{ $datos[1] }}</strong></h3>
+                         <h3>Proceso <strong>{{ $datos[1]->nombre }}</strong></h3>
                     </td>
                     <td name="ddiv" align="center">
-                         @if (Session::has('message'))
+                         @if (Session::has('errorEliminar'))
+                         <div class="alert alert-danger" style="width:300px;">{{ Session::get('message') }}</div>
+                         @elseif (Session::has('message'))
                          <div class="alert alert-info" style="width:300px;">{{ Session::get('message') }}</div>
                          @endif
                     </td>
@@ -99,39 +106,62 @@
                   <br>
                <h4 align="center">Tareas</h4>
               <br>
-               <table class="table table-striped table-hover">
+               <table class="table table-hover">
 	            <thead>
 		        <tr align="center">
 			   <td><b>Paso</b></td>		        
 			   <td><b>Descripcion</b></td>
-			   <td><b>Ver</b></td>	
+			   <td><b>Ver</b></td>
+@if($datos[1]->estado != 'ejecutando')			   	
 			   <td><b>Editar</b></td>		
-			   <td><b>Eliminar</b></td>			   
+			   <td><b>Eliminar</b></td>
+@endif			   			   
 		       </tr>
 	            </thead>
 	           <tbody>
 	           <?php $cont=1; ?>
 @foreach($datos[0] as $key => $value)
-	           <tr align="center">
+	           <tr class="{{ $datos[2][$cont-1] }}" align="center">
 			   <td align="left">Paso <? echo $cont; ?></td>	           
 			   <td>{{ $value->descripcion }}</td>
 			   <td>
+			   @if($datos[2][$cont-1] == "info")
+				<a class="btn btn-default btn-lg" href="{{ URL::to('procesos/tareas/paralela/' . $value->id) }}"><span class="glyphicon glyphicon-eye-open"></span></a>			   
+			   @else
 				<a class="btn btn-default btn-lg" href="{{ URL::to('procesos/tareas/' . $value->id) }}"><span class="glyphicon glyphicon-eye-open"></span></a>
+			   @endif
 			   </td>	
+@if($datos[1]->estado != 'ejecutando')			   
 			   <td>
+			   @if($datos[2][$cont-1] == "info")
+			   <a class="btn btn-default btn-lg" href="{{ URL::to('procesos/tareas/paralela/' . $value->id . '/edit') }}"><span class="glyphicon glyphicon-pencil"></span></a>			   
+			   @else
 			   <a class="btn btn-default btn-lg" href="{{ URL::to('procesos/tareas/' . $value->id . '/edit') }}"><span class="glyphicon glyphicon-pencil"></span></a>
+			   @endif
 			   </td>
-			   <td>		
+			   <td>	
+			   @if($datos[2][$cont-1] == "info")
+			    {{ Form::open(array('url' => 'procesos/tareas/paralela/' . $value->id)) }}
+			    {{ Form::hidden('_method', 'DELETE') }}
+				<button type="submit" class="btn btn-default btn-lg" onclick="if(!confirm('Confirma la eliminacion del usuario')){return false;};"><span class="glyphicon glyphicon-trash"></span></button>
+			    {{ Form::close() }}			   
+			   @else			   	
 			    {{ Form::open(array('url' => 'procesos/tareas/' . $value->id)) }}
 			    {{ Form::hidden('_method', 'DELETE') }}
 				<button type="submit" class="btn btn-default btn-lg" onclick="if(!confirm('Confirma la eliminacion del usuario')){return false;};"><span class="glyphicon glyphicon-trash"></span></button>
 			    {{ Form::close() }}
+			   @endif
 			    </td>
+@endif			    
 		       </tr>
 <? $cont++; ?>		       
 @endforeach
 	          </tbody>
              </table>
+             
+             <button style="width:30px;height:30px" class="btn btn-info" disabled="disabled"></button> Tareas Paralelas
+             <br><br>
+             <i>* Las tareas estan en orden descendiente </i>
             </div>
           </div><!-- /#wrapper -->
 

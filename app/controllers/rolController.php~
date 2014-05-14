@@ -139,7 +139,31 @@ class rolController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
+	       $relacionTareasNormales = DB::table('usuario_Tareas')
+            ->join('usuario_roles', 'usuario_Tareas.emailUsuario', '=', 'usuario_roles.usuarioEmail')
+            ->join('tareas', 'tareas.id', '=', 'usuario_Tareas.idTarea')
+            ->join('procesos', 'procesos.id', '=', 'tareas.idProceso')            
+            ->select('usuarios_Tareas.emailUsuario')           
+            ->where('usuario_roles.idRol', $id)
+            ->whereNotIn('procesos.estado', array('terminada'))->get();            
+            
+	       $relacionTareasParalelas = DB::table('usuario_TareasParalelas')
+            ->join('usuario_roles', 'usuario_TareasParalelas.emailUsuario', '=', 'usuario_roles.usuarioEmail')
+            ->join('tareasParalelas', 'tareasParalelas.id', '=', 'usuario_TareasParalelas.idTarea')
+            ->join('tareas', 'tareas.id', '=', 'tareasParalelas.idTareaNormal')
+            ->join('procesos', 'procesos.id', '=', 'tareas.idProceso')
+            ->select('usuarios_TareasParalelas.emailUsuario')
+            ->where('usuario_roles.idRol', $id)
+            ->whereNotIn('procesos.estado', array('terminada'))->get();                        
+            
+            if($relacionTareasNormales || $relacionTareasParalelas){
+		     Session::flash('errorEliminar', 'Error: Rol en un proceso en espera o ejecucion');
+		     Session::flash('message', 'Error: Rol en un proceso en espera o ejecucion');
+		     return Redirect::to('administracionRoles');            
+            }                       
+            	
 		DB::table('roles')->where('id',$id)->delete();
+		DB::table('usuario_roles')->where('idRol',$id)->delete();
 
 		// redirect
 		Session::flash('message', 'Rol eliminado correctamente');

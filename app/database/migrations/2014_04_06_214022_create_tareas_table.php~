@@ -17,7 +17,7 @@ class CreateTareasTable extends Migration {
 				$table->integer('idProceso');
 				$table->string('nombre');
 				$table->string('descripcion');
-				$table->dateTime('fechaLimite');
+				$table->integer('fechaLimite');
 				$table->string('responsable');
 				$table->string('estado');
 				$table->string('file');

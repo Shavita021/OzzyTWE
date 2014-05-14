@@ -8,9 +8,8 @@ class adminMaestroController extends \BaseController {
 	 * @return Response
 	 */
 	public function index()
-	{
-		// get all the adminMaestros
-		// load the view and pass the admins
+	{          
+
 		return View::make('adminMaestros.inicio');
 
 	}
@@ -110,7 +109,7 @@ class adminMaestroController extends \BaseController {
             $message->to(Input::get('email'), Input::get('name').' '.Input::get('plast_name'))->subject('Bienvenido a Tec WorkFlow Engine');});
         
 			  Session::flash('message', 'Administrador Secundario Creado');
-			  return Redirect::to('/Usuarios');
+			  return Redirect::to('/usuarios');
 			break;
 			
 			case "usuarioNormal":
@@ -128,7 +127,7 @@ class adminMaestroController extends \BaseController {
             $message->to(Input::get('email'), Input::get('name').' '.Input::get('plast_name'))->subject('Bienvenido a Tec WorkFlow Engine');});
         
 			  Session::flash('message', 'Usuario Normal Creado');
-			  return Redirect::to('/Usuarios');
+			  return Redirect::to('/usuarios');
 			break;
 			
 			}
@@ -197,6 +196,7 @@ class adminMaestroController extends \BaseController {
         $roles = DB::table('roles')->get();
         Session::flash('roles', $roles);
         Session::flash('idroles', $idroles);
+        Session::flash('dropTipo',1);
         
         return View::make('adminMaestros.edit')->with('usuario', $usuario);
     }else{
@@ -208,6 +208,7 @@ class adminMaestroController extends \BaseController {
         $roles = DB::table('roles')->get();
         Session::flash('roles', $roles);
         Session::flash('idroles', $idroles);
+        Session::flash('dropTipo',2);
         return View::make('adminMaestros.edit')->with('usuario', $usuario);
     }
 	}
@@ -326,7 +327,7 @@ class adminMaestroController extends \BaseController {
             $message->to(Input::get('email'), Input::get('name').' '.Input::get('plast_name'))->subject('Tec WorkFlow Engine');});
             }
 			    Session::flash('message', 'Editado Correctamente');
-			      return Redirect::to('/Usuarios');
+			      return Redirect::to('/usuarios');
 			    break;
 			
 			    case "usuarioNormal":
@@ -348,7 +349,7 @@ class adminMaestroController extends \BaseController {
             }
             
 			    Session::flash('message', 'Editado Correctamente');
-			      return Redirect::to('/Usuarios');
+			      return Redirect::to('/usuarios');
 			    break;
 			
 			    }
@@ -375,7 +376,7 @@ class adminMaestroController extends \BaseController {
             }
         
         			    Session::flash('message', 'Editado Correctamente');
-			            return Redirect::to('/Usuarios');
+			            return Redirect::to('/usuarios');
 					      break;
 					      
 					      case "usuarioNormal":
@@ -398,7 +399,7 @@ class adminMaestroController extends \BaseController {
             }
         
         			    Session::flash('message', 'Editado Correctamente');
-			            return Redirect::to('/Usuarios');
+			            return Redirect::to('/usuarios');
 					      break;					  
 					  }
 			}
@@ -413,14 +414,34 @@ class adminMaestroController extends \BaseController {
 	 */
 	public function destroy($email)
 	{
-				// delete
+	       $tareasNormales = DB::table('usuario_Tareas')
+            ->join('tareas', 'usuario_Tareas.idTarea', '=', 'tareas.id')
+            ->join('procesos', 'tareas.idProceso', '=', 'procesos.id')
+            ->select('procesos.id')
+            ->where('usuario_Tareas.emailUsuario', $email)
+            ->whereNotIn('procesos.estado', array('terminada'))->get();
+            
+          $tareasParalelas = DB::table('usuario_TareasParalelas')
+            ->join('tareasParalelas', 'usuario_TareasParalelas.idTarea', '=', 'tareasParalelas.id')
+            ->join('tareas', 'tareasParalelas.idTareaNormal', '=', 'tareas.id')
+            ->join('procesos', 'tareas.idProceso', '=', 'procesos.id')
+            ->select('procesos.id')
+            ->where('usuario_TareasParalelas.emailUsuario', $email)
+            ->whereNotIn('procesos.estado', array('terminada'))->get();
+                        
+            if($tareasNormales || $tareasParalelas){
+		     Session::flash('errorEliminar', 'Error: Usuario con tareas asignadas');            
+		     Session::flash('message', 'Usuario con tareas asignadas');
+		     return Redirect::to('/usuarios');            
+            }        
+
      DB::table('adminSecundarios')->where('email',$email)->delete();
     DB::table('usuarioNormales')->where('email',$email)->delete();
-    DB::table('usuario_roles')->where('email',$email)->delete();
+    DB::table('usuario_roles')->where('usuarioEmail',$email)->delete();
 
 		// redirect
 		Session::flash('message', 'Usuario eliminado correctamente');
-		return Redirect::to('/Usuarios');
+		return Redirect::to('/usuarios');
 	}
 
 

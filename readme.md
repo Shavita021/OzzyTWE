@@ -1,17 +1,39 @@
-## ITESM Workflow Engine
+# ITESM Workflow Engine
 
-Un workflow engine es un software de aplicación que gestiona y ejecuta los procesos informáticos modelados. Es un componente clave en la tecnología de flujo de trabajo y normalmente hace uso de un servidor de base de datos . Un workflow engine interpreta eventos, tales como los documentos presentados a un servidor o fechas de vencimiento que expiran, y las pone en práctica de acuerdo con los procesos informáticos definidos.
-ITESM Workflow Engine consiste en un motor que agilize las diferentes tareas, así como la administración de los procesos para el cual sea configurado. La necesidad de desarrollar esta aplicación  viene de la necesidad de optimizar el tiempo, dinero, una mejor organización de los diferentes procesos que se llevan a cabo.
+ITESM Workflow Engine consists of an engine agilize different tasks, as well as the management of processes for which it is configured. The decision to develop this app comes from the need to optimize time, money, better organization of the different processes that take place.
 
+This project was developed with the framework Laravel
 
-### Licencia
+Documentation for the entire framework can be found on the [Laravel website](http://laravel.com/docs).
 
-La aplicacion es de tipo open-sourced bajo el Instituto Tecnologico y de Estudios Superiores de Monterrey (ITESM)
+### Copyright (C) 2014 - ITESM
 
-### Creditos
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-El proyecto fue desarrollado por:
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+See the
+GNU General Public License for more details.
 
-Angel Torquemada Vazquez
-Salvador Juarez Gutierrez
-Jaime Eduardo Nery Campos
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+### ITESM Representatives
+
+Ing. Martha Sordia Salinas - <span style="color:#1A26CF;">msordia@itesm.mx</span>
+
+Dr. Juan Arturo Nolazco Flores - <span style="color:#1A26CF;">jnolazco@itesm.mx</span>
+
+Ing. Maria Isabel Cabrera Cancinos - <span style="color:#1A26CF;">marisa.cabrera@tecvirtual.mx</span>
+
+###   ITESM Students
+
+Angel Torquemada Vazquez - <span style="color:#1A26CF;">torquemadage@gmail.com</span>
+
+Salvador Juarez Gutierrez - <span style="color:#1A26CF;">kimster021@gmail.com</span>
+
+Jaime Eduardo Neri Campos - <span style="color:#1A26CF;">ghx1337@gmail.com</span> 

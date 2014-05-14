@@ -35,16 +35,18 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="inicio"><strong>WorkFlow Engine</strong></a>
+          <a class="navbar-brand" href="/adminMaestro"><strong>ITESM WorkFlow Engine</strong></a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse navbar-ex1-collapse">
           <ul class="nav navbar-nav side-nav">
-            <li><a href="inicio"><i class="glyphicon glyphicon-home"></i> Inicio</a></li>
-            <li><a href="usuarios"><i class="glyphicon glyphicon-user"></i> Administracion Usuarios</a></li>
-            <li><a href="administracionRoles"><i class="glyphicon glyphicon-registration-mark"></i> Administracion Roles</a></li>
-            <li class="active"><a href="procesos"><i class="glyphicon glyphicon-random"></i>  Procesos</a></li>          
+            <li><a href="/adminMaestro"><i class="glyphicon glyphicon-home"></i> Inicio</a></li>
+            <li><a href="usuarios"><i class="glyphicon glyphicon-user"></i> Administracion de Usuarios</a></li>
+            <li><a href="administracionRoles"><i class="glyphicon glyphicon-registration-mark"></i> Administracion de Roles</a></li>
+            <li class="active"><a href="procesos"><i class="glyphicon glyphicon-random"></i>  Administracion de Procesos</a></li>          
+            <li style="top:30px"><a href="/bandeja"><i class="glyphicon glyphicon-th-list"></i>  Bandeja de Tareas</a></li>      
+                        <li style="top:320px"><a href="/creditos" align="center" style="color:#FFFFFF"><strong>Creditos</strong></a></li>                      
           </ul>
 
           <ul class="nav navbar-nav navbar-right navbar-user">
@@ -73,6 +75,9 @@
             <li class="dropdown user-dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-user"></i> {{ Session::get('sesionUsuario') }} <b class="caret"></b></a>
               <ul class="dropdown-menu">
+@if(Session::get('tipoSession') == 'adminMaestro')          
+                <li><a href="/edit"><i class="glyphicon glyphicon-pencil"></i> Editar</a></li>
+@endif                
                 <li><a href="logout"><i class="glyphicon glyphicon-off"></i> Salir</a></li>
               </ul>
             </li>
@@ -86,10 +91,12 @@
                  <tbody>
                     <tr>
                     <td>
-                         <h3>Procesos</h3>
+                    <h2><strong>Procesos</strong></h2>
                     </td>
                     <td name="ddiv" align="center">
-                         @if (Session::has('message'))
+                         @if (Session::has('errorEliminar'))
+                         <div class="alert alert-danger" style="width:300px;">{{ Session::get('message') }}</div>
+                         @elseif (Session::has('message'))
                          <div class="alert alert-info" style="width:300px;">{{ Session::get('message') }}</div>
                          @endif
                     </td>
@@ -110,18 +117,19 @@
      
               <br>
               <br>
+              <h3>Procesos Ejecutandose</h3>
                <table class="table table-striped table-hover">
 	            <thead>
 		        <tr align="center">
 	      	   <td><b>Nombre</b></td>
 			   <td><b>Descripcion</b></td>
 			   <td><b>Abrir</b></td>	
-			   <td><b>Eliminar</b></td>			   
+			   <td><b>Parar y Eliminar</b></td>			   
 		       </tr>
 	            </thead>
 	           <tbody>
-@foreach($procesos as $key => $value)
-	           <tr align="center">
+@foreach($procesos[0] as $key => $value)
+	           <tr class="warning" align="center">
 			   <td align="left">{{ $value->nombre }}</td>
 			   <td>{{ $value->descripcion }}</td>
 			   <td>
@@ -130,13 +138,82 @@
 			   <td>		
 			    {{ Form::open(array('url' => 'procesos/' . $value->id)) }}
 			    {{ Form::hidden('_method', 'DELETE') }}
-				<button type="submit" class="btn btn-default btn-lg" onclick="if(!confirm('Confirma la eliminacion del usuario')){return false;};"><span class="glyphicon glyphicon-trash"></span></button>
+				<button type="submit" class="btn btn-default btn-lg" onclick="if(!confirm('Confirma la eliminacion del Proceso')){return false;};"><span class="glyphicon glyphicon-remove"></span></button>
 			    {{ Form::close() }}
 			    </td>
 		       </tr>
 @endforeach
 	          </tbody>
              </table>
+             
+<!--------------------------------------------------------------------------------------------->
+                    <br>
+                    <br>
+                    <h3>Procesos en Espera</h3>
+                <table class="table table-striped table-hover">
+	            <thead>
+		        <tr align="center">
+		        <td><b>Ejecutar</b></td>
+	      	   <td><b>Nombre</b></td>
+			   <td><b>Descripcion</b></td>
+			   <td><b>Abrir</b></td>	
+			   <td><b>Eliminar</b></td>			   
+		       </tr>
+	            </thead>
+	           <tbody>
+@foreach($procesos[1] as $key => $value)
+	           <tr align="center">
+	             <td>
+	             
+				<a class="btn btn-default btn-lg" href="/procesos/iniciar/{{ $value->id }}" onclick="if(!confirm('Confirma el inicio del Proceso')){return false;};"><span class="glyphicon glyphicon-forward"></span></a>	             
+	             </td>
+			   <td>{{ $value->nombre }}</td>
+			   <td>{{ $value->descripcion }}</td>
+			   <td>
+				<a class="btn btn-default btn-lg" href="{{ URL::to('procesos/' . $value->id) }}"><span class="glyphicon glyphicon-folder-open"></span></a>
+			   </td>	
+			   <td>		
+			    {{ Form::open(array('url' => 'procesos/' . $value->id)) }}
+			    {{ Form::hidden('_method', 'DELETE') }}
+				<button type="submit" class="btn btn-default btn-lg" onclick="if(!confirm('Confirma la eliminacion del Proceso')){return false;};"><span class="glyphicon glyphicon-trash"></span></button>
+			    {{ Form::close() }}
+			    </td>
+		       </tr>
+@endforeach
+	          </tbody>
+             </table>
+             
+<!--------------------------------------------------------------------------------------------->
+                    <br>
+                    <br>
+                    <h3>Procesos Terminados</h3>
+                <table class="table table-striped table-hover">
+	            <thead>
+		        <tr align="center">
+	      	   <td><b>Nombre</b></td>
+			   <td><b>Descripcion</b></td>
+			   <td><b>Abrir</b></td>
+			   <td><b>Eliminar</b></td>			   			   			   
+		       </tr>
+	            </thead>
+	           <tbody>
+@foreach($procesos[2] as $key => $value)
+	           <tr align="center">
+			   <td>{{ $value->nombre }}</td>
+			   <td>{{ $value->descripcion }}</td>
+			   <td>
+				<a class="btn btn-default btn-lg" href="{{ URL::to('procesos/' . $value->id) }}"><span class="glyphicon glyphicon-folder-open"></span></a>
+			   </td>	
+			   <td>		
+			    {{ Form::open(array('url' => 'procesos/' . $value->id)) }}
+			    {{ Form::hidden('_method', 'DELETE') }}
+				<button type="submit" class="btn btn-default btn-lg" onclick="if(!confirm('Confirma la eliminacion del Proceso')){return false;};"><span class="glyphicon glyphicon-trash"></span></button>
+			    {{ Form::close() }}
+			    </td>			   
+		       </tr>
+@endforeach
+	          </tbody>
+             </table>             
             </div>
           </div><!-- /#wrapper -->
 

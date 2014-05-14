@@ -41,11 +41,6 @@ Route::get('buscar', function()
 	return View::make('adminMaestros.buscar');
 });
 
-Route::get('inicio', function()
-{
-	return View::make('adminMaestros.inicio');
-});
-
 /*Route::get('crearUsuario', function()
 {
 	return View::make('adminMaestros.create');
@@ -78,8 +73,33 @@ Route::resource('procesos', 'procesoController');
 
 Route::resource('procesos/tareas', 'tareaController');
 
+Route::resource('procesos/tareas/paralela', 'tareaParalelaController');
+
+Route::resource('bandeja', 'respuestaTareasController');
+
 //Ruta para la creacion de las tareas con respecto al id del proceso
 Route::get('/procesos/tareas/create/{id}', array('uses' => 'tareaController@create'));
+
+//Ruta para la creacion de las tareas paralelas con respecto a un id de una tarea normal
+Route::get('/procesos/tareas/create/paralela/{id}', array('uses' => 'tareaParalelaController@create'));
+
+//Ruta para iniciar el proceso
+Route::get('/procesos/iniciar/{id}', array('uses' => 'procesoController@iniciarProceso'));
+
+//Ruta para contestar una tarea y activar la(s) siguiente
+Route::get('/bandeja/responder/{id}', array('uses' => 'respuestaTareasController@responder'));
+
+//Ruta para la edicion del SuperUsuario
+Route::get('/edit', array('uses' => 'systemController@edit'));
+
+//Ruta para guardar la edicion de SuperUsuario
+Route::put('/update/{email}', array('uses' => 'systemController@update'));
+
+//Ruta para los creditos
+Route::get('/creditos', function()
+{
+	return View::make('creditos');
+});
 
 ?>
 

@@ -11,7 +11,7 @@ class usuarioNormalController extends \BaseController {
 	{
 		// get all the adminMaestros
 		// load the view and pass the admins
-		return View::make('usuarioNormales.inicio')
+		return View::make('usuarioNormales.inicio');
 
 	}
 
@@ -23,7 +23,7 @@ class usuarioNormalController extends \BaseController {
 	 */
 	public function create()
 	{
-		return View::make('usuarioNormales.create');
+	
 	}
 
 	/**
@@ -33,34 +33,7 @@ class usuarioNormalController extends \BaseController {
 	 */
 	public function store()
 	{
-				// validate
-		// read more on validation at http://laravel.com/docs/validation
-		$rules = array(
-			'name'       => 'required',
-			'email'      => 'required|email',
-			'phone_number' => 'required|numeric'
-		);
-		$validator = Validator::make(Input::all(), $rules);
 
-		// process the login
-		if ($validator->fails()) {
-			return Redirect::to('usuarioNormal/create')
-				->withErrors($validator)
-				->withInput(Input::except('password'));
-		} else {
-			// store
-			$name = Input::get('name');
-			$email = Input::get('email');
-			$phone_number = Input::get('phone_number');
-
-			
-			DB::table('usuarioNormales')->insert(
-      array('name' => $name,'email' => $email, 'phone_number' => $phone_number));
-
-			// redirect
-			Session::flash('message', 'usuario Creado');
-			return Redirect::to('usuarioNormal');
-		}
 	}
 
 	/**
@@ -71,12 +44,7 @@ class usuarioNormalController extends \BaseController {
 	 */
 	public function show($id)
 	{
-				// get the nerd
-    $usuarioNormal = DB::table('usuarioNormales')->where('id', $id)->first();
 
-		// show the view and pass the nerd to it
-		return View::make('usuarioNormales.show')
-			->with('usuarioNormal', $usuarioNormal);
 	}
 
 	/**
@@ -87,12 +55,7 @@ class usuarioNormalController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-				// get the admin
-    $usuarioNormal = DB::table('usuarioNormales')->where('id', $id)->first();
 
-		// show the edit form and pass the admin
-		return View::make('usuarioNormales.edit')
-			->with('usuarioNormal', $usuarioNormal);
 	}
 
 	/**
@@ -103,33 +66,7 @@ class usuarioNormalController extends \BaseController {
 	 */
 	public function update($id)
 	{
-				// validate
-		// read more on validation at http://laravel.com/docs/validation
-		$rules = array(
-			'name'       => 'required',
-			'email'      => 'required|email',
-			'phone_number' => 'required|numeric'
-		);
-		$validator = Validator::make(Input::all(), $rules);
 
-		// process the login
-		if ($validator->fails()) {
-			return Redirect::to('usuarioNormal/' . $id . '/edit')
-				->withErrors($validator)
-				->withInput(Input::except('password'));
-		} else {
-			// store
-    
-			$name= Input::get('name');
-			$email = Input::get('email');
-			$phone_number = Input::get('phone_number');
-
-      DB::table('usuarioNormales')->where('id', $id)->update(array('name' => $name,'email' => $email,   'phone_number' => $phone_number));
-
-			// redirect
-			Session::flash('message', 'Editado Correctamente');
-			return Redirect::to('usuarioNormal');
-		}
 	}
 
 	/**
@@ -140,12 +77,7 @@ class usuarioNormalController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-				// delete
-  DB::table('usuarioNormales')->where('id',$id)->delete();
 
-		// redirect
-		Session::flash('message', 'Successfully deleted the nerd!');
-		return Redirect::to('usuarioNormal');
 	}
 
 }

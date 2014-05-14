@@ -10,8 +10,12 @@ class procesoController extends \BaseController {
 	public function index()
 	{
 	     //Obtenemos todos los procesos corriendo y los pasamos a la vista de administacion Pocesos para desplegarlos ahi
-		$procesos = DB::table('procesos')->get();
-	     return View::make('procesos.administracionProcesos')->with("procesos",$procesos);
+		$procesosEjecutando = DB::table('procesos')->where('estado', 'ejecutando')->get();
+		$procesosPendiente = DB::table('procesos')->where('estado', 'pendiente')->get();
+		$procesosTerminados = DB::table('procesos')->where('estado', 'terminada')->get();		
+		$returnDatos = array($procesosEjecutando,$procesosPendiente,$procesosTerminados);
+		
+	     return View::make('procesos.administracionProcesos')->with("procesos",$returnDatos);
 	}
 
 	/**
@@ -51,18 +55,18 @@ class procesoController extends \BaseController {
 	 */
 	public function store()
 	{
+	
 			$siguientePagina = Input::get('siguientePagina');
 		     $finalizarProceso = Input::get('finalizarProceso');
+		     $tareaParalela = Input::get('tareaParalela');		     
 
 		              
 				$rules = array(
 			'nombreProceso' => 'required|max:20',
 			'descripcionProceso' => 'max:200',
 			'descripcionPaso' => 'required|max:200',
-			'fechaLimite'      => 'required',
-			'horaLimite' => 'required',
+			'diasLimite'      => 'required|numeric',
 		     'usuariosTarea' => 'required',
-			'amOpm' => 'required',
 		);
 		
 		$messages = array(
@@ -70,32 +74,34 @@ class procesoController extends \BaseController {
     'nombreProceso.max' => 'El campo debe tener un maximo de 200 caracteres',
     'descripcionPaso.max' => 'La descipcion debe tener  hasta 200 caracteres',
     'descripcionProceso.max' => 'La descipcion debe tener  hasta 200 caracteres',
-    'fechaLimite.required' => 'Campo de fecha requerido',		
-    'required' => 'El campo es requerido',
+    'diasLimite.required' => 'Campo de diass requerido',
+    'usuariosTarea.required' => 'Selecciona almenos un usuario',    
+    'numeric' => 'El campo debe ser numerico y mayor o igual a 0',		
+    'required' => 'El campo es requerido',   
     );
     
 		$validator = Validator::make(Input::all(), $rules, $messages);
-
+		$diasLimite = Input::get('diasLimite');
+		if($diasLimite < 0)
+		Session::flash('diasLimite', 'El campo no puede ser negativo');
 		// process the login
-		if ($validator->fails()) {
-		     if(isset($finalizarProceso)){
+		if ($validator->fails() || $diasLimite < 0) {
 			     return Redirect::to('/procesos/create')
-				->withErrors($validator);
-			}else{
-			     return Redirect::to('/procesos/create')
-				->withErrors($validator);
-			}	
+				->withErrors($validator)->withInput(Input::all());
 		} else {
 		    $nombreProceso = Input::get('nombreProceso');
 		    $descripcionProceso = Input::get('descripcionProceso');
 		    $descripcionPaso = Input::get('descripcionPaso');
 		    $usuariosTarea = Input::get('usuariosTarea');
-		    $fechaLimite = Input::get('fechaLimite');
-		    $horaLimite = Input::get('horaLimite');
-		    $amOpm = Input::get('amOpm');
+		    $diasLimite = Input::get('diasLimite');
 		    $archivo = Input::file('archivo');
 		    $rol = Input::get('rol');
+		    $emailCreador = Session::get('emailUsuario');		    
 		    
+		    /*if($archivo->getSize() > 10240){
+		          Session::flash('errorArchivo', 'El archivo debe ser menor a 10Mb');
+		          return Redirect::to('/procesos/create');		    
+		    }*/		    
 		     $nombreRol = DB::table('roles')->where('id', $rol)->pluck('nombre'); 
 		    
 		     $proceso = DB::table('procesos')->where('nombre', $nombreProceso)->first();
@@ -105,30 +111,11 @@ class procesoController extends \BaseController {
 		          return Redirect::to('/procesos/create');
 		     }
 		     
-		     DB::table('procesos')->insert(array('nombre' => strtoupper($nombreProceso), 'descripcion' => strtoupper($descripcionProceso)));
+		     $createdate= date('Y-m-d H:i:s');   
+		     		     
+		     DB::table('procesos')->insert(array('nombre' => strtoupper($nombreProceso), 'descripcion' => strtoupper($descripcionProceso), 'estado' => 'pendiente', 'created_at' => $createdate));
 		     
-               $idProceso = DB::table('procesos')->where('nombre', $nombreProceso)->pluck('id'); 
-               
-               //Crear un string con los usuarios de UsuariosTarea EXPLODE
-               $responsables = "";/////////////////////////////////////////////////////////////////
-               foreach($usuariosTarea as $usuario){
-                    $responsables .= $usuario." ";
-               }		     
-		     
-               
-               //Crear formato para la columna datetime
-              $datosFecha = explode("/", $fechaLimite);		    
-		    $dateTime = $datosFecha[2]."-".$datosFecha[0]."-".$datosFecha[1]." ";
-		    
-		    if($amOpm=="PM" && $horaLimite != 00 && $horaLimite != 12){
-		         $horaLimite += 12;
-		         $horaLimite = $horaLimite.":00:00";
-		    }else{
-		          $horaLimite = $horaLimite.":00:00";
-		    }
-		    
-		    $dateTime .= " ".$horaLimite;////////////////////////////////////////////////////
-               
+               $idProceso = DB::table('procesos')->where('nombre', $nombreProceso)->pluck('id'); 		                   
                $path="";
                $nameFile ="Ninguno";
                if(isset($archivo)){
@@ -137,16 +124,30 @@ class procesoController extends \BaseController {
 		          $nombre .= "_".$archivo->getClientOriginalName();
 		          Input::file('archivo')->move('uploads', $nombre);	
 		          $path = "/uploads/".$nombre;//////////////////////////////////////////////////   
-		     }    
+		     } 
 		     
-		                    DB::table('tareas')->insert(array('nombre' => strtoupper($descripcionPaso), 'descripcion' => strtoupper($descripcionPaso), 'fechaLimite' => $dateTime, 'responsable' => $responsables, 'estado' => 'pendiente', 'file' => $path, 'idProceso' => $idProceso, 'nameFile' => $nameFile, 'nombreRol' => $nombreRol));
+		     $createdate= date('Y-m-d H:i:s');   
+		     
+		     DB::table('tareas')->insert(array('nombre' => strtoupper($descripcionPaso), 'descripcion' => strtoupper($descripcionPaso), 'diasLimite' => $diasLimite, 'estado' => 'pendiente', 'file' => $path, 'idProceso' => $idProceso, 'nameFile' => $nameFile, 'nombreRol' => $nombreRol, 'created_at' => $createdate));
+		     
+		     $tareaProceso = DB::table('tareas')->orderBy('created_at', 'desc')->first();
+		                    
+               foreach($usuariosTarea as $usuario){
+		     DB::table('usuario_Tareas')->insert(array('emailUsuario' => $usuario, 'idTarea' => $tareaProceso->id, 'created_at' => $createdate));
+               }		                    
 		                    
 		      if(isset($finalizarProceso)){
 		      Session::flash('message', 'Proceso creado');
 			     return Redirect::to('/procesos');
-			}else{
+			}elseif(isset($siguientePagina)){
 			     return Redirect::to('/procesos/tareas/create/'.$idProceso);
-			}               
+			}else{  
+			$codigo = uniqid();
+		     $createdate= date('Y-m-d H:i:s');   			
+                    DB::table('tareas')->insert(array('nombre' => $codigo,'idProceso' => $idProceso,'created_at' => $createdate));
+               $idTareaNormal = DB::table('tareas')->where('nombre', $codigo)->pluck('id');
+			     return Redirect::to('/procesos/tareas/create/paralela/'.$idTareaNormal);	
+			}             
 		}
 			
 	}
@@ -160,10 +161,62 @@ class procesoController extends \BaseController {
 	public function show($id)
 	{
 		$tareas = DB::table('tareas')->where('idProceso', $id)->get();
-		$nombreProceso = DB::table('procesos')->where('id', $id)->pluck('nombre');
+		$Proceso = DB::table('procesos')->where('id', $id)->first();
 		
-		$returnDatos = array($tareas,$nombreProceso);
-		return View::make('tareas.administracionTareas')->with('datos', $returnDatos);
+	     $tareasTotales = array();
+	     $trClass = array();
+
+          if($Proceso->estado == "pendiente"){	     
+	          foreach($tareas as $tarea){
+	               $tareasParalelas = DB::table('tareasParalelas')->where('idTareaNormal', $tarea->id)->get();
+	               if($tareasParalelas){
+                         foreach($tareasParalelas as $tareaParalela){
+	                        array_push($tareasTotales, $tareaParalela);	  
+	                        array_push($trClass, "info");	                              	                                               
+                         }	          
+	               }else{
+	                    array_push($tareasTotales, $tarea);
+	                        array_push($trClass, "");
+	               }
+	          }
+	          
+		     $returnDatos = array($tareasTotales,$Proceso,$trClass);
+		     return View::make('tareas.administracionTareas')->with('datos', $returnDatos);
+		
+		}else{
+		     $respuestasTotales = array();
+	          foreach($tareas as $tarea){
+	               $tareasParalelas = DB::table('tareasParalelas')->where('idTareaNormal', $tarea->id)->get();
+	               if($tareasParalelas){
+                         foreach($tareasParalelas as $tareaParalela){
+	                        array_push($tareasTotales, $tareaParalela);	  
+	                        array_push($trClass, "info");
+	                        
+          $respuestaParalela = DB::table('respuestasTareasParalelas')
+            ->join('usuario_TareasParalelas', 'usuario_TareasParalelas.idRespuesta', '=', 'respuestasTareasParalelas.id')          
+            ->join('tareasParalelas', 'usuario_TareasParalelas.idTarea', '=', 'tareasParalelas.id')
+            ->select('respuestasTareasParalelas.comentarios','respuestasTareasParalelas.file', 'respuestasTareasParalelas.nameFile')
+            ->where('tareasParalelas.id', $tareaParalela->id)->get(); 	                        
+
+	                    array_push($respuestasTotales, $respuestaParalela);       	                                               
+                         }	          
+	               }else{
+	                    array_push($tareasTotales, $tarea);
+	                        array_push($trClass, "");
+	                        
+          $respuestaNormal = DB::table('respuestasTareas')
+            ->join('usuario_Tareas', 'usuario_Tareas.idRespuesta', '=', 'respuestasTareas.id')          
+            ->join('tareas', 'usuario_Tareas.idTarea', '=', 'tareas.id')
+            ->select('respuestasTareas.comentarios','respuestasTareas.file', 'respuestasTareas.nameFile')
+            ->where('tareas.id', $tarea->id)->get(); 	   
+            
+	                    array_push($respuestasTotales, $respuestaNormal);
+	               }
+	          }
+	          
+		     $returnDatos = array($tareasTotales,$Proceso,$trClass,$respuestasTotales);
+		     return View::make('procesos.mostrarProceso')->with('datos', $returnDatos);
+		}
 	}
 
 	/**
@@ -196,11 +249,38 @@ class procesoController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-
 		$tareas = DB::table('tareas')->where('idProceso', $id)->get();
-		return $id;
+		
 		foreach($tareas as $tarea){
-	          File::delete(public_path().$tarea->file);		
+	          $tareasParalelas = DB::table('tareasParalelas')->where('idTareaNormal', $tarea->id)->get();
+	          if($tareasParalelas){
+	               foreach($tareasParalelas as $tareaParalela){
+	                    $respuestasParalelas = DB::table('usuario_TareasParalelas')->where('idTarea', $tareaParalela->id)->lists('idRespuesta');  
+	                     
+	                    foreach($respuestasParalelas as $respuesta){
+	                    	$respuestaP = DB::table('respuestasTareasParalelas')->where('id',$respuesta)->first();
+	                    	if($respuestaP)
+	                    	File::delete(public_path().$respuestaP->file);		
+	                         DB::table('respuestasTareasParalelas')->where('id',$respuesta)->delete();
+	                    }            
+	                    
+                         File::delete(public_path().$tareaParalela->file);		
+	                    DB::table('usuario_TareasParalelas')->where('idTarea',$tareaParalela->id)->delete();
+	                    DB::table('tareasParalelas')->where('id',$tareaParalela->id)->delete();
+	               }
+	          }
+	          
+	               $respuestasNormales = DB::table('usuario_Tareas')->where('idTarea', $tarea->id)->lists('idRespuesta');
+	                     
+	               foreach($respuestasNormales as $respuesta){
+	                    $respuestaN = DB::table('respuestasTareas')->where('id',$respuesta)->first();
+	                    if($respuestaN)
+	                    File::delete(public_path().$respuestaN->file);		
+	                    DB::table('respuestasTareas')->where('id',$respuesta)->delete();
+	               }    	          
+	          		
+	          File::delete(public_path().$tarea->file);	
+		     DB::table('usuario_Tareas')->where('idTarea',$tarea->id)->delete();	          	
 	          DB::table('tareas')->where('id',$tarea->id)->delete();		     
 		}
 		
@@ -232,6 +312,69 @@ class procesoController extends \BaseController {
 	     }
 	     
 	     echo $salida;
+	}
+
+	/** Funcion para iniciar la ejecucion de un Proceso
+	 *  
+	 */ 	
+     public function iniciarProceso($id)
+	{
+	     $proceso = DB::table('procesos')->where('id', $id)->first();
+	     
+	if($proceso->estado != 'ejecutando'){
+	     $tarea = DB::table('tareas')->where('idProceso',$id)->orderBy('created_at', 'asc')->first();
+	     $tareasParalelasNormal = DB::table('tareasParalelas')->where('idTareaNormal',$tarea->id)->get();
+	     if($tareasParalelasNormal){
+	          foreach($tareasParalelasNormal as $tareaParalela){
+	               $usuarios = DB::table('usuario_TareasParalelas')->where('idTarea',$tareaParalela->id)->get();
+	               foreach($usuarios as $usuario){
+	                    $renglonUsuario = DB::table('adminSecundarios')->where('email', $usuario->emailUsuario)->first();
+	                    if($renglonUsuario){}else{
+	                          $renglonUsuario = DB::table('usuarioNormales')->where('email', $usuario->emailUsuario)->first();	                    
+	                    }
+                            Mail::send('emails.nuevaTarea', array('firstname'=>$renglonUsuario->name), function($message) use ($renglonUsuario){$message->to($renglonUsuario->email, $renglonUsuario->name.' '.$renglonUsuario->plast_name)->subject('Tec WorkFlow Engine - Nueva Tarea');});
+	               }
+	               
+	               $stringDias = $tarea->diasLimite." days";
+                         $hoy = date("y-m-d");
+                         $formatoHoy = date_create($hoy);
+                         $fechaInicio = date_format($formatoHoy, 'Y-m-d');
+                         date_add($formatoHoy, date_interval_create_from_date_string($stringDias));
+                         $fechaTermino = date_format($formatoHoy, 'Y-m-d');
+                         
+		          DB::table('tareasParalelas')->where('id',$tareaParalela->id)->update(array('estado' => 'ejecutando','fechaInicio' => $fechaInicio,'fechaTermino' => $fechaTermino));
+	          }
+	     }else{
+	     
+	     
+	     
+	          $usuarios = DB::table('usuario_Tareas')->where('idTarea',$tarea->id)->get();
+	          foreach($usuarios as $usuario){
+	               $renglonUsuario = DB::table('adminSecundarios')->where('email', $usuario->emailUsuario)->first();
+	               if($renglonUsuario){}else{
+	                    $renglonUsuario = DB::table('usuarioNormales')->where('email', $usuario->emailUsuario)->first();	                    
+	                }
+                    Mail::send('emails.nuevaTarea', array('firstname'=>$renglonUsuario->name), function($message) use ($renglonUsuario){$message->to($renglonUsuario->email, $renglonUsuario->name.' '.$renglonUsuario->plast_name)->subject('Tec WorkFlow Engine - Nueva Tarea');});	               
+	          }
+	          
+	               $stringDias = $tarea->diasLimite." days";
+	                    $hoy = date("y-m-d");
+                         $formatoHoy = date_create($hoy);
+                         $fechaInicio = date_format($formatoHoy, 'Y-m-d');
+                         date_add($formatoHoy, date_interval_create_from_date_string($stringDias));
+                         $fechaTermino = date_format($formatoHoy, 'Y-m-d');
+                         
+		     DB::table('tareas')->where('id',$tarea->id)->update(array('estado' => 'ejecutando','fechaInicio' => $fechaInicio,'fechaTermino' => $fechaTermino));
+	     }
+	     
+		DB::table('procesos')->where('id',$id)->update(array('estado' => 'ejecutando')); 
+	     Session::flash('message', 'El proceso '.$proceso->nombre.' inició');
+	     return Redirect::to('/procesos');			
+	}else{
+	     Session::flash('message', 'El proceso '.$proceso->nombre.' esta en ejecucion');
+	     return Redirect::to('/procesos');	  	
+	}	
+   	     	
 	}
 
 }

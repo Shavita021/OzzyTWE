@@ -35,16 +35,18 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/inicio"><strong>WorkFlow Engine</strong></a>
+          <a class="navbar-brand" href="/adminMaestro"><strong>ITESM WorkFlow Engine</strong></a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse navbar-ex1-collapse">
           <ul class="nav navbar-nav side-nav">
-            <li><a href="/inicio"><i class="glyphicon glyphicon-home"></i> Inicio</a></li>
-            <li><a href="/usuarios"><i class="glyphicon glyphicon-user"></i> Administracion Usuarios</a></li>
-            <li><a href="/administracionRoles"><i class="glyphicon glyphicon-registration-mark"></i> Administracion Roles</a></li>
-            <li class="active"><a href="/procesos"><i class="glyphicon glyphicon-random"></i>  Procesos</a></li>     
+            <li><a href="/adminMaestro"><i class="glyphicon glyphicon-home"></i> Inicio</a></li>
+            <li><a href="/usuarios"><i class="glyphicon glyphicon-user"></i> Administracion de Usuarios</a></li>
+            <li><a href="/administracionRoles"><i class="glyphicon glyphicon-registration-mark"></i> Administracion de Roles</a></li>
+            <li class="active"><a href="/procesos"><i class="glyphicon glyphicon-random"></i>  Administracion de Procesos</a></li>    
+            <li style="top:30px"><a href="/bandeja"><i class="glyphicon glyphicon-th-list"></i>  Bandeja de Tareas</a></li>  
+                        <li style="top:320px"><a href="/creditos" align="center" style="color:#FFFFFF"><strong>Creditos</strong></a></li>                           
           </ul>
 
           <ul class="nav navbar-nav navbar-right navbar-user">
@@ -73,6 +75,9 @@
             <li class="dropdown user-dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-user"></i> {{ Session::get('sesionUsuario') }} <b class="caret"></b></a>
               <ul class="dropdown-menu">
+@if(Session::get('tipoSession') == 'adminMaestro')          
+                <li><a href="/edit"><i class="glyphicon glyphicon-pencil"></i> Editar</a></li>
+@endif                
                 <li><a href="/logout"><i class="glyphicon glyphicon-off"></i> Salir</a></li>
               </ul>
             </li>
@@ -85,7 +90,7 @@
                  <br>
                        {{ Form::open(array('action' => 'tareaController@store', 'files' => true)) }}
                            <h4 align="center">Tarea</h4>
-                           <div id="raiz" class="jumbotron" align="center" style="width:80%;height:490px;display:block; margin-left: auto;margin-right: auto;background-color:#B1B1B1;">
+                           <div id="raiz" class="jumbotron" align="center" style="width:80%;height:560px;display:block; margin-left: auto;margin-right: auto;background-color:#B1B1B1;">
 		                    <table align="left">
 		                         <tbody>
 		                              <tr>
@@ -93,9 +98,7 @@
                                                   Descripcion del Paso:
 		                                   </td>
 		                                   <td style="padding:15px">
-                         <textarea name="descripcionPaso" class="form-control" rows="3" cols="50">
-
-                         </textarea>                                   
+                         <textarea name="descripcionPaso" class="form-control" rows="3" cols="50"></textarea>                                   
 		                                   </td>	
 		                                  <td><i name="ddiv" style="color:#7080CD">{{ $errors->first('descripcionPaso') }}</i></td>
 		                                            
@@ -129,43 +132,21 @@
                 </div>
 		                                   </td>
 		                              </tr>
+		                              <tr>
+		                              <td><i name="ddiv" style="color:#7080CD">{{ $errors->first('usuariosTarea')}}</i></td></tr>
+		                              </tr>
 		                        </tbody>
 		                     </table>
 		                     <table align="left">
 		                         </tbody>
 		                              <tr>	
 		                                   <td style="padding:15px">
-                                                  Fecha Limite:
+                                                  Dias Limite:         
+                                    <input type="text" name="diasLimite"></input>
                                              
-                                    <input type="text" id="datepicker" name="fechaLimite"></input>
-                                             
                                              </td>
-                                             <td style="padding:15px">
-                                                  Hora limite:
-                                             </td>
-                                             <td>
-                                             <select class="form-control" name="horaLimite">
-                                             <option value="00">00:00</option>
-                                             <option value="01">01:00</option>
-                                             <option value="02">02:00</option>
-                                             <option value="03">03:00</option>
-                                             <option value="04">04:00</option>
-                                             <option value="05">05:00</option>
-                                             <option value="06">06:00</option>
-                                             <option value="07">07:00</option> 
-                                             <option value="08">08:00</option>
-                                             <option value="09">09:00</option>
-                                             <option value="10">10:00</option>
-                                             <option value="11">11:00</option>
-                                             <option value="12">12:00</option>                    
-                                             </select>
-                                             </td>
-                                             <td>
-                                             <input type="radio" name="amOpm" value="AM">AM
-                                             <input type="radio" name="amOpm" value="PM">PM
-		                                   </td>
 		                                   <tr>
-		                                   <td><i name="ddiv" style="color:#7080CD">{{ $errors->first('fechaLimite')}}</i></td></tr>
+		                                   <td><i name="ddiv" style="color:#7080CD">{{ $errors->first('diasLimite')}}{{ Session::get('diasLimite') }}</i></td></tr>
 		                              </tr>
 
 		                         </tbody>
@@ -178,7 +159,7 @@
 		                                   </td>
 		                                   <td style="padding:15px">
                                              <input type="file" name="archivo">
-		                                   </td>
+                                            <i style="color:#7080CD">Maximo de 7Mb</i></td>
 		                              </tr>
 		                              
 		                              <tr>
@@ -186,9 +167,17 @@
 		                              </td>
 		                              <td>                              
 
-<button name="siguientePagina" class="btn btn-default btn-lg" onclick="if(!confirm('Desea crear una nueva tarea?')){return false;};" style="position:absolute;margin-left:375px"><span class="glyphicon glyphicon-arrow-right"> Nueva Tarea</span></button>	
+<button name="siguientePagina" class="btn btn-default btn-lg" onclick="if(!confirm('Desea crear una nueva tarea?')){return false;};" style="margin-left:420px"><span class="glyphicon glyphicon-arrow-right"> Tarea Normal</span></button>	
 
 		                                   </td>
+		                              </tr>
+		                              <tr>
+		                              <td>
+		                              </td>
+		                              
+		                              <td style="padding:15px">
+		                              <button name="tareaParalela" class="btn btn-default btn-lg" onclick="if(!confirm('Desea crear una nueva tarea?')){return false;};" style="margin-left:400px;background-color:#39B3D7"><span class="glyphicon glyphicon-tasks"> Tarea Paralela</span></button>	
+		                              </td>
 		                              </tr>
 		                         </tbody>
 		                     </table>      				    

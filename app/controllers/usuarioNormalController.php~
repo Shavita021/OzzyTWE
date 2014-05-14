@@ -11,7 +11,7 @@ class usuarioNormalController extends \BaseController {
 	{
 		// get all the adminMaestros
 		// load the view and pass the admins
-		return View::make('usuarioNormales.index')
+		return View::make('usuarioNormales.inicio');
 
 	}
 

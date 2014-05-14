@@ -33,13 +33,15 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="inicio"><strong>WorkFlow Engine</strong></a>
+          <a class="navbar-brand" href="/usuarioNormal"><strong>ITESM WorkFlow Engine</strong></a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse navbar-ex1-collapse">
           <ul class="nav navbar-nav side-nav">
-            <li class="active"><a href="inicio"><i class="glyphicon glyphicon-home"></i> Inicio</a></li>
+            <li class="active"><a href="/usuarioNormal"><i class="glyphicon glyphicon-home"></i> Inicio</a></li>
+            <li style="top:30px"><a href="/bandeja"><i class="glyphicon glyphicon-th-list"></i>  Bandeja de Tareas</a></li>       
+                        <li style="top:470px"><a href="/creditos" align="center" style="color:#FFFFFF"><strong>Creditos</strong></a></li>                    
           </ul>
 
           <ul class="nav navbar-nav navbar-right navbar-user">
@@ -68,7 +70,7 @@
             <li class="dropdown user-dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-user"></i> {{ Session::get('sesionUsuario') }} <b class="caret"></b></a>
               <ul class="dropdown-menu">
-                <li><a href="logout"><i class="glyphicon glyphicon-off"></i> Salir</a></li>
+                <li><a href="/logout"><i class="glyphicon glyphicon-off"></i> Salir</a></li>
               </ul>
             </li>
           </ul>

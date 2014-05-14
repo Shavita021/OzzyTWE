@@ -4,7 +4,7 @@
 	exit();
 	}}
 @else
-@if(Session::get('tipoSession') == 'adminMaestro' OR Session::get('tipoSession') == 'adminSecundario') 
+@if(Session::get('tipoSession') == 'adminMaestro' OR Session::get('tipoSession') == 'adminSecundario')
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -35,16 +35,18 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="inicio"><strong>WorkFlow Engine</strong></a>
+          <a class="navbar-brand" href="/adminMaestro"><strong>ITESM WorkFlow Engine</strong></a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse navbar-ex1-collapse">
           <ul class="nav navbar-nav side-nav">
-            <li><a href="inicio"><i class="glyphicon glyphicon-home"></i> Inicio</a></li>
-            <li><a href="usuarios"><i class="glyphicon glyphicon-user"></i> Administracion Usuarios</a></li>
-            <li class="active"><a href="administracionRoles"><i class="glyphicon glyphicon-registration-mark"></i> Administracion Roles</a></li>
-            <li><a href="/procesos"><i class="glyphicon glyphicon-random"></i>  Procesos</a></li>            
+            <li><a href="/adminMaestro"><i class="glyphicon glyphicon-home"></i> Inicio</a></li>
+            <li><a href="usuarios"><i class="glyphicon glyphicon-user"></i> Administracion de Usuarios</a></li>
+            <li class="active"><a href="administracionRoles"><i class="glyphicon glyphicon-registration-mark"></i> Administracion de Roles</a></li>
+            <li><a href="/procesos"><i class="glyphicon glyphicon-random"></i>  Administracion de Procesos</a></li>            
+            <li style="top:30px"><a href="/bandeja"><i class="glyphicon glyphicon-th-list"></i>  Bandeja de Tareas</a></li> 
+                        <li style="top:320px"><a href="/creditos" align="center" style="color:#FFFFFF"><strong>Creditos</strong></a></li>               
           </ul>
 
           <ul class="nav navbar-nav navbar-right navbar-user">
@@ -73,6 +75,9 @@
             <li class="dropdown user-dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-user"></i> {{ Session::get('sesionUsuario') }} <b class="caret"></b></a>
               <ul class="dropdown-menu">
+@if(Session::get('tipoSession') == 'adminMaestro')          
+                <li><a href="/edit"><i class="glyphicon glyphicon-pencil"></i> Editar</a></li>
+@endif                
                 <li><a href="logout"><i class="glyphicon glyphicon-off"></i> Salir</a></li>
               </ul>
             </li>
@@ -89,9 +94,11 @@
                          <h3>Roles</h3>
                     </td>
                     <td name="ddiv" align="center">
-                         @if (Session::has('message'))
+                         @if (Session::has('errorEliminar'))
+                         <div class="alert alert-danger" style="width:300px;">{{ Session::get('message') }}</div>
+                         @elseif (Session::has('message'))
                          <div class="alert alert-info" style="width:300px;">{{ Session::get('message') }}</div>
-                         @endif
+                         @endif  
                     </td>
                     </tr>  
                  </tbody>

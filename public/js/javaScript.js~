@@ -1,5 +1,4 @@
 window.onload = function () {
-getUsers();
 window.setTimeout( vanishText, 3000 ); // 3000 is 3 seconds
 }
 

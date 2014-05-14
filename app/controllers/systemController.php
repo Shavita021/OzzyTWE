@@ -49,9 +49,12 @@ class systemController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function edit($id)
+	public function edit()
 	{
-		//
+	     $email = Session::get('emailUsuario');
+		$usuario = DB::table('adminMaestros')->where('email', $email)->first();
+		
+		return View::make('adminMaestros.editSuperUser')->with('usuario', $usuario);
 	}
 
 	/**
@@ -60,9 +63,64 @@ class systemController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update($email)
 	{
-		//
+				$rules = array(
+			'email'      => 'required|email',
+			'password1' => 'digits_between:6,20',
+		);
+		
+		$messages = array(
+    'password1.digits_between' => 'El campo debe ser minimo de 6 y maximo de 20',
+    'required' => 'El campo es requerido',
+    'email' => 'El campo debe ser un correo electornico.',
+    );
+
+		$validator = Validator::make(Input::all(), $rules, $messages);
+
+		// process the login
+		if ($validator->fails()) {
+			return Redirect::to('/edit')
+				->withErrors($validator);
+		}else{
+		     $newemail = Input::get('email');
+		     $password1 = Input::get('password1');
+			$password2 = Input::get('password2');
+			
+               if($email != $newemail){
+      //BUSCAMOS EL USUARIO QUE TENGA EL EMAIL QUE SE QUIERE EDITAR Y EN CASO DE ECONTRARLO REGRASAMOS ERROR
+                    $adminMaestro = DB::table('adminMaestros')->where('email', $newemail)->first();
+			     $adminSecundario = DB::table('adminSecundarios')->where('email', $newemail)->first();
+			     $usuarioNormal = DB::table('usuarioNormales')->where('email', $newemail)->first();
+			    
+			     if(isset($adminMaestro) OR isset($adminSecundario) OR isset($usuarioNormal)){
+			     Session::flash('errorRegistro', 'El correo electronico ingresado ya existe');
+			    	return Redirect::to('/edit');
+			    }
+			}
+			
+			if($password1 != $password2){
+				Session::flash('errorRegistro', 'Porfavor ingresa las contraseñas iguales');
+				return Redirect::to('/edit');
+			}
+				
+		$usuario = DB::table('adminMaestros')->where('email', $email)->first();
+		
+			if($password1 == "" && $password2 == ""){
+			    $hashedPassword = $usuario->password;
+			}else{
+			    $hashedPassword = Hash::make($password1);
+			}
+			
+			      DB::table('adminMaestros')->where('email',$email)->update(array('email' => strtolower($newemail), 'password' => $hashedPassword));
+        
+                     Mail::send('emails.editar', array('firstname'=> $usuario->name, 'email'=>$newemail, 'password'=>$password1), function($message) use ($usuario){
+            $message->to($usuario->email, $usuario->name)->subject('Tec WorkFlow Engine');});
+            
+                     Session::flash('message', 'Usuario Root editado correctamente');
+			      return Redirect::to('adminMaestro');
+			
+		}
 	}
 
 	/**
@@ -110,6 +168,7 @@ class systemController extends \BaseController {
                        Session::put('autorizacion', 'si');
                        Session::put('tipoSession', 'adminMaestro');
                        Session::put('sesionUsuario',$usuario->name);
+                       Session::put('emailUsuario',$usuario->email);                       
                        return Redirect::to('adminMaestro');
                    }else{
                        Session::flash('message', 'Contraseña incorrecta');
@@ -118,12 +177,13 @@ class systemController extends \BaseController {
                }
                
               $usuario = DB::table('adminSecundarios')->where('email', $email)->first();
-                                     return Redirect::to('adminMaestro');
+
               if(isset($usuario)){
                   if(Hash::check($password,$usuario->password)){	
                        Session::put('autorizacion', 'si');
                        Session::put('tipoSession', 'adminSecundario');
                        Session::put('sesionUsuario',$usuario->name);
+                       Session::put('emailUsuario',$usuario->email);                         
                        return Redirect::to('adminMaestro');
                   }else{
                      Session::flash('message', 'Contraseña incorrecta');
@@ -137,7 +197,8 @@ class systemController extends \BaseController {
                   if(Hash::check($password,$usuario->password)){	
                        Session::put('autorizacion', 'si');
                        Session::put('tipoSession', 'usuarioNormal');
-                       Session::put('sesionUsuario',$usuario->name);                       
+                       Session::put('sesionUsuario',$usuario->name); 
+                       Session::put('emailUsuario',$usuario->email);                          
                        return Redirect::to('usuarioNormal');
                   }else{
                      Session::flash('message', 'Contraseña incorrecta');
@@ -158,7 +219,7 @@ class systemController extends \BaseController {
 		public function logout()
 	{
 	      Session::flush();
-	      return View::make('index');
+           return Redirect::to('/');
 	}
 	
 	
