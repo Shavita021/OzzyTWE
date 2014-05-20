@@ -80,7 +80,7 @@ return array(
 	|
 	*/
 
-	'username' => 'torquemadage@gmail.com',
+	'username' => 'root.ozzy@gmail.com',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -93,7 +93,7 @@ return array(
 	|
 	*/
 
-	'password' => 'Torquem4d4$',
+	'password' => 'root.ozzy.2014',
 
 	/*
 	|--------------------------------------------------------------------------

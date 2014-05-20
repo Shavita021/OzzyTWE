@@ -276,14 +276,14 @@ class tareaController extends \BaseController {
 		$estadoProceso = DB::table('procesos')->where('id', $idProceso)->pluck('estado'); 
 		if($estadoProceso == 'pendiente'){	
 	          
-	          $respuestasNormales = DB::table('usuario_Tareas')->where('idTarea', $tarea->id)->lists('idRespuesta');
+	          /*$respuestasNormales = DB::table('usuario_Tareas')->where('idTarea', $tarea->id)->lists('idRespuesta');
 	                          
 	          foreach($respuestasNormales as $respuesta){
 	               $respuestaP = DB::table('respuestasTareas')->where('id',$respuesta)->first();
 	               if($respuestaP)
 	               File::delete(public_path().$respuestaP->file);		
 	               DB::table('respuestasTareas')->where('id',$respuesta)->delete();
-	          }   	     
+	          } */  	     
 	          
 	          File::delete(public_path().$tarea->file);
 		     DB::table('usuario_Tareas')->where('idTarea',$id)->delete();	     

@@ -42,18 +42,19 @@
 	                    <i name="ddiv" style="color:#7080CD">{{ Session::get('message') }}</i>
                           @endif
 	                   	<br><br>
-
-                       <br>
                        <div align='center'>
 <button type="submit" class= "btn btn-default btn-lg">Recuperar</a>
 	                     {{ Form::close() }}
                        </div>
-                       <br>
+                       <br><br><br>
+                                              <div align='center'>
+           <a class= "btn btn-default btn-lg" onclick="history.back()"><span class="glyphicon glyphicon-arrow-left"></span> Regresar</a> 
+                                  </div>	                       
            </div>
-           <div >
-           <h1 align="center" style="color:#FFFFFF;font-size:100px"><strong>ITESM</strong></h1>
-           <h1 align="center" style="color:#FFFFFF;font-size:50px">WorkFlow</h1>
-           <h1 align="center" style="color:#FFFFFF;font-size:50px">Engine</h1>
+           <div align="center">
+           <img  border="0" src="/logo_tec.png" alt="Pulpit rock" width="120" height="150">           
+           <h1 align="center" style="color:#FFFFFF;font-size:50px"><strong>WorkFlow</strong></h1>
+           <h1 align="center" style="color:#FFFFFF;font-size:50px"><strong>Engine</strong></h1>
            </div>
            </div>
 

@@ -63,10 +63,10 @@
                        	   <a style="color:#7080CD;font-size:20px" href="/recuperarContraseña">Olvide mi contraseña</a>
                        </div>
            </div>
-           <div >
-           <h1 align="center" style="color:#FFFFFF;font-size:100px"><strong>ITESM</strong></h1>
-           <h1 align="center" style="color:#FFFFFF;font-size:50px">WorkFlow</h1>
-           <h1 align="center" style="color:#FFFFFF;font-size:50px">Engine</h1>
+           <div align="center">
+           <img  border="0" src="/logo_tec.png" alt="Pulpit rock" width="120" height="150">           
+           <h1 align="center" style="color:#FFFFFF;font-size:50px"><strong>WorkFlow</strong></h1>
+           <h1 align="center" style="color:#FFFFFF;font-size:50px"><strong>Engine</strong></h1>
            </div>
            </div>
 

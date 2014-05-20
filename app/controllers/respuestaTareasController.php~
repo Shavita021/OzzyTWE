@@ -11,15 +11,15 @@ class respuestaTareasController extends \BaseController {
 	{
      	$email = Session::get('emailUsuario');
      	
-          $tareasNormales = DB::table('usuario_Tareas')
-            ->join('tareas', 'usuario_Tareas.idTarea', '=', 'tareas.id')
-            ->join('procesos', 'tareas.idProceso', '=', 'procesos.id')
-            ->select('procesos.id', 'procesos.nombre', 'tareas.diasLimite', 'tareas.fechaTermino')
-            ->where('usuario_Tareas.emailUsuario', $email)//$email
-            ->where('usuario_Tareas.idRespuesta', '0')
-            ->where('tareas.estado', 'ejecutando')            
-            ->where('procesos.estado', 'ejecutando')
-            ->orderBy('tareas.fechaTermino', 'asc')->get();
+          $tareasNormales = DB::table('instanciasUsuario_Tareas')
+            ->join('instanciasTareas', 'instanciasUsuario_Tareas.idTarea', '=', 'instanciasTareas.id')
+            ->join('instanciasProcesos', 'instanciasTareas.idProceso', '=', 'instanciasProcesos.id')
+            ->select('instanciasProcesos.id', 'instanciasProcesos.nombre', 'instanciasTareas.diasLimite', 'instanciasTareas.fechaTermino')
+            ->where('instanciasUsuario_Tareas.emailUsuario', $email)//$email
+            ->where('instanciasUsuario_Tareas.idRespuesta', '0')
+            ->where('instanciasTareas.estado', 'ejecutando')            
+            ->where('instanciasProcesos.estado', 'ejecutando')
+            ->orderBy('instanciasTareas.fechaTermino', 'asc')->get();
 
                $hoy = date("y-m-d");
                $formatoHoy = date_create($hoy);
@@ -45,16 +45,16 @@ class respuestaTareasController extends \BaseController {
                }                  
                }
                         
-          $tareasParalelas = DB::table('usuario_TareasParalelas')
-            ->join('tareasParalelas', 'usuario_TareasParalelas.idTarea', '=', 'tareasParalelas.id')
-            ->join('tareas', 'tareasParalelas.idTareaNormal', '=', 'tareas.id')
-            ->join('procesos', 'tareas.idProceso', '=', 'procesos.id')
-            ->select('procesos.id', 'procesos.nombre', 'tareasParalelas.diasLimite' , 'tareasParalelas.fechaTermino')
-            ->where('usuario_TareasParalelas.emailUsuario', $email)//$email
-            ->where('usuario_TareasParalelas.idRespuesta', '0')
-            ->where('tareasParalelas.estado', 'ejecutando')                        
-            ->where('procesos.estado', 'ejecutando')
-            ->orderBy('tareas.fechaTermino', 'asc')->get();            
+          $tareasParalelas = DB::table('instanciasUsuario_TareasParalelas')
+            ->join('instanciasTareasParalelas', 'instanciasUsuario_TareasParalelas.idTarea', '=', 'instanciasTareasParalelas.id')
+            ->join('instanciasTareas', 'instanciasTareasParalelas.idTareaNormal', '=', 'instanciasTareas.id')
+            ->join('instanciasProcesos', 'instanciasTareas.idProceso', '=', 'instanciasProcesos.id')
+            ->select('instanciasProcesos.id', 'instanciasProcesos.nombre', 'instanciasTareasParalelas.diasLimite' , 'instanciasTareasParalelas.fechaTermino')
+            ->where('instanciasUsuario_TareasParalelas.emailUsuario', $email)//$email
+            ->where('instanciasUsuario_TareasParalelas.idRespuesta', '0')
+            ->where('instanciasTareasParalelas.estado', 'ejecutando')                        
+            ->where('instanciasProcesos.estado', 'ejecutando')
+            ->orderBy('instanciasTareas.fechaTermino', 'asc')->get();            
 
                $trClassTP = array();
                
@@ -149,14 +149,14 @@ class respuestaTareasController extends \BaseController {
                
 //Borrar el proceso en caso de que se presione el boton declinar		
 	          if(isset($cancelarProceso)){
-	               $proceso = DB::table('procesos')->where('id', $idProceso)->first();
-		          $tareas = DB::table('tareas')->where('idProceso', $idProceso)->get();
+	               $proceso = DB::table('instanciasProcesos')->where('id', $idProceso)->first();
+		          $tareas = DB::table('instanciasTareas')->where('idProceso', $idProceso)->get();
 		
 		          foreach($tareas as $tarea){
-	                    $tareasParalelas = DB::table('tareasParalelas')->where('idTareaNormal', $tarea->id)->get();
+	                    $tareasParalelas = DB::table('instanciasTareasParalelas')->where('idTareaNormal', $tarea->id)->get();
 	                    if($tareasParalelas){
 	                         foreach($tareasParalelas as $tareaParalela){
-	                              $respuestasParalelas = DB::table('usuario_TareasParalelas')->where('idTarea', $tareaParalela->id)->lists('idRespuesta');  
+	                              $respuestasParalelas = DB::table('instanciasUsuario_TareasParalelas')->where('idTarea', $tareaParalela->id)->lists('idRespuesta');  
 	                               
 	                              foreach($respuestasParalelas as $respuesta){
 	                              	$respuestaP = DB::table('respuestasTareasParalelas')->where('id',$respuesta)->first();
@@ -166,12 +166,12 @@ class respuestaTareasController extends \BaseController {
 	                              }            
 	                              
                                    File::delete(public_path().$tareaParalela->file);		
-	                              DB::table('usuario_TareasParalelas')->where('idTarea',$tareaParalela->id)->delete();
-	                              DB::table('tareasParalelas')->where('id',$tareaParalela->id)->delete();
+	                              DB::table('instanciasUsuario_TareasParalelas')->where('idTarea',$tareaParalela->id)->delete();
+	                              DB::table('instanciasTareasParalelas')->where('id',$tareaParalela->id)->delete();
 	                         }
 	                    }
 	                    
-	                         $respuestasNormales = DB::table('usuario_Tareas')->where('idTarea', $tarea->id)->lists('idRespuesta');
+	                         $respuestasNormales = DB::table('instanciasUsuario_Tareas')->where('idTarea', $tarea->id)->lists('idRespuesta');
 	                               
 	                         foreach($respuestasNormales as $respuesta){
 	                              $respuestaN = DB::table('respuestasTareas')->where('id',$respuesta)->first();
@@ -181,10 +181,10 @@ class respuestaTareasController extends \BaseController {
 	                         }    	          
 	                    		
 	                    File::delete(public_path().$tarea->file);	
-		               DB::table('usuario_Tareas')->where('idTarea',$tarea->id)->delete();
-	                    DB::table('tareas')->where('id',$tarea->id)->delete();		     
+		               DB::table('instanciasUsuario_Tareas')->where('idTarea',$tarea->id)->delete();
+	                    DB::table('instanciasTareas')->where('id',$tarea->id)->delete();		     
 		          }
-	               $emailCreador = DB::table('procesos')->where('id',$idProceso)->pluck('emailCreador');
+	               $emailCreador = DB::table('instanciasProcesos')->where('id',$idProceso)->pluck('emailCreador');
                     $usuario = DB::table('adminMaestros')->where('email', $emailCreador)->first();
                     if($usuario){}else{
 	               $usuario = DB::table('adminSecundarios')->where('email', $emailCreador)->first();
@@ -193,11 +193,11 @@ class respuestaTareasController extends \BaseController {
 	                 $usuario = DB::table('usuarioNormales')->where('email', $emailCreador)->first();
 	               }
 	               
-	               DB::table('procesos')->where('id',$idProceso)->delete();	               
+	               DB::table('instanciasProcesos')->where('id',$idProceso)->delete();	               
 	                
                     Mail::send('emails.tareaCancelada', array('firstname'=>$usuario->name,'nombreProceso' => $proceso->nombre, 'usuario' => $email, 'comentarios' => $comentarios), function($message) use ($usuario){$message->to($usuario->email, $usuario->name.' '.$usuario->plast_name)->subject('Tec WorkFlow Engine - Proceso Cancelado');});	
                     
-	               Session::flash('message', 'Tarea declinada correctamente correctamente');
+	               Session::flash('message', 'Tarea declinada correctamente');
 	               return Redirect::to('/bandeja');
 	     
 	          }               
@@ -214,7 +214,7 @@ class respuestaTareasController extends \BaseController {
 		     
 		     $createdate= date('Y-m-d H:i:s');
 // Insertar en tablas respuesta con respecto al tipo de tarea respondida		     
-		     if($tabla == "usuario_Tareas"){
+		     if($tabla == "instanciasUsuario_Tareas"){
 		     DB::table('respuestasTareas')->insert(array('comentarios' => strtoupper($comentarios),'file' => $path,'nameFile' => $nameFile, 'created_at' => $createdate));
 		     $tarea = DB::table('respuestasTareas')->orderBy('created_at', 'desc')->first();
 		     }else{
@@ -227,9 +227,9 @@ class respuestaTareasController extends \BaseController {
 		        
 //comprobamos si se acabo la tarea y la cambiamos a terminada la tarea
                $bandera = "true";   
-		     if($tabla == "usuario_Tareas"){
-               $idTareaNormal = DB::table('usuario_Tareas')->where('id', $idTabla)->pluck('idTarea');
-               $tareasNormales = DB::table('usuario_Tareas')->where('idTarea', $idTareaNormal)->get();
+		     if($tabla == "instanciasUsuario_Tareas"){
+               $idTareaNormal = DB::table('instanciasUsuario_Tareas')->where('id', $idTabla)->pluck('idTarea');
+               $tareasNormales = DB::table('instanciasUsuario_Tareas')->where('idTarea', $idTareaNormal)->get();
                     foreach($tareasNormales as $tareaNormal){
                          if($tareaNormal->idRespuesta == 0){
                               $bandera = "false";
@@ -238,14 +238,14 @@ class respuestaTareasController extends \BaseController {
                     }                    
                     
                if($bandera == "true"){
-		     DB::table('tareas')->where('id',$idTareaNormal)->update(array('estado' => 'terminada' ,'updated_at' => $updatedDate)); 
+		     DB::table('instanciasTareas')->where('id',$idTareaNormal)->update(array('estado' => 'terminada' ,'updated_at' => $updatedDate)); 
 		     }
 // comprobar si todas las tareas estan en terminada para terminar el proceso	
-	     $comprobacionTareas = DB::table('tareas')->where('idProceso',$idProceso)->get();
+	     $comprobacionTareas = DB::table('instanciasTareas')->where('idProceso',$idProceso)->get();
 	               $banderaProceso = "true";
 	               foreach($comprobacionTareas as $cTarea){
 	               
-	                    $comprobacionTareasP = DB::table('tareasParalelas')->where('idTareaNormal',$cTarea->id)->get();
+	                    $comprobacionTareasP = DB::table('instanciasTareasParalelas')->where('idTareaNormal',$cTarea->id)->get();
 	                    foreach($comprobacionTareasP as $cTareaP){
 	                         if($cTareaP->estado == "pendiente"){
 	                              $banderaProceso = "false";
@@ -261,13 +261,13 @@ class respuestaTareasController extends \BaseController {
 	               
 	               
 	               if($banderaProceso == "true"){
-		     DB::table('procesos')->where('id',$idProceso)->update(array('estado' => 'terminada' ,'updated_at' => $updatedDate)); 	               
+		     DB::table('instanciasProcesos')->where('id',$idProceso)->update(array('estado' => 'terminada' ,'updated_at' => $updatedDate)); 	               
                     }               	               
   
 		     }else{
 // En caso de que sea usuario_TareaParalelas 
-               $idTareaParalela = DB::table('usuario_TareasParalelas')->where('id', $idTabla)->pluck('idTarea');
-               $tareasParalelas = DB::table('usuario_TareasParalelas')->where('idTarea', $idTareaParalela)->get();                            
+               $idTareaParalela = DB::table('instanciasUsuario_TareasParalelas')->where('id', $idTabla)->pluck('idTarea');
+               $tareasParalelas = DB::table('instanciasUsuario_TareasParalelas')->where('idTarea', $idTareaParalela)->get();                            
                     $bandera = "true";  
                     foreach($tareasParalelas as $tareaParalela){
                          if($tareaParalela->idRespuesta == 0){
@@ -277,11 +277,11 @@ class respuestaTareasController extends \BaseController {
                     }
                     
                if($bandera == "true"){
-		     DB::table('tareasParalelas')->where('id',$idTareaParalela)->update(array('estado' => 'terminada' ,'updated_at' => $updatedDate)); 
+		     DB::table('instanciasTareasParalelas')->where('id',$idTareaParalela)->update(array('estado' => 'terminada' ,'updated_at' => $updatedDate)); 
 		     }
 		     
-                    $idTareaNormal = DB::table('tareasParalelas')->where('id', $idTareaParalela)->pluck('idTareaNormal');
-                    $tareasParalelas = DB::table('tareasParalelas')->where('idTareaNormal', $idTareaNormal)->get();  	
+                    $idTareaNormal = DB::table('instanciasTareasParalelas')->where('id', $idTareaParalela)->pluck('idTareaNormal');
+                    $tareasParalelas = DB::table('instanciasTareasParalelas')->where('idTareaNormal', $idTareaNormal)->get();  	
                     foreach($tareasParalelas as $tareaParalela){
                          if($tareaParalela->estado == "ejecutando"){
                               $bandera = "false";
@@ -291,11 +291,11 @@ class respuestaTareasController extends \BaseController {
 // comprobar si todas las tareas estan en terminada para terminar el proceso	
                  if($bandera == "true"){
 /////////////////////
-	     $comprobacionTareas = DB::table('tareas')->where('idProceso',$idProceso)->get();
+	     $comprobacionTareas = DB::table('instanciasTareas')->where('idProceso',$idProceso)->get();
 	               $banderaProceso = "true";
 	               foreach($comprobacionTareas as $cTarea){
 	               
-	                    $comprobacionTareasP = DB::table('tareasParalelas')->where('idTareaNormal',$cTarea->id)->get();
+	                    $comprobacionTareasP = DB::table('instanciasTareasParalelas')->where('idTareaNormal',$cTarea->id)->get();
 	                    foreach($comprobacionTareasP as $cTareaP){
 	                         if($cTareaP->estado == "pendiente"){
 	                              $banderaProceso = "false";
@@ -310,7 +310,7 @@ class respuestaTareasController extends \BaseController {
 	               }	               
 	               
 	               if($banderaProceso == "true"){
-		     DB::table('procesos')->where('id',$idProceso)->update(array('estado' => 'terminada' ,'updated_at' => $updatedDate)); 	               
+		     DB::table('instanciasProcesos')->where('id',$idProceso)->update(array('estado' => 'terminada' ,'updated_at' => $updatedDate)); 	               
                     }
                   }
 		     }		     		     
@@ -435,26 +435,26 @@ class respuestaTareasController extends \BaseController {
 	     $email = Session::get('emailUsuario');
 	     
 	     // Obtener la tarea asignada del usuario en caso de ser una tarea normal o paralela
-	     $tabla = "usuario_Tareas";
-          $tareaAsignada = DB::table('usuario_Tareas')
-            ->join('tareas', 'usuario_Tareas.idTarea', '=', 'tareas.id')
-            ->join('procesos', 'tareas.idProceso', '=', 'procesos.id')
-            ->select('usuario_Tareas.id','tareas.descripcion', 'tareas.file', 'tareas.nameFile')
-            ->where('usuario_Tareas.emailUsuario', $email)//$email
-            ->where('tareas.estado', 'ejecutando')  
-            ->where('procesos.id', $id)                                     
+	     $tabla = "instanciasUsuario_Tareas";
+          $tareaAsignada = DB::table('instanciasUsuario_Tareas')
+            ->join('instanciasTareas', 'instanciasUsuario_Tareas.idTarea', '=', 'instanciasTareas.id')
+            ->join('instanciasProcesos', 'instanciasTareas.idProceso', '=', 'instanciasProcesos.id')
+            ->select('instanciasUsuario_Tareas.id','instanciasTareas.descripcion', 'instanciasTareas.file', 'instanciasTareas.nameFile')
+            ->where('instanciasUsuario_Tareas.emailUsuario', $email)//$email
+            ->where('instanciasTareas.estado', 'ejecutando')  
+            ->where('instanciasProcesos.id', $id)                                     
             ->first();
           if($tareaAsignada){}else{
-          $tareaAsignada = DB::table('usuario_TareasParalelas')
-            ->join('tareasParalelas', 'usuario_TareasParalelas.idTarea', '=', 'tareasParalelas.id')
-            ->join('tareas', 'tareasParalelas.idTareaNormal', '=', 'tareas.id')
-            ->join('procesos', 'tareas.idProceso', '=', 'procesos.id')
-            ->select('usuario_TareasParalelas.id','tareasParalelas.descripcion', 'tareasParalelas.file', 'tareasParalelas.nameFile')
-            ->where('usuario_TareasParalelas.emailUsuario', $email)//$email
-            ->where('tareasParalelas.estado', 'ejecutando')  
-            ->where('procesos.id', $id)                                     
+          $tareaAsignada = DB::table('instanciasUsuario_TareasParalelas')
+            ->join('instanciasTareasParalelas', 'instanciasUsuario_TareasParalelas.idTarea', '=', 'instanciasTareasParalelas.id')
+            ->join('instanciasTareas', 'instanciasTareasParalelas.idTareaNormal', '=', 'instanciasTareas.id')
+            ->join('instanciasProcesos', 'instanciasTareas.idProceso', '=', 'instanciasProcesos.id')
+            ->select('instanciasUsuario_TareasParalelas.id','instanciasTareasParalelas.descripcion', 'instanciasTareasParalelas.file', 'instanciasTareasParalelas.nameFile')
+            ->where('instanciasUsuario_TareasParalelas.emailUsuario', $email)//$email
+            ->where('instanciasTareasParalelas.estado', 'ejecutando')  
+            ->where('instanciasProcesos.id', $id)                                     
             ->first(); 
-	     $tabla = "usuario_TareasParalelas";                     
+	     $tabla = "instanciasUsuario_TareasParalelas";                     
           }     
 	     
           //Obtener por medio de la union de dos querys todas las tareas que se han terminado del proceso con el id $id
@@ -477,20 +477,20 @@ class respuestaTareasController extends \BaseController {
             ->where('tareasParalelas.estado', 'terminada')                     
             ->union($query1)->get();*/
 
-		$tareas = DB::table('tareas')->where('idProceso', $id)->get();
+		$tareas = DB::table('instanciasTareas')->where('idProceso', $id)->get();
 		
 	     $tareasRespondidas = array();
 	     $trClass = array();
 	     
 	     foreach($tareas as $tarea){
-	          $tareasParalelas = DB::table('tareasParalelas')->where('idTareaNormal', $tarea->id)->get();
+	          $tareasParalelas = DB::table('instanciasTareasParalelas')->where('idTareaNormal', $tarea->id)->get();
 	          if($tareasParalelas){
                     foreach($tareasParalelas as $tareaParalela){
                         $tareaParalelaRespuestas = DB::table('respuestasTareasParalelas')
-                        ->join('usuario_TareasParalelas', 'usuario_TareasParalelas.idRespuesta', '=', 'respuestasTareasParalelas.id')
-                        ->join('tareasParalelas', 'tareasParalelas.id', '=', 'usuario_TareasParalelas.idTarea')    
+                        ->join('instanciasUsuario_TareasParalelas', 'instanciasUsuario_TareasParalelas.idRespuesta', '=', 'respuestasTareasParalelas.id')
+                        ->join('instanciasTareasParalelas', 'instanciasTareasParalelas.id', '=', 'instanciasUsuario_TareasParalelas.idTarea')    
                         ->select('respuestasTareasParalelas.comentarios', 'respuestasTareasParalelas.file', 'respuestasTareasParalelas.nameFile')
-                        ->where('tareasParalelas.id', $tareaParalela->id)->get();
+                        ->where('instanciasTareasParalelas.id', $tareaParalela->id)->get();
                         foreach($tareaParalelaRespuestas as $tareaParalelaRespuesta){
 	                        array_push($tareasRespondidas, $tareaParalelaRespuesta);	  
 	                        array_push($trClass, "info");	 
@@ -498,10 +498,10 @@ class respuestaTareasController extends \BaseController {
                     }	          
 	          }else{
                         $tareaRespuestas = DB::table('respuestasTareas')
-                        ->join('usuario_Tareas', 'usuario_Tareas.idRespuesta', '=', 'respuestasTareas.id')
-                        ->join('tareas', 'tareas.id', '=', 'usuario_Tareas.idTarea')    
+                        ->join('instanciasUsuario_Tareas', 'instanciasUsuario_Tareas.idRespuesta', '=', 'respuestasTareas.id')
+                        ->join('instanciasTareas', 'instanciasTareas.id', '=', 'instanciasUsuario_Tareas.idTarea')    
                         ->select('respuestasTareas.comentarios', 'respuestasTareas.file', 'respuestasTareas.nameFile')
-                        ->where('tareas.id', $tarea->id)->get();
+                        ->where('instanciasTareas.id', $tarea->id)->get();
                         foreach($tareaRespuestas as $tareaRespuesta){
 	                        array_push($tareasRespondidas, $tareaRespuesta);	  
 	                        array_push($trClass, "");	 

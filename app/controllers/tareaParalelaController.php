@@ -275,14 +275,14 @@ class tareaParalelaController extends \BaseController {
 		$estadoProceso = DB::table('procesos')->where('id', $idProceso)->pluck('estado');
 		if($estadoProceso == 'pendiente'){				     
 	          
-	          $respuestasParalelas = DB::table('usuario_TareasParalelas')->where('idTarea', $tareaParalela->id)->lists('idRespuesta');  
+	          /*$respuestasParalelas = DB::table('usuario_TareasParalelas')->where('idTarea', $tareaParalela->id)->lists('idRespuesta');  
 	                          
 	               foreach($respuestasParalelas as $respuesta){
 	                    $respuestaP = DB::table('respuestasTareasParalelas')->where('id',$respuesta)->first();
 	                    if($respuestaP)
 	                    File::delete(public_path().$respuestaP->file);		
 	                    DB::table('respuestasTareasParalelas')->where('id',$respuesta)->delete();
-	               }  
+	               }*/  
 	               	     
 	          File::delete(public_path().$tareaParalela->file);
 		     DB::table('usuario_TareasParalelas')->where('idTarea',$id)->delete();	     

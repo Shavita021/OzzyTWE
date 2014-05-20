@@ -43,8 +43,9 @@
             <li class="active"><a href="/usuarios"><i class="glyphicon glyphicon-user"></i> Administracion de Usuarios</a></li>
             <li><a href="/administracionRoles"><i class="glyphicon glyphicon-registration-mark"></i> Administracion de Roles</a></li>
             <li><a href="/procesos"><i class="glyphicon glyphicon-random"></i>  Administracion de Procesos</a></li>                 
-            <li style="top:30px"><a href="/bandeja"><i class="glyphicon glyphicon-th-list"></i>  Bandeja de Tareas</a></li> 
-                        <li style="top:320px"><a href="/creditos" align="center" style="color:#FFFFFF"><strong>Creditos</strong></a></li>                            
+            <li style="top:50px"><a href="/bandejaProcesos"><i class="glyphicon glyphicon-list-alt"></i>  Bandeja de Procesos</a></li>               
+            <li style="top:50px"><a href="/bandeja"><i class="glyphicon glyphicon-th-list"></i>  Bandeja de Tareas</a></li>   
+                        <li style="top:270px"><a href="/creditos" align="center" style="color:#FFFFFF"><strong>Creditos</strong></a></li>                           
           </ul>
 
           <ul class="nav navbar-nav navbar-right navbar-user">
@@ -168,7 +169,7 @@
                       <td style="padding:15px">
 	                 {{ Form::label('tipo', 'Tipo de Usuario:') }}
 	                 </td>
-@if(Session::get('roles') == 1)	                 
+@if(Session::get('dropTipo') == 1)	                 
 	                 <td style="padding:15px">
 	                 {{ Form::select('tipo', array('adminSecundario' => 'Administrador Secundario', 'usuarioNormal' => 'Usuario Normal'),'adminSecundario') }}
 	                 </td>

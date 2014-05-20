@@ -28,8 +28,6 @@ Ing. Martha Sordia Salinas - <span style="color:#1A26CF;">msordia@itesm.mx</span
 
 Dr. Juan Arturo Nolazco Flores - <span style="color:#1A26CF;">jnolazco@itesm.mx</span>
 
-Ing. Maria Isabel Cabrera Cancinos - <span style="color:#1A26CF;">marisa.cabrera@tecvirtual.mx</span>
-
 ###   ITESM Students
 
 Angel Torquemada Vazquez - <span style="color:#1A26CF;">torquemadage@gmail.com</span>

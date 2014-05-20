@@ -42,8 +42,9 @@
             <li><a href="usuarios"><i class="glyphicon glyphicon-user"></i> Administracion de Usuarios</a></li>
             <li><a href="administracionRoles"><i class="glyphicon glyphicon-registration-mark"></i> Administracion de Roles</a></li>
             <li><a href="/procesos"><i class="glyphicon glyphicon-random"></i>  Administracion de Procesos</a></li>
-            <li style="top:30px"><a href="/bandeja"><i class="glyphicon glyphicon-th-list"></i>  Bandeja de Tareas</a></li>   
-                        <li class="active" style="top:320px"><a href="/creditos" align="center" style="color:#FFFFFF"><strong>Creditos</strong></a></li>  
+            <li style="top:50px"><a href="/bandejaProcesos"><i class="glyphicon glyphicon-list-alt"></i>  Bandeja de Procesos</a></li>               
+            <li style="top:50px"><a href="/bandeja"><i class="glyphicon glyphicon-th-list"></i>  Bandeja de Tareas</a></li>   
+                        <li class="active" style="top:270px"><a href="/creditos" align="center" style="color:#FFFFFF"><strong>Creditos</strong></a></li>  
           </ul>
 
           <ul class="nav navbar-nav navbar-right navbar-user">
@@ -54,7 +55,7 @@
 @if(Session::get('tipoSession') == 'adminMaestro')          
                 <li><a href="/edit"><i class="glyphicon glyphicon-pencil"></i> Editar</a></li>
 @endif                
-                <li><a href="logout"><i class="glyphicon glyphicon-off"></i> Salir</a></li>
+                <li><a href="/logout"><i class="glyphicon glyphicon-off"></i> Salir</a></li>
               </ul>
             </li>
           </ul>
@@ -66,7 +67,7 @@
 <h1 align="center"><strong>ITESM WorkFlow Engine</strong></h1>
 <br>
 <div style="padding:50px">
-<h4><strong>ITESM Workflow Engine</strong> consiste en un motor que agilize las diferentes tareas, así como la administración de los procesos para el cual sea configurado. La decision de desarrollar esta aplicación viene de la necesidad de optimizar el tiempo, dinero, una mejor organización de los diferentes procesos que se llevan a cabo.</h4>
+<h4><strong>ITESM Workflow Engine</strong> consiste en un motor que agiliza las diferentes tareas, así como la administración de los procesos para el cual sea configurado. La decision de desarrollar esta aplicación viene de la necesidad de optimizar el tiempo, dinero, una mejor organización de los diferentes procesos que se llevan a cabo.</h4>
 <br>
 
 <h2><strong>Autores:</h2></strong>
@@ -75,7 +76,6 @@
    <div style="padding:30px">
 	<h4>Ing. Martha Sordia Salinas -<span style="color:#1A26CF;"> msordia@itesm.mx</span></h4>
 	<h4>Dr. Juan Arturo Nolazco Flores -<span style="color:#1A26CF;"> jnolazco@itesm.mx</span></h4>
-	<h4>Ing. Maria Isabel Cabrera Cancinos -<span style="color:#1A26CF;"> marisa.cabrera@tecvirtual.mx</span></h4>
    </div>
         <br>
    <h4><strong>Estudiantes ITESM</strong></h4>

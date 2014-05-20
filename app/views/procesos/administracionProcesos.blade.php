@@ -45,8 +45,9 @@
             <li><a href="usuarios"><i class="glyphicon glyphicon-user"></i> Administracion de Usuarios</a></li>
             <li><a href="administracionRoles"><i class="glyphicon glyphicon-registration-mark"></i> Administracion de Roles</a></li>
             <li class="active"><a href="procesos"><i class="glyphicon glyphicon-random"></i>  Administracion de Procesos</a></li>          
-            <li style="top:30px"><a href="/bandeja"><i class="glyphicon glyphicon-th-list"></i>  Bandeja de Tareas</a></li>      
-                        <li style="top:320px"><a href="/creditos" align="center" style="color:#FFFFFF"><strong>Creditos</strong></a></li>                      
+            <li style="top:50px"><a href="/bandejaProcesos"><i class="glyphicon glyphicon-list-alt"></i>  Bandeja de Procesos</a></li>               
+            <li style="top:50px"><a href="/bandeja"><i class="glyphicon glyphicon-th-list"></i>  Bandeja de Tareas</a></li>   
+                        <li style="top:270px"><a href="/creditos" align="center" style="color:#FFFFFF"><strong>Creditos</strong></a></li>                    
           </ul>
 
           <ul class="nav navbar-nav navbar-right navbar-user">
@@ -57,7 +58,7 @@
 @if(Session::get('tipoSession') == 'adminMaestro')          
                 <li><a href="/edit"><i class="glyphicon glyphicon-pencil"></i> Editar</a></li>
 @endif                
-                <li><a href="logout"><i class="glyphicon glyphicon-off"></i> Salir</a></li>
+                <li><a href="/logout"><i class="glyphicon glyphicon-off"></i> Salir</a></li>
               </ul>
             </li>
           </ul>
@@ -93,15 +94,17 @@
 	                </tbody>
 	            </table>      
                  </div>
-     
+<!--------------------------------------------------------------------------------------------->     
               <br>
               <br>
               <h3>Procesos Ejecutandose</h3>
                <table class="table table-striped table-hover">
 	            <thead>
 		        <tr align="center">
+	      	   <td><b>Folio</b></td>		        
 	      	   <td><b>Nombre</b></td>
 			   <td><b>Descripcion</b></td>
+			   <td><b>Usuario</b></td>			   
 			   <td><b>Abrir</b></td>	
 			   <td><b>Parar y Eliminar</b></td>			   
 		       </tr>
@@ -109,30 +112,63 @@
 	           <tbody>
 @foreach($procesos[0] as $key => $value)
 	           <tr class="warning" align="center">
-			   <td align="left">{{ $value->nombre }}</td>
+			   <td align="left">{{ $value->id }}</td>	           
+			   <td>{{ $value->nombre }}</td>
 			   <td>{{ $value->descripcion }}</td>
+			   <td>{{ $value->emailCreador }}</td>			   
 			   <td>
-				<a class="btn btn-default btn-lg" href="{{ URL::to('procesos/' . $value->id) }}"><span class="glyphicon glyphicon-folder-open"></span></a>
+				<a class="btn btn-default btn-lg" href="{{ URL::to('procesos/instancia/' . $value->id) }}"><span class="glyphicon glyphicon-folder-open"></span></a>
 			   </td>	
 			   <td>		
-			    {{ Form::open(array('url' => 'procesos/' . $value->id)) }}
-			    {{ Form::hidden('_method', 'DELETE') }}
+{{ Form::open(array('action' => array('procesoController@eliminarInstancia',$value->id), 'method' => 'delete')) }}
 				<button type="submit" class="btn btn-default btn-lg" onclick="if(!confirm('Confirma la eliminacion del Proceso')){return false;};"><span class="glyphicon glyphicon-remove"></span></button>
 			    {{ Form::close() }}
 			    </td>
 		       </tr>
 @endforeach
 	          </tbody>
-             </table>
-             
+             </table>                          
 <!--------------------------------------------------------------------------------------------->
                     <br>
                     <br>
-                    <h3>Procesos en Espera</h3>
+                    <h3>Procesos Terminados</h3>
                 <table class="table table-striped table-hover">
 	            <thead>
 		        <tr align="center">
-		        <td><b>Ejecutar</b></td>
+	      	   <td><b>Folio</b></td>		        
+	      	   <td><b>Nombre</b></td>
+			   <td><b>Descripcion</b></td>
+			   <td><b>Usuario</b></td>			   
+			   <td><b>Abrir</b></td>
+			   <td><b>Eliminar</b></td>			   			   			   
+		       </tr>
+	            </thead>
+	           <tbody>
+@foreach($procesos[2] as $key => $value)
+	           <tr align="center">
+			   <td>{{ $value->id }}</td>	           
+			   <td>{{ $value->nombre }}</td>
+			   <td>{{ $value->descripcion }}</td>
+			   <td>{{ $value->emailCreador }}</td>			   
+			   <td>
+				<a class="btn btn-default btn-lg" href="{{ URL::to('procesos/instancia/' . $value->id) }}"><span class="glyphicon glyphicon-folder-open"></span></a>
+			   </td>	
+			   <td>		
+{{ Form::open(array('action' => array('procesoController@eliminarInstancia',$value->id), 'method' => 'delete')) }}
+				<button type="submit" class="btn btn-default btn-lg" onclick="if(!confirm('Confirma la eliminacion del Proceso')){return false;};"><span class="glyphicon glyphicon-trash"></span></button>
+			    {{ Form::close() }}
+			    </td>			   
+		       </tr>
+@endforeach
+	          </tbody>
+             </table>       
+<!--------------------------------------------------------------------------------------------->
+                    <br>
+                    <br>
+                    <h3>Procesos Creados</h3>
+                <table class="table table-striped table-hover">
+	            <thead>
+		        <tr align="center">
 	      	   <td><b>Nombre</b></td>
 			   <td><b>Descripcion</b></td>
 			   <td><b>Abrir</b></td>	
@@ -142,10 +178,6 @@
 	           <tbody>
 @foreach($procesos[1] as $key => $value)
 	           <tr align="center">
-	             <td>
-	             
-				<a class="btn btn-default btn-lg" href="/procesos/iniciar/{{ $value->id }}" onclick="if(!confirm('Confirma el inicio del Proceso')){return false;};"><span class="glyphicon glyphicon-forward"></span></a>	             
-	             </td>
 			   <td>{{ $value->nombre }}</td>
 			   <td>{{ $value->descripcion }}</td>
 			   <td>
@@ -160,39 +192,7 @@
 		       </tr>
 @endforeach
 	          </tbody>
-             </table>
-             
-<!--------------------------------------------------------------------------------------------->
-                    <br>
-                    <br>
-                    <h3>Procesos Terminados</h3>
-                <table class="table table-striped table-hover">
-	            <thead>
-		        <tr align="center">
-	      	   <td><b>Nombre</b></td>
-			   <td><b>Descripcion</b></td>
-			   <td><b>Abrir</b></td>
-			   <td><b>Eliminar</b></td>			   			   			   
-		       </tr>
-	            </thead>
-	           <tbody>
-@foreach($procesos[2] as $key => $value)
-	           <tr align="center">
-			   <td>{{ $value->nombre }}</td>
-			   <td>{{ $value->descripcion }}</td>
-			   <td>
-				<a class="btn btn-default btn-lg" href="{{ URL::to('procesos/' . $value->id) }}"><span class="glyphicon glyphicon-folder-open"></span></a>
-			   </td>	
-			   <td>		
-			    {{ Form::open(array('url' => 'procesos/' . $value->id)) }}
-			    {{ Form::hidden('_method', 'DELETE') }}
-				<button type="submit" class="btn btn-default btn-lg" onclick="if(!confirm('Confirma la eliminacion del Proceso')){return false;};"><span class="glyphicon glyphicon-trash"></span></button>
-			    {{ Form::close() }}
-			    </td>			   
-		       </tr>
-@endforeach
-	          </tbody>
-             </table>             
+             </table>                   
             </div>
           </div><!-- /#wrapper -->
 

@@ -40,8 +40,9 @@
         <div class="collapse navbar-collapse navbar-ex1-collapse">
           <ul class="nav navbar-nav side-nav">
             <li class="active"><a href="/usuarioNormal"><i class="glyphicon glyphicon-home"></i> Inicio</a></li>
-            <li style="top:30px"><a href="/bandeja"><i class="glyphicon glyphicon-th-list"></i>  Bandeja de Tareas</a></li>       
-                        <li style="top:470px"><a href="/creditos" align="center" style="color:#FFFFFF"><strong>Creditos</strong></a></li>                    
+            <li style="top:50px"><a href="/bandejaProcesos"><i class="glyphicon glyphicon-list-alt"></i>  Bandeja de Procesos</a></li>             
+            <li style="top:50px"><a href="/bandeja"><i class="glyphicon glyphicon-th-list"></i>  Bandeja de Tareas</a></li>                     
+                        <li style="top:420px"><a href="/creditos" align="center" style="color:#FFFFFF"><strong>Creditos</strong></a></li>                    
           </ul>
 
           <ul class="nav navbar-nav navbar-right navbar-user">

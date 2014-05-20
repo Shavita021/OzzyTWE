@@ -45,8 +45,9 @@
             <li><a href="/usuarios"><i class="glyphicon glyphicon-user"></i> Administracion de Usuarios</a></li>
             <li><a href="/administracionRoles"><i class="glyphicon glyphicon-registration-mark"></i> Administracion de Roles</a></li>
             <li class="active"><a href="/procesos"><i class="glyphicon glyphicon-random"></i>  Administracion de Procesos</a></li>     
-            <li style="top:30px"><a href="/bandeja"><i class="glyphicon glyphicon-th-list"></i>  Bandeja de Tareas</a></li>          
-                        <li style="top:320px"><a href="/creditos" align="center" style="color:#FFFFFF"><strong>Creditos</strong></a></li>                  
+            <li style="top:50px"><a href="/bandejaProcesos"><i class="glyphicon glyphicon-list-alt"></i>  Bandeja de Procesos</a></li>               
+            <li style="top:50px"><a href="/bandeja"><i class="glyphicon glyphicon-th-list"></i>  Bandeja de Tareas</a></li>   
+                        <li style="top:270px"><a href="/creditos" align="center" style="color:#FFFFFF"><strong>Creditos</strong></a></li>                 
           </ul>
 
           <ul class="nav navbar-nav navbar-right navbar-user">
@@ -99,7 +100,7 @@
 		                                   <td style="padding:15px">
                <div style="width:240px; height: 100px; overflow-y: scroll;">
                @foreach($datos[0] as $key => $rol)	                                       
-               <input type="radio" name="rol" value="{{ $rol->id }}" onClick="getUsers(this.value)"> {{ $rol->nombre }}<br>
+               <input type="radio" name="rol" value="{{ $rol->id }}" ondblclick="getUsers2(this.value)" onClick="getUsers(this.value)"> {{ $rol->nombre }}<br>
                 @endforeach
                </div>
                                              </td>
@@ -143,6 +144,7 @@
                                                   Archivo adjunto:
 		                                   </td>
 		                                   <td style="padding:15px">
+                                             <input type="file" name="archivo">        
                                             <i style="color:#7080CD">Maximo de 7Mb</i></td>
 		                              </tr>
 		                              
@@ -151,7 +153,7 @@
 		                              </td>
 		                              <td>                              
 
-<button name="tareaParalela" class="btn btn-default btn-lg" onclick="if(!confirm('Desea crear una nueva tarea?')){return false;};" style="margin-left:420px"><span class="glyphicon glyphicon-arrow-right"> Tarea Paralela</span></button>	
+<button name="tareaParalela" class="btn btn-default btn-sm" onclick="if(!confirm('Desea crear una nueva tarea?')){return false;};" style="margin-left:420px"><span class="glyphicon glyphicon-arrow-right"> Siguiente: Tarea Paralela</span></button>	
 
 		                                   </td>
 		                              </tr>
@@ -160,7 +162,7 @@
 		                              </td>
 		                              
 		                              <td style="padding:15px">
-		                              <button name="finalizaParalela" class="btn btn-default btn-lg" onclick="if(!confirm('Desea crear una nueva tarea?')){return false;};" style="margin-left:100px;background-color:#030824;color:#FFFFFF"><span class="glyphicon glyphicon-tasks"> Finalizar Tareas Paralelas</span></button>	
+		                              <button name="finalizaParalela" class="btn btn-default btn-sm" onclick="if(!confirm('Desea crear una nueva tarea?')){return false;};" style="margin-left:140px;background-color:#030824;color:#FFFFFF"><span class="glyphicon glyphicon-tasks"> Finalizar Tareas Paralelas</span></button>	
 		                              </td>
 		                              </tr>
 		                         </tbody>

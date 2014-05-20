@@ -98,8 +98,20 @@ Route::put('/update/{email}', array('uses' => 'systemController@update'));
 //Ruta para los creditos
 Route::get('/creditos', function()
 {
-	return View::make('creditos');
+     if(Session::get('tipoSession') == 'usuarioNormal')
+	return View::make('usuarioNormales.creditos');
+	else
+     return View::make('creditos');
 });
+
+//Ruta para la bandeja de procesos disponibles a ejecutar
+Route::get('/bandejaProcesos', array('uses' => 'procesoController@mostrarProcesos'));
+
+//Ruta para mostrar los procesos instancia que estan en ejecucuion o terminados
+Route::get('/procesos/instancia/{id}', array('uses' => 'procesoController@instanciasProcesos'));
+
+//Ruta para eliminar una instancia de un proceso
+Route::delete('/procesos/instancia/{id}', array('uses' => 'procesoController@eliminarInstancia'));
 
 ?>
 

@@ -54,7 +54,7 @@ return array(
 	|
 	*/
 
-	'from' => array('address' => 'TecWorkflow@itesm.mx', 'name' => 'Sistema de Registro'),
+	'from' => array('address' => 'TecWorkflow@itesm.mx', 'name' => 'Sistema WorkFlow Engine'),
 
 	/*
 	|--------------------------------------------------------------------------

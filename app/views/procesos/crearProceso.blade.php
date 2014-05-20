@@ -45,8 +45,9 @@
             <li><a href="/usuarios"><i class="glyphicon glyphicon-user"></i> Administracion de Usuarios</a></li>
             <li><a href="/administracionRoles"><i class="glyphicon glyphicon-registration-mark"></i> Administracion de Roles</a></li>
             <li class="active"><a href="/procesos"><i class="glyphicon glyphicon-random"></i>  Administracion de Procesos</a></li>     
-            <li style="top:30px"><a href="/bandeja"><i class="glyphicon glyphicon-th-list"></i>  Bandeja de Tareas</a></li>   
-                        <li style="top:320px"><a href="/creditos" align="center" style="color:#FFFFFF"><strong>Creditos</strong></a></li>                         
+            <li style="top:50px"><a href="/bandejaProcesos"><i class="glyphicon glyphicon-list-alt"></i>  Bandeja de Procesos</a></li>               
+            <li style="top:50px"><a href="/bandeja"><i class="glyphicon glyphicon-th-list"></i>  Bandeja de Tareas</a></li>   
+                        <li style="top:270px"><a href="/creditos" align="center" style="color:#FFFFFF"><strong>Creditos</strong></a></li>                     
           </ul>
 
           <ul class="nav navbar-nav navbar-right navbar-user">
@@ -109,7 +110,7 @@
                       </table>
                              
                            
-                           <h4 align="center">Tarea</h4>
+                           <h3 align="center">Seleccion de Usuarios que tendran permiso para ejecutarlo</h3>
                            <div id="raiz" class="jumbotron" align="center" style="width:80%;height:560px;display:block; margin-left: auto;margin-right: auto;background-color:#B1B1B1;">
 		                    <table align="left">
 		                         <tbody>
@@ -134,13 +135,15 @@
 		                                   <td style="padding:15px">
                <div style="width:240px; height: 100px; overflow-y: scroll;">
                @foreach($datos[0] as $key => $rol)	                                       
-               <input type="radio" name="rol" value="{{ $rol->id }}" onClick="getUsers(this.value)"> {{ $rol->nombre }}<br>
+               <input type="radio" id="usuarioRoles" name="rol" value="{{ $rol->id }}" ondblclick="getUsers2(this.value)" onClick="getUsers(this.value)"> {{ $rol->nombre }}<br>
                 @endforeach
                </div>
                                              </td>
                                              <td style="padding:15px">
+                                             
                 <div id="usuarios" name="usuarios" style="width:240px; height: 100px; overflow-y: scroll;">
                 <?php $cont = 0; ?>
+                
                 @foreach($datos[1] as $key => $rolUsuario)
                 <div id="{{ $datos[0][$cont]->id }}" name="boxes" style="display: none;visibility: hidden;">       
                 @foreach($rolUsuario as $key => $usuario)
@@ -187,7 +190,7 @@
 		                              </td>
 		                              <td>                              
 
-<button name="siguientePagina" class="btn btn-default btn-lg" onclick="if(!confirm('Desea crear una nueva tarea?')){return false;};" style="margin-left:420px"><span class="glyphicon glyphicon-arrow-right"> Tarea Normal</span></button>	
+<button name="siguientePagina" class="btn btn-default btn-sm" onclick="if(!confirm('Desea crear una nueva tarea?')){return false;};" style="margin-left:420px"><span class="glyphicon glyphicon-arrow-right"> Siguiente: Tarea Normal</span></button>	
 
 		                                   </td>
 		                              </tr>
@@ -196,7 +199,7 @@
 		                              </td>
 		                              
 		                              <td style="padding:15px">
-		                              <button name="tareaParalela" class="btn btn-default btn-lg" onclick="if(!confirm('Desea crear una nueva tarea?')){return false;};" style="margin-left:400px;background-color:#39B3D7"><span class="glyphicon glyphicon-tasks"> Tarea Paralela</span></button>	
+		                              <button name="tareaParalela" class="btn btn-default btn-sm" onclick="if(!confirm('Desea crear una nueva tarea?')){return false;};" style="margin-left:405px;background-color:#39B3D7"><span class="glyphicon glyphicon-tasks"> Siguiente: Tarea Paralela</span></button>	
 		                              </td>
 		                              </tr>
 		                         </tbody>
