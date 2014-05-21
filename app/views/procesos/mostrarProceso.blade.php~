@@ -58,7 +58,7 @@
 @if(Session::get('tipoSession') == 'adminMaestro')          
                 <li><a href="/edit"><i class="glyphicon glyphicon-pencil"></i> Editar</a></li>
 @endif                
-                <li><a href="logout"><i class="glyphicon glyphicon-off"></i> Salir</a></li>
+                <li><a href="/logout"><i class="glyphicon glyphicon-off"></i> Salir</a></li>
               </ul>
             </li>
           </ul>
@@ -119,7 +119,7 @@
              
              <button style="width:30px;height:30px" class="btn btn-info" disabled="disabled"></button> Tareas Paralelas
              <br><br>
-             <i>* Las tareas estan en orden descendiente </i>
+             <i>* Las tareas están en orden descendiente </i>
             </div>
           </div><!-- /#wrapper -->
 

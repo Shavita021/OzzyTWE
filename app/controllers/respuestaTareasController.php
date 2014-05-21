@@ -107,12 +107,12 @@ class respuestaTareasController extends \BaseController {
 	     $cancelarProceso = Input::get('cancelarProceso');	     
 	     
 	     $rules = array(
-			'comentarios' => 'required|max:200',
+			'comentarios' => 'required|max:500',
 			'password' => 'required',			
 		);
 		
 		$messages = array(
-    'max' => 'Los comentarios debe tener  hasta 200 caracteres',	
+    'max' => 'Los comentarios debe tener hasta 500 caracteres',	
     'required' => 'El campo es requerido',
     );
     
@@ -149,6 +149,48 @@ class respuestaTareasController extends \BaseController {
                
 //Borrar el proceso en caso de que se presione el boton declinar		
 	          if(isset($cancelarProceso)){
+	          
+		     $path="";
+               $nameFile ="Ninguno";               
+               if(isset($archivo)){
+                    $nameFile = $archivo->getClientOriginalName();               
+                    $nombre = uniqid();
+		          $nombre .= "_".$archivo->getClientOriginalName();
+		          Input::file('archivo')->move('uploads', $nombre);	
+		          $path = "/uploads/".$nombre;//////////////////////////////////////////////////   
+		     }  	          
+	          
+		     $createdate= date('Y-m-d H:i:s');
+		     
+		     if($tabla == "instanciasUsuario_Tareas"){
+		     DB::table('respuestasTareas')->insert(array('comentarios' => strtoupper($comentarios),'file' => $path,'nameFile' => $nameFile, 'created_at' => $createdate));
+		     $tarea = DB::table('respuestasTareas')->orderBy('created_at', 'desc')->first();
+		     }else{
+		     DB::table('respuestasTareasParalelas')->insert(array('comentarios' => strtoupper($comentarios),'file' => $path,'nameFile' => $nameFile, 'created_at' => $createdate));
+		     $tarea = DB::table('respuestasTareasParalelas')->orderBy('created_at', 'desc')->first();
+		     }
+
+		     $updatedDate = date('Y-m-d H:i:s');		     
+		     DB::table($tabla)->where('id',$idTabla)->update(array('idRespuesta' => $tarea->id ,'updated_at' => $updatedDate));	          
+	          
+	          	$proceso = DB::table('instanciasProcesos')->where('id', $idProceso)->first();
+	               $emailCreador = DB::table('instanciasProcesos')->where('id',$idProceso)->pluck('emailCreador');
+                    $usuario = DB::table('adminMaestros')->where('email', $emailCreador)->first();
+                    if($usuario){}else{
+	               $usuario = DB::table('adminSecundarios')->where('email', $emailCreador)->first();
+	               }
+	               if($usuario){}else{
+	                 $usuario = DB::table('usuarioNormales')->where('email', $emailCreador)->first();
+	               }
+	                       
+	      	     DB::table('instanciasProcesos')->where('id', $idProceso)->update(array('estado' => 'declinado'));
+	                
+                    Mail::send('emails.tareaCancelada', array('firstname'=>$usuario->name,'nombreProceso' => $proceso->nombre, 'usuario' => $email, 'comentarios' => $comentarios), function($message) use ($usuario){$message->to($usuario->email, $usuario->name.' '.$usuario->plast_name)->subject('Tec WorkFlow Engine - Proceso Cancelado');});
+                    
+                    Session::flash('message', 'Tarea declinada correctamente');
+	               return Redirect::to('/bandeja');	
+
+	          /*
 	               $proceso = DB::table('instanciasProcesos')->where('id', $idProceso)->first();
 		          $tareas = DB::table('instanciasTareas')->where('idProceso', $idProceso)->get();
 		
@@ -199,7 +241,7 @@ class respuestaTareasController extends \BaseController {
                     
 	               Session::flash('message', 'Tarea declinada correctamente');
 	               return Redirect::to('/bandeja');
-	     
+	     */
 	          }               
 		     
 		     $path="";
@@ -290,7 +332,8 @@ class respuestaTareasController extends \BaseController {
                     }                                     	                            
 // comprobar si todas las tareas estan en terminada para terminar el proceso	
                  if($bandera == "true"){
-/////////////////////
+////////////////////////////////////////////////
+		     DB::table('instanciasTareas')->where('id',$idTareaNormal)->update(array('estado' => 'terminada' ,'updated_at' => $updatedDate)); 
 	     $comprobacionTareas = DB::table('instanciasTareas')->where('idProceso',$idProceso)->get();
 	               $banderaProceso = "true";
 	               foreach($comprobacionTareas as $cTarea){

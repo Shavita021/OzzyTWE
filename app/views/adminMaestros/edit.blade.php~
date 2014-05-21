@@ -150,7 +150,7 @@
 	                 </tr>
                       <tr>
                       <td style="padding:15px">
-		               {{ Form::label('phone_number', 'Telefono:') }}
+		               {{ Form::label('phone_number', 'Teléfono:') }}
 		            </td>
 		            <td style="padding:15px">
 		               {{ Form::text('phone_number', Input::old('phone_number'), array('class' => 'form-control')) }}
@@ -159,7 +159,7 @@
                       </tr>
                       <tr>
                       <td style="padding:15px">
-		               {{ Form::label('location', 'Ubicacion:') }}
+		               {{ Form::label('location', 'Ubicación:') }}
 		            </td>
 		            <td style="padding:15px">
 		               {{ Form::text('location', Input::old('location'), array('class' => 'form-control')) }}
@@ -169,7 +169,7 @@
                       <td style="padding:15px">
 	                 {{ Form::label('tipo', 'Tipo de Usuario:') }}
 	                 </td>
-@if(Session::get('roles') == 1)	                 
+@if(Session::get('dropTipo') == 1)	                 
 	                 <td style="padding:15px">
 	                 {{ Form::select('tipo', array('adminSecundario' => 'Administrador Secundario', 'usuarioNormal' => 'Usuario Normal'),'adminSecundario') }}
 	                 </td>

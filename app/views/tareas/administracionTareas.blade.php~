@@ -58,7 +58,7 @@
 @if(Session::get('tipoSession') == 'adminMaestro')          
                 <li><a href="/edit"><i class="glyphicon glyphicon-pencil"></i> Editar</a></li>
 @endif                
-                <li><a href="logout"><i class="glyphicon glyphicon-off"></i> Salir</a></li>
+                <li><a href="/logout"><i class="glyphicon glyphicon-off"></i> Salir</a></li>
               </ul>
             </li>
           </ul>
@@ -90,7 +90,7 @@
 	            <thead>
 		        <tr align="center">
 			   <td><b>Paso</b></td>		        
-			   <td><b>Descripcion</b></td>
+			   <td><b>Descripción</b></td>
 			   <td><b>Ver</b></td>
 @if($datos[1]->estado != 'ejecutando')			   	
 			   <td><b>Editar</b></td>		
@@ -128,7 +128,7 @@
 			   @else			   	
 			    {{ Form::open(array('url' => 'procesos/tareas/' . $value->id)) }}
 			    {{ Form::hidden('_method', 'DELETE') }}
-				<button type="submit" class="btn btn-default btn-lg" onclick="if(!confirm('Confirma la eliminacion del usuario')){return false;};"><span class="glyphicon glyphicon-trash"></span></button>
+				<button type="submit" class="btn btn-default btn-lg" onclick="if(!confirm('Confirma la eliminación de la tarea?')){return false;};"><span class="glyphicon glyphicon-trash"></span></button>
 			    {{ Form::close() }}
 			   @endif
 			    </td>
@@ -141,7 +141,7 @@
              
              <button style="width:30px;height:30px" class="btn btn-info" disabled="disabled"></button> Tareas Paralelas
              <br><br>
-             <i>* Las tareas estan en orden descendiente </i>
+             <i>* Las tareas están en orden descendiente </i>
             </div>
           </div><!-- /#wrapper -->
 

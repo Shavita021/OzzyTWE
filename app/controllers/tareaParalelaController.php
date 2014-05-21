@@ -55,14 +55,14 @@ class tareaParalelaController extends \BaseController {
 		     $idTareaNormal = Input::get('idTareaNormal');
 		              
 				$rules = array(
-			'descripcionPaso' => 'required|max:200',
+			'descripcionPaso' => 'required|max:500',
 			'diasLimite'      => 'required|numeric',
 		     'usuariosTarea' => 'required',
 		);
 		
 		$messages = array(
     'alpha' => 'El campo debe contener solo letras',
-    'descripcionPaso.max' => 'La descipcion debe tener  hasta 200 caracteres',
+    'descripcionPaso.max' => 'La descipcion debe tener  hasta 500 caracteres',
     'diasLimite.required' => 'Campo de dias requerido',
     'numeric' => 'El campo debe ser numerico',	
     'required' => 'El campo es requerido',
@@ -149,9 +149,19 @@ class tareaParalelaController extends \BaseController {
 	{
           $tareaParalela = DB::table('tareasParalelas')->where('id', $id)->first();
           $idProceso = DB::table('tareas')->where('id', $tareaParalela->idTareaNormal)->pluck('idProceso');
-		$estadoProceso = DB::table('procesos')->where('id', $idProceso)->pluck('estado');
+          $instanciasProcesos = DB::table('procesos')
+            ->join('instanciasProcesos', 'instanciasProcesos.idProcesoOriginal', '=', 'procesos.id')
+            ->select('instanciasProcesos.id')
+            ->where('procesos.id', $idProceso)            
+            ->whereIn('instanciasProcesos.estado', array('pendiente','ejecutando'))            
+            ->first();
+            
+          if($instanciasProcesos){
+		          Session::flash('errorEliminar', 'Error: Tarea en un proceso en ejecución');
+	               Session::flash('message', 'Error: Tarea en un proceso en ejecución');
+	               return Redirect::to('/procesos/'.$idProceso);                
+          }
 		
-		if($estadoProceso == "pendiente"){	
 	     $size = DB::table('roles')->count();
 	     $arrRolesUsuarios = array();
 	     
@@ -177,13 +187,8 @@ class tareaParalelaController extends \BaseController {
           $nombreRol = $tareaParalela->nombreRol;
           
           $returnDatos = array($roles,$arrRolesUsuarios,$tareaParalela,$nombreProceso,$responsables,$nombreRol);
-		return View::make('tareasParalelas.edit')->with("datos",$returnDatos);
-		
-		}else{
-		          Session::flash('errorEliminar', 'Error: Tarea en un proceso en ejecucion');
-	               Session::flash('message', 'Error: Tarea en un proceso en ejecucion');
-	               return Redirect::to('/procesos');   		
-		}	
+		return View::make('tareasParalelas.edit')->with("datos",$returnDatos);		
+
 	}
 
 	/**
@@ -196,14 +201,14 @@ class tareaParalelaController extends \BaseController {
 	{
 		              
 				$rules = array(
-			'descripcionPaso' => 'required|max:200',
+			'descripcionPaso' => 'required|max:500',
 			'diasLimite'      => 'required|numeric',
 		     'usuariosTarea' => 'required',
 		);
 		
 		$messages = array(
     'alpha' => 'El campo debe contener solo letras',
-    'descripcionPaso.max' => 'La descipcion debe tener  hasta 200 caracteres',
+    'descripcionPaso.max' => 'La descipcion debe tener  hasta 500 caracteres',
     'diasLimite.required' => 'Campo de dias requerido',
     'usuariosTarea.required' => 'Selecciona almenos un usuario',        
     'numeric' => 'El campo debe ser numerico',	
@@ -272,8 +277,19 @@ class tareaParalelaController extends \BaseController {
 	          $tareaParalela = DB::table('tareasParalelas')->where('id', $id)->first(); 
 	          $idTareaNormal = $tareaParalela->idTareaNormal;	
           $idProceso = DB::table('tareas')->where('id', $idTareaNormal)->pluck('idProceso');
-		$estadoProceso = DB::table('procesos')->where('id', $idProceso)->pluck('estado');
-		if($estadoProceso == 'pendiente'){				     
+		
+		  $instanciasProcesos = DB::table('procesos')
+            ->join('instanciasProcesos', 'instanciasProcesos.idProcesoOriginal', '=', 'procesos.id')
+            ->select('instanciasProcesos.id')
+            ->where('procesos.id', $idProceso)            
+            ->whereIn('instanciasProcesos.estado', array('pendiente','ejecutando'))            
+            ->first();
+            
+          if($instanciasProcesos){
+                    Session::flash('errorEliminar', 'Error: Tarea en un proceso en ejecución');
+	               Session::flash('message', 'Error: Tarea en un proceso en ejecución');
+	               return Redirect::to('/procesos/'.$idProceso);                  
+          }	         		
 	          
 	          /*$respuestasParalelas = DB::table('usuario_TareasParalelas')->where('idTarea', $tareaParalela->id)->lists('idRespuesta');  
 	                          
@@ -307,11 +323,7 @@ class tareaParalelaController extends \BaseController {
 	               Session::flash('message', 'Proceso eliminado correctamente');
 	               return Redirect::to('/procesos');	 	     
 	          }	
-	     }else{
-		          Session::flash('errorEliminar', 'Error: Tarea en un proceso en ejecucion');
-	               Session::flash('message', 'Error: Tarea en un proceso en ejecucion');
-	               return Redirect::to('/procesos/'.$idProceso);    
-	     }     
+  
 	}
 
 }

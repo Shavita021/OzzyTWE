@@ -15,6 +15,7 @@ class CreateTareasParalelasTable extends Migration {
 			Schema::create('tareasParalelas', function($table) {
 				$table->increments('id');
 				$table->integer('idProceso');
+				$table->integer('idTareaNormal');				
 				$table->string('nombre');
 				$table->string('descripcion');
 				$table->integer('diasLimite');

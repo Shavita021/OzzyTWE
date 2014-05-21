@@ -58,7 +58,7 @@
 @if(Session::get('tipoSession') == 'adminMaestro')          
                 <li><a href="/edit"><i class="glyphicon glyphicon-pencil"></i> Editar</a></li>
 @endif                
-                <li><a href="logout"><i class="glyphicon glyphicon-off"></i> Salir</a></li>
+                <li><a href="/logout"><i class="glyphicon glyphicon-off"></i> Salir</a></li>
               </ul>
             </li>
           </ul>
@@ -109,7 +109,7 @@
 		        <tr align="center">
 	      	   <td><b>Nombre</b></td>
 			   <td><b>Email</b></td>
-			   <td><b>Numero</b></td>
+			   <td><b>Número</b></td>
 			   <td><b>Datos</b></td>
 			   <td><b>Editar</b></td>			
 			   <td><b>Eliminar</b></td>			   
@@ -131,7 +131,7 @@
 			   <td>		
 			          {{ Form::open(array('url' => 'adminMaestro/' . $value->email)) }}
 					{{ Form::hidden('_method', 'DELETE') }}
-				<button type="submit" class="btn btn-default btn-lg" onclick="if(!confirm('Confirma la eliminacion del usuario')){return false;};"><span class="glyphicon glyphicon-trash"></span></button>
+				<button type="submit" class="btn btn-default btn-lg" onclick="if(!confirm('Confirma la eliminación del usuario?')){return false;};"><span class="glyphicon glyphicon-trash"></span></button>
 				{{ Form::close() }}
 			    </td>
 		       </tr>

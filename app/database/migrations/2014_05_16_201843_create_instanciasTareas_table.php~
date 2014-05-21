@@ -11,6 +11,7 @@ class CreateInstanciasTareasTable extends Migration {
 	 * @return void
 	 */
 	public function up()
+	{
 			Schema::create('instanciasTareas', function($table) {
 				$table->increments('id');
 				$table->integer('idProceso');

@@ -44,7 +44,7 @@
             <li><a href="/usuarioNormal"><i class="glyphicon glyphicon-home"></i> Inicio</a></li>    
             <li class="active" style="top:50px"><a href="/bandejaProcesos"><i class="glyphicon glyphicon-list-alt"></i>  Bandeja de Procesos</a></li>               
             <li style="top:50px"><a href="/bandeja"><i class="glyphicon glyphicon-th-list"></i>  Bandeja de Tareas</a></li>   
-                        <li style="top:270px"><a href="/creditos" align="center" style="color:#FFFFFF"><strong>Creditos</strong></a></li>                     
+                        <li style="top:270px"><a href="/creditos" align="center" style="color:#FFFFFF"><strong>Créditos</strong></a></li>                     
           </ul>
 
           <ul class="nav navbar-nav navbar-right navbar-user">
@@ -116,7 +116,7 @@
              
              <button style="width:30px;height:30px" class="btn btn-info" disabled="disabled"></button> Tareas Paralelas
              <br><br>
-             <i>* Las tareas estan en orden descendiente </i>
+             <i>* Las tareas están en orden descendiente </i>
             </div>
           </div><!-- /#wrapper -->
 

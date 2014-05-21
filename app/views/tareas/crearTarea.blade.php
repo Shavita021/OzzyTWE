@@ -42,12 +42,12 @@
         <div class="collapse navbar-collapse navbar-ex1-collapse">
           <ul class="nav navbar-nav side-nav">
             <li><a href="/adminMaestro"><i class="glyphicon glyphicon-home"></i> Inicio</a></li>
-            <li><a href="/usuarios"><i class="glyphicon glyphicon-user"></i> Administracion de Usuarios</a></li>
-            <li><a href="/administracionRoles"><i class="glyphicon glyphicon-registration-mark"></i> Administracion de Roles</a></li>
-            <li class="active"><a href="/procesos"><i class="glyphicon glyphicon-random"></i>  Administracion de Procesos</a></li>    
+            <li><a href="/usuarios"><i class="glyphicon glyphicon-user"></i> Administración de Usuarios</a></li>
+            <li><a href="/administracionRoles"><i class="glyphicon glyphicon-registration-mark"></i> Administración de Roles</a></li>
+            <li class="active"><a href="/procesos"><i class="glyphicon glyphicon-random"></i>  Administración de Procesos</a></li>    
             <li style="top:50px"><a href="/bandejaProcesos"><i class="glyphicon glyphicon-list-alt"></i>  Bandeja de Procesos</a></li>               
             <li style="top:50px"><a href="/bandeja"><i class="glyphicon glyphicon-th-list"></i>  Bandeja de Tareas</a></li>   
-                        <li style="top:270px"><a href="/creditos" align="center" style="color:#FFFFFF"><strong>Creditos</strong></a></li>                       
+                        <li style="top:270px"><a href="/creditos" align="center" style="color:#FFFFFF"><strong>Créditos</strong></a></li>                       
           </ul>
 
           <ul class="nav navbar-nav navbar-right navbar-user">
@@ -75,12 +75,12 @@
 		                         <tbody>
 		                              <tr>
 		                                   <td style="padding:15px">
-                                                  Descripcion del Paso:
+                                                  Descripción del Paso:
 		                                   </td>
 		                                   <td style="padding:15px">
                          <textarea name="descripcionPaso" class="form-control" rows="3" cols="50"></textarea>                                   
 		                                   </td>	
-		                                  <td><i name="ddiv" style="color:#7080CD">{{ $errors->first('descripcionPaso') }}</i></td>
+		                                  <td><i name="ddiv" style="color:#BF2D00">{{ $errors->first('descripcionPaso') }}</i></td>
 		                                            
 		                              </tr>
 		                         </tbody>
@@ -113,7 +113,7 @@
 		                                   </td>
 		                              </tr>
 		                              <tr>
-		                              <td><i name="ddiv" style="color:#7080CD">{{ $errors->first('usuariosTarea')}}</i></td></tr>
+		                              <td><i name="ddiv" style="color:#BF2D00">{{ $errors->first('usuariosTarea')}}</i></td></tr>
 		                              </tr>
 		                        </tbody>
 		                     </table>
@@ -121,12 +121,12 @@
 		                         </tbody>
 		                              <tr>	
 		                                   <td style="padding:15px">
-                                                  Dias Limite:         
+                                                  Días Límite:         
                                     <input type="text" name="diasLimite"></input>
                                              
                                              </td>
 		                                   <tr>
-		                                   <td><i name="ddiv" style="color:#7080CD">{{ $errors->first('diasLimite')}}{{ Session::get('diasLimite') }}</i></td></tr>
+		                                   <td><i name="ddiv" style="color:#BF2D00">{{ $errors->first('diasLimite')}}{{ Session::get('diasLimite') }}</i></td></tr>
 		                              </tr>
 
 		                         </tbody>

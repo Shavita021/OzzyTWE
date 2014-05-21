@@ -42,12 +42,12 @@
         <div class="collapse navbar-collapse navbar-ex1-collapse">
           <ul class="nav navbar-nav side-nav">
             <li><a href="/adminMaestro"><i class="glyphicon glyphicon-home"></i> Inicio</a></li>
-            <li class="active"><a href="/usuarios"><i class="glyphicon glyphicon-user"></i> Administracion de Usuarios</a></li>
-            <li><a href="/administracionRoles"><i class="glyphicon glyphicon-registration-mark"></i> Administracion de Roles</a></li>
-            <li><a href="/procesos"><i class="glyphicon glyphicon-random"></i>  Administracion de Procesos</a></li>                  
+            <li class="active"><a href="/usuarios"><i class="glyphicon glyphicon-user"></i> Administración de Usuarios</a></li>
+            <li><a href="/administracionRoles"><i class="glyphicon glyphicon-registration-mark"></i> Administración de Roles</a></li>
+            <li><a href="/procesos"><i class="glyphicon glyphicon-random"></i>  Administración de Procesos</a></li>                  
             <li style="top:50px"><a href="/bandejaProcesos"><i class="glyphicon glyphicon-list-alt"></i>  Bandeja de Procesos</a></li>               
             <li style="top:50px"><a href="/bandeja"><i class="glyphicon glyphicon-th-list"></i>  Bandeja de Tareas</a></li>   
-                        <li style="top:270px"><a href="/creditos" align="center" style="color:#FFFFFF"><strong>Creditos</strong></a></li>                           
+                        <li style="top:270px"><a href="/creditos" align="center" style="color:#FFFFFF"><strong>Créditos</strong></a></li>                           
           </ul>
 
           <ul class="nav navbar-nav navbar-right navbar-user">
@@ -80,8 +80,8 @@
 			                
 			          <br>
 			          <strong>Email:</strong> {{ $datos[0]->email }}<br>
-			          <strong>Telefono:</strong> {{ $datos[0]->phone_number }}<br>
-		               <strong>Ubicacion:</strong> {{ $datos[0]->location }}
+			          <strong>Teléfono:</strong> {{ $datos[0]->phone_number }}<br>
+		               <strong>Ubicación:</strong> {{ $datos[0]->location }}
 		             </p>
 	               </div>
            <a class= "btn btn-default btn-lg" onclick="history.back()"><span class="glyphicon glyphicon-arrow-left"></span> Regresar</a> 	               

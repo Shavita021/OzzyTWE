@@ -92,16 +92,16 @@
 		            </td>
 		            <td style="padding:15px">
                          <input class="form-control" type="text" name="nombreProceso">
-		            <td><i name="ddiv" style="color:#7080CD">{{ $errors->first('nombreProceso') }}</i></td>
+		            <td><i name="ddiv" style="color:#BF2D00">{{ $errors->first('nombreProceso') }}</i></td>
 		            </td>
 		            </tr>
 	                 <tr>
 	                 <td style="padding:15px">
-                         Descripcion:
+                         Descripción:
 		            </td>
 		            <td style="padding:15px">
                          <textarea name="descripcionProceso" class="form-control" rows="5" cols="50"></textarea>
-		            <td><i name="ddiv" style="color:#7080CD">{{ $errors->first('descripcionProceso') }}</i></td>
+		            <td><i name="ddiv" style="color:#BF2D00">{{ $errors->first('descripcionProceso') }}</i></td>
 		            </td>
 		            </tr>
 		            <tr>
@@ -110,18 +110,18 @@
                       </table>
                              
                            
-                           <h3 align="center">Formato y usuarios que tendran permiso para ejecutarlo</h3>
+                           <h3 align="center">Selección de Usuarios que tendrán permiso para ejecutarlo</h3>
                            <div id="raiz" class="jumbotron" align="center" style="width:80%;height:560px;display:block; margin-left: auto;margin-right: auto;background-color:#B1B1B1;">
 		                    <table align="left">
 		                         <tbody>
 		                              <tr>
 		                                   <td style="padding:15px">
-                                                  Descripcion del Paso:
+                                                  Descripción del Paso:
 		                                   </td>
 		                                   <td style="padding:15px">
                          <textarea name="descripcionPaso" class="form-control" rows="3" cols="50"></textarea>                                   
 		                                   </td>	
-		                                  <td><i name="ddiv" style="color:#7080CD">{{ $errors->first('descripcionPaso') }}</i></td>
+		                                  <td><i name="ddiv" style="color:#BF2D00">{{ $errors->first('descripcionPaso') }}</i></td>
 		                                            
 		                              </tr>
 		                         </tbody>
@@ -156,7 +156,7 @@
 		                                   </td>
 		                              </tr>
 		                              <tr>
-		                              <td><i name="ddiv" style="color:#7080CD">{{ $errors->first('usuariosTarea')}}</i></td></tr>
+		                              <td><i name="ddiv" style="color:#BF2D00">{{ $errors->first('usuariosTarea')}}</i></td></tr>
 		                              </tr>
 		                        </tbody>
 		                     </table>
@@ -164,12 +164,12 @@
 		                         </tbody>
 		                              <tr>	
 		                                   <td style="padding:15px">
-                                                  Dias Limite:         
+                                                  Días Límite:         
                                     <input type="text" name="diasLimite"></input>
                                              
                                              </td>
 		                                   <tr>
-		                                   <td><i name="ddiv" style="color:#7080CD">{{ $errors->first('diasLimite')}}{{ Session::get('diasLimite') }}</i></td></tr>
+		                                   <td><i name="ddiv" style="color:#BF2D00">{{ $errors->first('diasLimite')}}{{ Session::get('diasLimite') }}</i></td></tr>
 		                              </tr>
 
 		                         </tbody>

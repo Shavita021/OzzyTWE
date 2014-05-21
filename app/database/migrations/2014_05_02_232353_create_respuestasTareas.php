@@ -14,7 +14,7 @@ class CreateRespuestasTareas extends Migration {
 	{
 			Schema::create('respuestasTareas', function($table) {
 				$table->increments('id');
-				$table->string('comentarios');
+				$table->string('comentarios',500);
 				$table->string('file');
 				$table->string('nameFile');				
 				$table->timestamps();

@@ -39,12 +39,12 @@
         <div class="collapse navbar-collapse navbar-ex1-collapse">
           <ul class="nav navbar-nav side-nav">
             <li><a href="/adminMaestro"><i class="glyphicon glyphicon-home"></i> Inicio</a></li>
-            <li><a href="usuarios"><i class="glyphicon glyphicon-user"></i> Administracion de Usuarios</a></li>
-            <li><a href="administracionRoles"><i class="glyphicon glyphicon-registration-mark"></i> Administracion de Roles</a></li>
-            <li><a href="/procesos"><i class="glyphicon glyphicon-random"></i>  Administracion de Procesos</a></li>
+            <li><a href="usuarios"><i class="glyphicon glyphicon-user"></i> Administración de Usuarios</a></li>
+            <li><a href="administracionRoles"><i class="glyphicon glyphicon-registration-mark"></i> Administración de Roles</a></li>
+            <li><a href="/procesos"><i class="glyphicon glyphicon-random"></i>  Administración de Procesos</a></li>
             <li style="top:50px"><a href="/bandejaProcesos"><i class="glyphicon glyphicon-list-alt"></i>  Bandeja de Procesos</a></li>               
             <li style="top:50px"><a href="/bandeja"><i class="glyphicon glyphicon-th-list"></i>  Bandeja de Tareas</a></li>   
-                        <li class="active" style="top:270px"><a href="/creditos" align="center" style="color:#FFFFFF"><strong>Creditos</strong></a></li>  
+                        <li class="active" style="top:270px"><a href="/creditos" align="center" style="color:#FFFFFF"><strong>Créditos</strong></a></li>  
           </ul>
 
           <ul class="nav navbar-nav navbar-right navbar-user">
@@ -67,7 +67,7 @@
 <h1 align="center"><strong>ITESM WorkFlow Engine</strong></h1>
 <br>
 <div style="padding:50px">
-<h4><strong>ITESM Workflow Engine</strong> consiste en un motor que agiliza las diferentes tareas, así como la administración de los procesos para el cual sea configurado. La decision de desarrollar esta aplicación viene de la necesidad de optimizar el tiempo, dinero, una mejor organización de los diferentes procesos que se llevan a cabo.</h4>
+<h4><strong>ITESM Workflow Engine</strong> consiste en un motor que agiliza las diferentes tareas, así como la administración de los procesos para el cual sea configurado. La decisión de desarrollar esta aplicación viene de la necesidad de optimizar el tiempo, dinero, una mejor organización de los diferentes procesos que se llevan a cabo.</h4>
 <br>
 
 <h2><strong>Autores:</h2></strong>
@@ -81,7 +81,7 @@
    <h4><strong>Estudiantes ITESM</strong></h4>
    <div style="padding:30px">
 	<h4>Angel Torquemada Vazquez -<span style="color:#1A26CF;"> torquemadage@gmail.com</span></h4>
-	<h4>Salvador Juarez Gutierrez -<span style="color:#1A26CF;"> kimster021@gmail.com</span></h4>
+	<h4>Salvador Juárez Gutiérrez -<span style="color:#1A26CF;"> kimster021@gmail.com</span></h4>
 	<h4>Jaime Eduardo Neri Campos -<span style="color:#1A26CF;"> ghx1337@gmail.com</span></h4>
    </div>   
 </div>

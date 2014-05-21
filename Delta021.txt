@@ -1,9 +1,0 @@
-Git tutorial
-
-1) git status
-2) git pull
-3) git add -A
-4) git commit -m "Message"
-5) git push
-
-Hola

@@ -9,7 +9,8 @@ class adminMaestroController extends \BaseController {
 	 */
 	public function index()
 	{          
-
+               $tareaSiguiente = DB::table('instanciasTareas')->where('idProceso',30)->whereNotIn('estado', array('terminada'))->orderBy('created_at', 'desc')->first();	
+               return var_dump($tareaSiguiente);
 		return View::make('adminMaestros.inicio');
 
 	}
@@ -431,7 +432,7 @@ class adminMaestroController extends \BaseController {
                         
             if($tareasNormales || $tareasParalelas){
 		     Session::flash('errorEliminar', 'Error: Usuario con tareas asignadas');            
-		     Session::flash('message', 'Usuario con tareas asignadas');
+		     Session::flash('message', 'Error: Usuario con tareas asignadas');
 		     return Redirect::to('/usuarios');            
             }        
 

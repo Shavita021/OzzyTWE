@@ -28,7 +28,7 @@ class CreateRespuestasTareasParalelas extends Migration {
 	 */
 	public function down()
 	{
-		//
+		Schema::drop('respuestasTareasParalelas');
 	}
 
 }

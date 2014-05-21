@@ -12,8 +12,9 @@ class procesoController extends \BaseController {
 	     //Obtenemos todos los procesos corriendo y los pasamos a la vista de administacion Pocesos para desplegarlos ahi
 		$procesos = DB::table('procesos')->get();	     
 		$procesosEjecutando = DB::table('instanciasProcesos')->where('estado', 'ejecutando')->get();
-		$procesosTerminados = DB::table('instanciasProcesos')->where('estado', 'terminada')->get();		
-		$returnDatos = array($procesosEjecutando,$procesos,$procesosTerminados);
+		$procesosTerminados = DB::table('instanciasProcesos')->where('estado', 'terminada')->get();	
+		$procesosDeclinados = DB::table('instanciasProcesos')->where('estado', 'declinado')->get();					
+		$returnDatos = array($procesosEjecutando,$procesos,$procesosTerminados,$procesosDeclinados);
 		
 	     return View::make('procesos.administracionProcesos')->with("procesos",$returnDatos);
 	}
@@ -61,17 +62,17 @@ class procesoController extends \BaseController {
 
 		              
 				$rules = array(
-			'nombreProceso' => 'required|max:20',
+			'nombreProceso' => 'required|max:25',
 			'descripcionProceso' => 'max:200',
-			'descripcionPaso' => 'required|max:200',
+			'descripcionPaso' => 'required|max:500',
 			'diasLimite'      => 'required|numeric',
 		     'usuariosTarea' => 'required',
 		);
 		
 		$messages = array(
     'alpha' => 'El campo debe contener solo letras',
-    'nombreProceso.max' => 'El campo debe tener un maximo de 200 caracteres',
-    'descripcionPaso.max' => 'La descipcion debe tener  hasta 200 caracteres',
+    'nombreProceso.max' => 'El campo debe tener un maximo de 25 caracteres',
+    'descripcionPaso.max' => 'La descipcion debe tener  hasta 500 caracteres',
     'descripcionProceso.max' => 'La descipcion debe tener  hasta 200 caracteres',
     'diasLimite.required' => 'Campo de diass requerido',
     'usuariosTarea.required' => 'Selecciona almenos un usuario',    
@@ -248,6 +249,19 @@ class procesoController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
+          $instanciasProcesos = DB::table('procesos')
+            ->join('instanciasProcesos', 'instanciasProcesos.idProcesoOriginal', '=', 'procesos.id')
+            ->select('instanciasProcesos.id')
+            ->where('procesos.id', $id)            
+            ->whereIn('instanciasProcesos.estado', array('pendiente','ejecutando'))            
+            ->first();
+            
+          if($instanciasProcesos){
+		          Session::flash('errorEliminar', 'Error: Instancias del proceso ejecución');
+	               Session::flash('message', 'Error: Instancias del proceso ejecución');
+	               return Redirect::to('/procesos');               
+          }
+            	
 		$tareas = DB::table('tareas')->where('idProceso', $id)->get();
 		
 		foreach($tareas as $tarea){
@@ -453,9 +467,11 @@ class procesoController extends \BaseController {
           
           $procesosEjecutando = DB::table('instanciasProcesos')->where('estado', 'ejecutando')->where('emailCreador',$email)->get();
           
-          $procesosTerminados = DB::table('instanciasProcesos')->where('estado', 'terminada')->where('emailCreador',$email)->get();          
+          $procesosTerminados = DB::table('instanciasProcesos')->where('estado', 'terminada')->where('emailCreador',$email)->get();    
           
-          $returnDatos = array($procesosEjecutando,$arrProcesos,$procesosTerminados);		          
+          $procesosDeclinados = DB::table('instanciasProcesos')->where('estado', 'declinado')->where('emailCreador',$email)->get();                         
+          
+          $returnDatos = array($procesosEjecutando,$arrProcesos,$procesosTerminados,$procesosDeclinados);
 
           if(Session::get('tipoSession') == 'usuarioNormal')
 		return View::make('usuarioNormales.bandejaProcesos')->with('datos', $returnDatos);          
@@ -464,8 +480,8 @@ class procesoController extends \BaseController {
      }	
      
      
-	/** Funcion para mostrar los procesos instancia que estan en ejecucion o terminados
-	 *
+	/** Funcion para mostrar los procesos que estan en ejecucion mostrando las respuestas a cada 
+	 *  tarea o paso.
 	 *
 	 *  
 	 */ 	     

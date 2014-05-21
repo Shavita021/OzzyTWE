@@ -42,7 +42,7 @@
             <li><a href="/usuarioNormal"><i class="glyphicon glyphicon-home"></i> Inicio</a></li>
             <li style="top:50px"><a href="/bandejaProcesos"><i class="glyphicon glyphicon-list-alt"></i>  Bandeja de Procesos</a></li>             
             <li class="active" style="top:50px"><a href="/bandeja"><i class="glyphicon glyphicon-th-list"></i>  Bandeja de Tareas</a></li>                     
-                        <li style="top:420px"><a href="/creditos" align="center" style="color:#FFFFFF"><strong>Creditos</strong></a></li>                    
+                        <li style="top:420px"><a href="/creditos" align="center" style="color:#FFFFFF"><strong>Créditos</strong></a></li>                    
           </ul>                            
           </ul>
 
@@ -77,21 +77,22 @@
               
               <br>
               <br>
-<!----------------------------------------Tareas Normales ------------------------------------>
-               <h4>Tareas Normales</h4>
+<!--------------------------------------------Tareas -------------------------------------------->
                <br>
                <table class="table table-hover">
 	            <thead>
 		        <tr align="center">
+	      	   <td><b>Folio</b></td>		        
 	      	   <td><b>Nombre Proceso</b></td>
-			   <td><b>Fecha Limite</b></td>
+			   <td><b>Fecha Límite</b></td>
 <?php $cont=0; ?>
 		       </tr>
 	            </thead>
 	           <tbody>
 @foreach($datos[0] as $dato)
 	           <tr class="{{ $datos[2][$cont] }}" align="center">
-			   <td align="left">{{ $dato->nombre }}</td>
+			   <td align="left">{{ $dato->id }}</td>	           	           
+			   <td>{{ $dato->nombre }}</td>
 			   <td>{{ $dato->fechaTermino }}</td>
 			   <td>
 			   <a class="btn btn-default btn-lg" href="{{ URL::to('bandeja/responder/'.$dato->id) }}"><span> Responder</span></a>
@@ -99,25 +100,12 @@
 		       </tr>
 <?php $cont++; ?>		       
 @endforeach
-	          </tbody>
-             </table>
-              <br>
-              <br>             
-<!----------------------------------------Tareas Paralelas ------------------------------------>
-               <h4>Tareas Paralelas</h4>
-               <br>
-               <table class="table table-hover">
-	            <thead>
-		        <tr align="center">
-	      	   <td><b>Nombre Proceso</b></td>
-			   <td><b>Fecha Limite</b></td>
+
 <?php $cont=0; ?>
-		       </tr>
-	            </thead>
-	           <tbody>
 @foreach($datos[1] as $dato)
 	           <tr class="{{ $datos[3][$cont] }} " align="center">
-			   <td align="left">{{ $dato->nombre }}</td>
+			   <td align="left">{{ $dato->id }}</td>	           	           
+			   <td >{{ $dato->nombre }}</td>
 			   <td>{{ $dato->fechaTermino }}</td>
 			   <td>
 			   <a class="btn btn-default btn-lg" href="{{ URL::to('bandeja/responder/'.$dato->id) }}"><span> Responder</span></a>
@@ -134,6 +122,7 @@
              <br><br>               
              <button style="width:30px;height:30px" class="btn btn-success" disabled="disabled"></button> Tarea a tiempo.                        
           </div>
+          
           
     </div><!-- /#wrapper -->
 

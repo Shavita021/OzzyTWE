@@ -23,7 +23,7 @@ class CreateTareasTable extends Migration {
 				$table->string('nameFile');
 				$table->string('nombreRol');
 				$table->date('fechaInicio');
-				$table->dateTime('fechaTermino');				
+				$table->date('fechaTermino');				
 				$table->timestamps();
 			});
 	}

@@ -40,12 +40,12 @@
         <div class="collapse navbar-collapse navbar-ex1-collapse">
           <ul class="nav navbar-nav side-nav">
             <li><a href="/adminMaestro"><i class="glyphicon glyphicon-home"></i> Inicio</a></li>
-            <li><a href="/usuarios"><i class="glyphicon glyphicon-user"></i> Administracion de Usuarios</a></li>
-            <li><a href="/administracionRoles"><i class="glyphicon glyphicon-registration-mark"></i> Administracion de Roles</a></li>
-            <li><a href="/procesos"><i class="glyphicon glyphicon-random"></i>  Administracion de Procesos</a></li>
+            <li><a href="/usuarios"><i class="glyphicon glyphicon-user"></i> Administración de Usuarios</a></li>
+            <li><a href="/administracionRoles"><i class="glyphicon glyphicon-registration-mark"></i> Administración de Roles</a></li>
+            <li><a href="/procesos"><i class="glyphicon glyphicon-random"></i>  Administración de Procesos</a></li>
             <li style="top:50px"><a href="/bandejaProcesos"><i class="glyphicon glyphicon-list-alt"></i>  Bandeja de Procesos</a></li>               
             <li class="active" style="top:50px"><a href="/bandeja"><i class="glyphicon glyphicon-th-list"></i>  Bandeja de Tareas</a></li>   
-                        <li style="top:270px"><a href="/creditos" align="center" style="color:#FFFFFF"><strong>Creditos</strong></a></li>       
+                        <li style="top:270px"><a href="/creditos" align="center" style="color:#FFFFFF"><strong>Créditos</strong></a></li>       
           </ul>
 
           <ul class="nav navbar-nav navbar-right navbar-user">
@@ -87,7 +87,7 @@
 	            <thead>
 		        <tr align="center">
 	      	   <td><b>Mi Tarea Asignada</b></td>
-			   <td><b>Tareas que se han respondido previamente a la mia</b></td>
+			   <td><b>Tareas que se han respondido previamente a la mía</b></td>
 		       </tr>
 	            </thead>
 	           <tbody>
@@ -132,7 +132,7 @@
                  <table class="table">
 	            <thead>
 		        <tr align="center">
-	      	   <td><h4><b>Responder mi tarea Asignada</b></h4></td>
+	      	   <td><h4><b>Responder mi tarea asignada</b></h4></td>
 		       </tr>
 	            </thead>
 	           <tbody>
@@ -150,7 +150,7 @@
                          </tr>
                          <tr>
                          <td></td><td style="padding:15px">
-                         <i name="ddiv" style="color:#7080CD">{{ $errors->first('comentarios')}}</i>
+                         <i name="ddiv" style="color:#BF2D00">{{ $errors->first('comentarios')}}</i>
                          </td>
                          </tr>
                          <tr>
@@ -171,7 +171,7 @@
                          </tr>
                          <tr>
                          <td></td><td>
-                         <i name="ddiv" style="color:#7080CD">{{ $errors->first('password')}}{{ Session::get('password') }}</i>
+                         <i name="ddiv" style="color:#BF2D00">{{ $errors->first('password')}}{{ Session::get('password') }}</i>
                          </td>
                          </tr>
                          </table>
@@ -187,8 +187,11 @@
 		      <input type="hidden" name="tabla" value="{{ $datos[3] }}"/>
 		      <input type="hidden" name="idTabla" value="{{ $datos[0]->id }}"/>
 		      <input type="hidden" name="idProceso" value="{{ $datos[4] }}"/>		      		      
-               {{ Form::close() }}              
-          </div>
+               {{ Form::close() }}  
+          <br><br><br><br>
+             <button style="width:30px;height:30px" class="btn btn-info" disabled="disabled"></button> Tareas Paralelas
+             <br><br>                                 
+          </div>     
           
     </div><!-- /#wrapper -->
 

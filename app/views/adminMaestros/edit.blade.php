@@ -40,12 +40,12 @@
         <div class="collapse navbar-collapse navbar-ex1-collapse">
           <ul class="nav navbar-nav side-nav">
             <li><a href="/adminMaestro"><i class="glyphicon glyphicon-home"></i> Inicio</a></li>
-            <li class="active"><a href="/usuarios"><i class="glyphicon glyphicon-user"></i> Administracion de Usuarios</a></li>
-            <li><a href="/administracionRoles"><i class="glyphicon glyphicon-registration-mark"></i> Administracion de Roles</a></li>
-            <li><a href="/procesos"><i class="glyphicon glyphicon-random"></i>  Administracion de Procesos</a></li>                 
+            <li class="active"><a href="/usuarios"><i class="glyphicon glyphicon-user"></i> Administración de Usuarios</a></li>
+            <li><a href="/administracionRoles"><i class="glyphicon glyphicon-registration-mark"></i> Administración de Roles</a></li>
+            <li><a href="/procesos"><i class="glyphicon glyphicon-random"></i>  Administración de Procesos</a></li>                 
             <li style="top:50px"><a href="/bandejaProcesos"><i class="glyphicon glyphicon-list-alt"></i>  Bandeja de Procesos</a></li>               
             <li style="top:50px"><a href="/bandeja"><i class="glyphicon glyphicon-th-list"></i>  Bandeja de Tareas</a></li>   
-                        <li style="top:270px"><a href="/creditos" align="center" style="color:#FFFFFF"><strong>Creditos</strong></a></li>                           
+                        <li style="top:270px"><a href="/creditos" align="center" style="color:#FFFFFF"><strong>Créditos</strong></a></li>                           
           </ul>
 
           <ul class="nav navbar-nav navbar-right navbar-user">
@@ -150,7 +150,7 @@
 	                 </tr>
                       <tr>
                       <td style="padding:15px">
-		               {{ Form::label('phone_number', 'Telefono:') }}
+		               {{ Form::label('phone_number', 'Teléfono:') }}
 		            </td>
 		            <td style="padding:15px">
 		               {{ Form::text('phone_number', Input::old('phone_number'), array('class' => 'form-control')) }}
@@ -159,7 +159,7 @@
                       </tr>
                       <tr>
                       <td style="padding:15px">
-		               {{ Form::label('location', 'Ubicacion:') }}
+		               {{ Form::label('location', 'Ubicación:') }}
 		            </td>
 		            <td style="padding:15px">
 		               {{ Form::text('location', Input::old('location'), array('class' => 'form-control')) }}
