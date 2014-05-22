@@ -84,7 +84,7 @@
 		               <strong>Ubicación:</strong> {{ $datos[0]->location }}
 		             </p>
 	               </div>
-           <a class= "btn btn-default btn-lg" onclick="window.history.go(-1)"><span class="glyphicon glyphicon-arrow-left"></span> Regresar</a> 	               
+           <a class= "btn btn-default btn-lg" onclick="window.history.back();return false;"><span class="glyphicon glyphicon-arrow-left"></span> Regresar</a> 	               
                </div>
           
     </div><!-- /#wrapper -->
