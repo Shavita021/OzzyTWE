@@ -28,8 +28,8 @@
   <body>
 
     <div>
-               <div style="height:130px;"></div>
-          <div style="height:400px;background-color:#030824;">
+               <div style="display: table;position: absolute;height: 100%;width: 100%;">
+          <div style="height:400px;background-color:#030824;display: table-cell;vertical-align:middle;">
           <br><br>
           <div style="padding:20;width:300px;margin-left:250px;float:left">
                {{ Form::open(array('action' => 'systemController@recuperarContraseña', 'method' => 'post')) }}

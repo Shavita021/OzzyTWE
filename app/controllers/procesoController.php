@@ -485,7 +485,8 @@ class procesoController extends \BaseController {
 	 *
 	 *  
 	 */ 	     
-     public function instanciasProcesos($id){
+     public function instanciasProcesos($id){	     
+     		     
 		$tareas = DB::table('instanciasTareas')->where('idProceso', $id)->get();
 		$Proceso = DB::table('instanciasProcesos')->where('id', $id)->first();
 		
@@ -581,5 +582,56 @@ class procesoController extends \BaseController {
 	     else
 	          return Redirect::to('/adminMaestro');
 	 }
+	 
+	 
+	/** Funcion para mostrar los procesos que estan en ejecucion mostrando las respuestas a cada 
+	 *  tarea o paso. para los administradores
+	 *
+	 *  
+	 */ 	     
+     public function instanciasProcesosAdmin($id){	     
+     		     
+		$tareas = DB::table('instanciasTareas')->where('idProceso', $id)->get();
+		$Proceso = DB::table('instanciasProcesos')->where('id', $id)->first();
+		
+	     $tareasTotales = array();
+	     $trClass = array();
+
+		     $respuestasTotales = array();
+	          foreach($tareas as $tarea){
+	               $tareasParalelas = DB::table('instanciasTareasParalelas')->where('idTareaNormal', $tarea->id)->get();
+	               if($tareasParalelas){
+                         foreach($tareasParalelas as $tareaParalela){
+	                        array_push($tareasTotales, $tareaParalela);	  
+	                        array_push($trClass, "info");
+	                        
+          $respuestaParalela = DB::table('respuestasTareasParalelas')
+            ->join('instanciasUsuario_TareasParalelas', 'instanciasUsuario_TareasParalelas.idRespuesta', '=', 'respuestasTareasParalelas.id')          
+            ->join('instanciasTareasParalelas', 'instanciasUsuario_TareasParalelas.idTarea', '=', 'instanciasTareasParalelas.id')
+            ->select('respuestasTareasParalelas.comentarios','respuestasTareasParalelas.file', 'respuestasTareasParalelas.nameFile')
+            ->where('instanciasTareasParalelas.id', $tareaParalela->id)->get(); 	                        
+
+	                    array_push($respuestasTotales, $respuestaParalela);       	                                               
+                         }	          
+	               }else{
+	                    array_push($tareasTotales, $tarea);
+	                        array_push($trClass, "");
+	                        
+          $respuestaNormal = DB::table('respuestasTareas')
+            ->join('instanciasUsuario_Tareas', 'instanciasUsuario_Tareas.idRespuesta', '=', 'respuestasTareas.id')          
+            ->join('instanciasTareas', 'instanciasUsuario_Tareas.idTarea', '=', 'instanciasTareas.id')
+            ->select('respuestasTareas.comentarios','respuestasTareas.file', 'respuestasTareas.nameFile')
+            ->where('instanciasTareas.id', $tarea->id)->get(); 	   
+            
+	                    array_push($respuestasTotales, $respuestaNormal);
+	               }
+	          }
+	          
+		     $returnDatos = array($tareasTotales,$Proceso,$trClass,$respuestasTotales);
+
+               return View::make('procesos.mostrarProcesoAdmin')->with('datos', $returnDatos);
+		     
+		          
+     }	 
      
 }

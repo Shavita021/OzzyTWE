@@ -112,7 +112,7 @@
 		               <a href="{{ $tarea->file }}">{{ $tarea->nameFile }}</a>
 			        </td>	
                     </tr>
-<? $cont++; ?>	                    
+<?php $cont++; ?>	                    
 @endforeach                    
                     </table>
 			   </td>

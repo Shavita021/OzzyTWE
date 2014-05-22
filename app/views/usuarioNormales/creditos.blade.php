@@ -40,8 +40,8 @@
           <ul class="nav navbar-nav side-nav">
             <li><a href="/adminMaestro"><i class="glyphicon glyphicon-home"></i> Inicio</a></li>
             <li style="top:50px"><a href="/bandejaProcesos"><i class="glyphicon glyphicon-list-alt"></i>  Bandeja de Procesos</a></li>             
-            <li class="active" style="top:50px"><a href="/bandeja"><i class="glyphicon glyphicon-th-list"></i>  Bandeja de Tareas</a></li>                     
-                        <li style="top:420px"><a href="/creditos" align="center" style="color:#FFFFFF"><strong>Créditos</strong></a></li>   
+            <li style="top:50px"><a href="/bandeja"><i class="glyphicon glyphicon-th-list"></i>  Bandeja de Tareas</a></li>                     
+            <li class="active" style="top:420px"><a href="/creditos" align="center" style="color:#FFFFFF"><strong>Créditos</strong></a></li>   
           </ul>
 
           <ul class="nav navbar-nav navbar-right navbar-user">

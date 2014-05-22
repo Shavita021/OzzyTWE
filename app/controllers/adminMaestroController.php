@@ -9,7 +9,6 @@ class adminMaestroController extends \BaseController {
 	 */
 	public function index()
 	{          
-
 		return View::make('adminMaestros.inicio');
 
 	}

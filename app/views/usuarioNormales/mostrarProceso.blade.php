@@ -109,7 +109,7 @@
                     </table>	   
 			   </td>				    
 		      </tr>
-<? $cont++; ?>		       
+<?php $cont++; ?>		       
 @endforeach
 	          </tbody>
              </table>

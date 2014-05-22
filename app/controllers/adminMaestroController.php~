@@ -9,8 +9,7 @@ class adminMaestroController extends \BaseController {
 	 */
 	public function index()
 	{          
-               $tareaSiguiente = DB::table('instanciasTareas')->where('idProceso',30)->whereNotIn('estado', array('terminada'))->orderBy('created_at', 'desc')->first();	
-               return var_dump($tareaSiguiente);
+		return View::make('adminMaestros.index');
 		return View::make('adminMaestros.inicio');
 
 	}

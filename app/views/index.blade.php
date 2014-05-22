@@ -37,8 +37,8 @@
   <body>
 
     <div>
-               <div style="height:130px;"></div>
-          <div style="height:400px;background-color:#030824;">
+               <div style="display: table;position: absolute;height: 100%;width: 100%;">
+          <div style="height:400px;background-color:#030824;display: table-cell;vertical-align:middle;">
           <br><br>
           <div style="padding:20;width:300px;margin-left:250px;float:left">
                {{ Form::open(array('action' => 'systemController@login', 'method' => 'post')) }}
@@ -67,6 +67,7 @@
            <img  border="0" src="/logo_tec.png" alt="Pulpit rock" width="120" height="150">           
            <h1 align="center" style="color:#FFFFFF;font-size:50px"><strong>WorkFlow</strong></h1>
            <h1 align="center" style="color:#FFFFFF;font-size:50px"><strong>Engine</strong></h1>
+           </div>
            </div>
            </div>
 

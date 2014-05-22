@@ -134,7 +134,7 @@
 			    </td>
 @endif			    
 		       </tr>
-<? $cont++; ?>		       
+<?php $cont++; ?>		       
 @endforeach
 	          </tbody>
              </table>

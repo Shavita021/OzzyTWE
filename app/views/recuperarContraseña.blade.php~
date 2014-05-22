@@ -46,7 +46,7 @@
 <button type="submit" class= "btn btn-default btn-lg">Recuperar</a>
 	                     {{ Form::close() }}
                        </div>
-                       <br>
+                       <br><br><br>
                                               <div align='center'>
            <a class= "btn btn-default btn-lg" onclick="history.back()"><span class="glyphicon glyphicon-arrow-left"></span> Regresar</a> 
                                   </div>	                       

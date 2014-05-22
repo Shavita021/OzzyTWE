@@ -117,7 +117,7 @@
 			   <td>{{ $value->descripcion }}</td>
 			   <td>{{ $value->emailCreador }}</td>			   
 			   <td>
-				<a class="btn btn-default btn-lg" href="{{ URL::to('procesos/instancia/' . $value->id) }}"><span class="glyphicon glyphicon-folder-open"></span></a>
+				<a class="btn btn-default btn-lg" href="{{ URL::to('procesos/instancia/admin/' . $value->id) }}"><span class="glyphicon glyphicon-folder-open"></span></a>			
 			   </td>	
 			   <td>		
 {{ Form::open(array('action' => array('procesoController@eliminarInstancia',$value->id), 'method' => 'delete')) }}
@@ -151,7 +151,7 @@
 			   <td>{{ $value->descripcion }}</td>
 			   <td>{{ $value->emailCreador }}</td>			   
 			   <td>
-				<a class="btn btn-default btn-lg" href="{{ URL::to('procesos/instancia/' . $value->id) }}"><span class="glyphicon glyphicon-folder-open"></span></a>
+				<a class="btn btn-default btn-lg" href="{{ URL::to('procesos/instancia/admin/' . $value->id) }}"><span class="glyphicon glyphicon-folder-open"></span></a>	
 			   </td>	
 			   <td>		
 {{ Form::open(array('action' => array('procesoController@eliminarInstancia',$value->id), 'method' => 'delete')) }}
@@ -185,7 +185,7 @@
 			   <td>{{ $value->descripcion }}</td>
 			   <td>{{ $value->emailCreador }}</td>			   
 			   <td>
-				<a class="btn btn-default btn-lg" href="{{ URL::to('procesos/instancia/' . $value->id) }}"><span class="glyphicon glyphicon-folder-open"></span></a>
+				<a class="btn btn-default btn-lg" href="{{ URL::to('procesos/instancia/admin/' . $value->id) }}"><span class="glyphicon glyphicon-folder-open"></span></a>	
 			   </td>	
 			   <td>		
 {{ Form::open(array('action' => array('procesoController@eliminarInstancia',$value->id), 'method' => 'delete')) }}

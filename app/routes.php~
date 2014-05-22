@@ -107,11 +107,14 @@ Route::get('/creditos', function()
 //Ruta para la bandeja de procesos disponibles a ejecutar
 Route::get('/bandejaProcesos', array('uses' => 'procesoController@mostrarProcesos'));
 
-//Ruta para mostrar los procesos instancia que estan en ejecucuion o terminados
+//Ruta para mostrar los procesos instancia que estan en ejecucuion o terminados del administrador
+Route::get('/procesos/instancia/admin/{id}', array('uses' => 'procesoController@instanciasProcesos'));
+
+//Ruta para mostrar los procesos instancia que estan en ejecucuion o terminados de la bandeja
 Route::get('/procesos/instancia/{id}', array('uses' => 'procesoController@instanciasProcesos'));
 
 //Ruta para eliminar una instancia de un proceso
-Route::delete('/procesos/instancia/{id}', array('uses' => 'procesoController@instanciasProcesos'));
+Route::delete('/procesos/instancia/{id}', array('uses' => 'procesoController@eliminarInstancia'));
 
 ?>
 
